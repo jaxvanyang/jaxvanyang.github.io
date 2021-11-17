@@ -104,6 +104,8 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
     ```
 
 3. Activate Github Pages
+
+    ![activate GitHub Pages](assets/images/activate-github-pages.png)
     
 ## Reference
 
@@ -112,3 +114,5 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
 - https://gems.ruby-china.com/
 
 - https://jekyllrb.com/docs/
+
+- https://www.youtube.com/watch?v=EvYs1idcGnM&list=PLWzwUIYZpnJuT0sH4BN56P5oWTdHJiTNq
