@@ -73,7 +73,7 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
     bundle exec jekyll serve
     ```
 
-4. Look aroud your site directory:
+4. Look around your site directory:
 
     ```console
     $ ls -l
