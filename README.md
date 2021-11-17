@@ -31,6 +31,9 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
 
     ```shell
     gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+
+    # 更改 bundle 的源代码镜像
+    bundle config mirror.https://rubygems.org https://gems.ruby-china.com
     ```
 
     确保只有 gems.ruby-china.com
@@ -109,10 +112,10 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
     
 ## Reference
 
-- [Jekyll on Ubuntu](https://jekyllrb.com/docs/installation/ubuntu/)
+- [Jekyll on Ubuntu](https://jekyllrb.com/docs/installation/ubuntu)
 
-- https://gems.ruby-china.com/
+- <https://gems.ruby-china.com>
 
-- https://jekyllrb.com/docs/
+- <https://jekyllrb.com/docs>
 
-- https://www.youtube.com/watch?v=EvYs1idcGnM&list=PLWzwUIYZpnJuT0sH4BN56P5oWTdHJiTNq
+- <https://www.youtube.com/watch?v=EvYs1idcGnM&list=PLWzwUIYZpnJuT0sH4BN56P5oWTdHJiTNq>
