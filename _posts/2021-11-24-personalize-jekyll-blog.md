@@ -15,6 +15,8 @@ categories: draft test
 
 - [添加折叠文本块功能](#添加折叠文本块功能)
 
+- [使用 GitHub Actions 持续集成](#使用-github-actions-持续集成)
+
 - [ ] 添加主题切换功能
 
 - [ ] 添加分类页面
@@ -200,6 +202,39 @@ details {
 }
 ```
 
+## 使用 GitHub Actions 持续集成
+
+> 详细教程参见 <https://jekyllrb.com/docs/continuous-integration/github-actions/>
+
+之前我使用的部署方式是最简单的 GitHub Pages 标准方式，但是标准方式有许多安全限制，构建网站的 Jekyll 版本不是最新的，很多插件也不能用，比如前面我们定义的 `{% raw %}{% details %}{% endraw %}` 标签就用不了，为了解决这个问题我们可以现在本地构建，再把网站代码推送上去，但是这样会使用额外的仓库空间，并且每次还需要手动构建，为了偷懒我们可以使用 GitHub Actions 来自动部署，而且这也是推荐的网站发布方式。
+
+1. 先在仓库中新建一个 `.github/workflows/github-pages.yml` 文件，内容如下：
+
+    ```yaml
+    name: Build and deploy Jekyll site to GitHub Pages
+
+    on:
+      push:
+        branches:
+          - main
+
+    jobs:
+      github-pages:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - uses: helaili/jekyll-action@v2
+            with:
+            token: ${{ secrets.DEPLOY_TOKEN }}
+    ```
+
+    > Note: [原教程](https://jekyllrb.com/docs/continuous-integration/github-actions/) 里使用的 `token` 名为 `GITHUB_TOKEN`，但是现在 GitHub 规定不能生成以 `GITHUB` 开头的 `secrets`，所以我改成了 `DEPLOY_TOKEN`。
+
+2. 再到 GitHub 的 [Personal Access Tokens](https://github.com/settings/tokens) 生成一个勾选了 `public_repos` 权限的 `token`，复制这个 `token` 的值，然后到 GitHub 上仓库的 **Settings** 选项选择 **Secrets** 标签，添加一个名为 `DEPLOY_TOKEN` 的 **repository secret** 并填入之前复制的 `token`。
+
+3. 最后在本地提交修改并推送到 GitHub 的 `main` 分支，这样 GitHub Actions 就会自动构建并部署了。
+
+部署情况可以在 GitHub 上查看，如果构建成功的话，GitHub Actions 会自动创建一个 `gh-pages` 分支，并部署到 GitHub Pages，这个操作会覆盖原有的 `gh-pages` 分支，所以不要在仓库里手动修改这个分支。
 
 ## 参考
 
@@ -210,3 +245,5 @@ details {
 - <https://github.com/jekyll/minima>
 
 - [Adding support for HTML5's details element to Jekyll](http://movb.de/jekyll-details-support.html)
+
+- <https://jekyllrb.com/docs/continuous-integration/github-actions/>
