@@ -2,7 +2,7 @@
 title:  "个性化 Jekyll 博客"
 layout: post
 date: '2021-11-24 00:54:13 +0800'
-categories: draft test
+categories: jekyll personalize
 ---
 
 > 个性化只能优化阅读体验，博客内容才是王道，所以本文的讨论范围仅限于替换网站主题和一些简单的个性化方式，不会深入 Jekyll 的个性化。
@@ -232,9 +232,13 @@ details {
 
 2. 再到 GitHub 的 [Personal Access Tokens](https://github.com/settings/tokens) 生成一个勾选了 `public_repos` 权限的 `token`，复制这个 `token` 的值，然后到 GitHub 上仓库的 **Settings** 选项选择 **Secrets** 标签，添加一个名为 `DEPLOY_TOKEN` 的 **repository secret** 并填入之前复制的 `token`。
 
-3. 最后在本地提交修改并推送到 GitHub 的 `main` 分支，这样 GitHub Actions 就会自动构建并部署了。
+3. 配置好了就在本地提交修改并推送到 GitHub 的 `main` 分支，这样 GitHub Actions 就会自动构建，但是这个过程有一点点慢，需要耐心等待。
 
-部署情况可以在 GitHub 上查看，如果构建成功的话，GitHub Actions 会自动创建一个 `gh-pages` 分支，并部署到 GitHub Pages，这个操作会覆盖原有的 `gh-pages` 分支，所以不要在仓库里手动修改这个分支。
+4. 部署情况可以在 GitHub 上查看，如果构建成功的话，GitHub Actions 会自动创建一个 `gh-pages` 分支，这个操作会覆盖原有的 `gh-pages` 分支，所以不要在仓库里手动修改这个分支。
+
+最后你需要将仓库的 **Pages** 设置页里的 **Source** 改成 `gh-pages` 分支的根目录，这样 GitHub 就会自动部署构建好的网站了。
+
+![GitHub Pages Source]({{ "/assets/images/github-pages-source-screenshot.png" | absolute_url }})
 
 ## 参考
 
