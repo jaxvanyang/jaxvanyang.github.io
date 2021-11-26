@@ -1,0 +1,16 @@
+details {
+    summary {
+        color: teal;
+        &::before {
+            font-family: FontAwesome;
+            font-size: 1.2em;
+            float: left;
+            margin-right: 0.4em;
+        }
+        &::-webkit-details-marker {
+            display: none;
+        }
+        margin-bottom: 0.8em;
+    }
+    color: grey;
+}
