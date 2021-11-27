@@ -17,6 +17,8 @@ categories: jekyll personalize
 
 - [使用 GitHub Actions 持续集成](#使用-github-actions-持续集成)
 
+- [配置 LaTex](#配置-latex)
+
 - [ ] 添加主题切换功能
 
 - [ ] 添加分类页面
@@ -240,6 +242,74 @@ details {
 
 ![GitHub Pages Source]({{ "/assets/images/github-pages-source-screenshot.png" | absolute_url }})
 
+## 配置 LaTex
+
+Jekyll 默认的 Markdown 渲染器是 Kramdown，Kramdown 默认的公式渲染器是 MathJax，所以理论上 Jekyll 默认可以渲染 LaTex，事实也确实如此，但是它只做了从 Markdown 到 HTML 的转换，并没有添加样式，所以我们还需要额外引入 MathJax 库并启动它。
+
+MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这一种](https://jekyllrb.com/docs/configuration/markdown/)，应用到 Jekyll 网站上的过程大致如下：
+
+1. 创建一个 `loda-mathjax.js` 脚本，内容如下：
+
+    ```js
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
+      script.async = true;
+      document.head.appendChild(script);
+    })();
+    ```
+
+2. 在网站的 `<head>` 标签内引入上述脚本，方法和[更换主题](#-更换主题)一节中的方法一样，因为我把脚本放在 `assets/js/load-mathjax.js`，所以我需要在 `_includes/custom-head.html` 里加入：
+
+    ```html
+    <script src="/assets/js/load-mathjax.js" async></script>
+    ```
+
+然后就可以开始编写公式了。
+
+- 行内公式：
+
+    - 公式：
+
+        ```markdown
+        $E = mc^2$
+        ```
+
+    - 渲染效果：
+
+        $E = mc^2$
+
+- 公式块：
+
+    - 公式：
+
+        ```markdown
+        $$
+        \begin{bmatrix}
+        1 & 2 & 3\\
+        a & b & c
+        \end{bmatrix}
+        $$
+        ```
+
+    - 渲染效果：
+
+        $$
+        \begin{bmatrix}
+        1 & 2 & 3\\
+        a & b & c
+        \end{bmatrix}
+        $$
+
 ## 参考
 
 - <https://pages.github.com/versions/>
@@ -251,3 +321,9 @@ details {
 - [Adding support for HTML5's details element to Jekyll](http://movb.de/jekyll-details-support.html)
 
 - <https://jekyllrb.com/docs/continuous-integration/github-actions/>
+
+- <https://jekyllrb.com/docs/configuration/markdown/>
+
+- <https://kramdown.gettalong.org/math_engine/mathjax.html>
+
+- <http://docs.mathjax.org/en/latest/web/configuration.html#configuring-and-loading-in-one-script>
