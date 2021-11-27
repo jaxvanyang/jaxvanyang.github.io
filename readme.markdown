@@ -6,13 +6,13 @@ permalink: /readme/
 
 <img src="/assets/images/avatar.png" alt="头像" height="128px" width="128px">
 
-Name: $Jax\ Young\ or\ Jax\ Van\ Yang$
+$Jax\ Young\ or\ Jax\ Van\ Yang$
 
 > 想多些时间滑板。
 
-本站免费部署在 GitHub Pages 上，所有的源文件都可以在 [GitHub 仓库](https://github.com/JaxVanYang/jaxvanyang.github.io) 查看。对了，不要忘记了订阅 [RSS](https://jaxvanyang.github.io/feed.xml)。
+本站使用 [GitHub Pages](https://pages.github.com) 免费部署，所有的源文件都可以在 [GitHub 仓库](https://github.com/JaxVanYang/jaxvanyang.github.io) 查看。对了，不要忘记了订阅 [RSS](https://jaxvanyang.github.io/feed.xml)。
 
-在继续了解我之前不妨停下来听首歌？*（挂了梯子可能无法播放）*
+在继续了解我之前不妨先停下来听首歌？*（挂了梯子可能无法播放）*
 
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1476123363&auto=1&height=66"></iframe>
 
