@@ -7,7 +7,13 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
 1. Install Ruby and other prerequisites:
 
     ```shell
+    # Ubuntu
     sudo apt install ruby-full build-essential zlib1g-dev
+    ```
+
+    ```shell
+    # ArchLinux
+    sudo pacman -S --needed ruby base-devel
     ```
 
 2. Configure RubyGems packages(called gems) to be installed in a folder under your home directory:
@@ -32,7 +38,7 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
     ```shell
     gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
 
-    # 更改 bundle 的源代码镜像
+    # 更改 bundle 的源代码镜像（安装完 bundler 后再执行）
     bundle config mirror.https://rubygems.org https://gems.ruby-china.com
     ```
 
@@ -47,6 +53,26 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
 
     ```shell
     gem install jekyll bundler
+    ```
+
+    If you use Ruby 3.0(maybe you use ArchLinux), you may see the following WARNING:
+
+    ```shell
+    WARNING:  You don't have /home/jax/.local/share/gem/ruby/3.0.0/bin in your PATH,
+          gem executables will not run.
+    ```
+
+    Then just add it to your PATH:
+
+    ```shell
+    # ~/.bashrc
+    export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
+    ```
+
+5. Add webrick if you use Ruby 3.0 or later:
+
+    ```shell
+    gem add webrick
     ```
 
 ## Quick Setup
