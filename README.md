@@ -102,6 +102,12 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
     bundle exec jekyll serve
     ```
 
+    here is a frequently used variant:
+
+    ```shell
+    bundle exec jekyll serve --drafts --incremental
+    ```
+
 4. Look around your site directory:
 
     ```console
@@ -145,3 +151,5 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
 - <https://jekyllrb.com/docs>
 
 - <https://www.youtube.com/watch?v=EvYs1idcGnM&list=PLWzwUIYZpnJuT0sH4BN56P5oWTdHJiTNq>
+
+- [Jekyll Configuration Options](https://jekyllrb.com/docs/configuration/options/)
