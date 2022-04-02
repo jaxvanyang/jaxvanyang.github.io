@@ -2,6 +2,7 @@
 title:  "个性化 Jekyll 博客"
 layout: post
 date: '2021-11-24 00:54:13 +0800'
+modified_date: '2022-01-08 00:54:13 +0800'
 categories: jekyll personalize
 ---
 
@@ -327,3 +328,5 @@ MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这�
 - <https://kramdown.gettalong.org/math_engine/mathjax.html>
 
 - <http://docs.mathjax.org/en/latest/web/configuration.html#configuring-and-loading-in-one-script>
+
+- <https://github.com/jekyll/minima/blob/master/_layouts/post.html>

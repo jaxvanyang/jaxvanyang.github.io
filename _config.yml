@@ -30,7 +30,7 @@ author:
 
 minima:
   # refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
-  date_format: "%Y-%m-%d %H:%M"
+  date_format: "%Y-%m-%d"
 
   social_links:
     # twitter: jekyllrb
