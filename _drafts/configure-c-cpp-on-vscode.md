@@ -8,7 +8,7 @@ author: Jax Young
     这个就不用我多说了吧  
 
 2. 为 VS Code 安装 [C++ 扩展](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)  
-    ![C++ 扩展](../assets/images/cpp-extension.png)  
+    ![C++ 扩展]({{ "/assets/images/cpp-extension.png" | absolute_url }})
     推荐安装 VS Code 的[中文插件](TODO)
 
 3. 安装 GCC

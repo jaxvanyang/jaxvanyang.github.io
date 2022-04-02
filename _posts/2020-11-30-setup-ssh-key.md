@@ -1,7 +1,9 @@
 ---
-title:  "配置 SSH 密钥"
-date: 2020-11-30 03:00:00 +0800
-tags: 笔记 SSH
+title: 配置 SSH 密钥
+date: '2020-11-30 03:00:00 +0800'
+tags:
+- 笔记
+- SSH
 ---
 
 > 配置 `SSH` 密钥前请确保你会启用基本的 `SSH` 服务，如果你不知道该怎么办，这里有一篇简明的教程：[如何在 Ubuntu 20.04 启用 SSH](https://developer.aliyun.com/article/763896)  

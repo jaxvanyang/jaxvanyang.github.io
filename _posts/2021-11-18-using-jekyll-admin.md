@@ -1,8 +1,9 @@
 ---
-title:  "使用 Jekyll Admin"
+title: 使用 Jekyll Admin
 layout: post
 date: '2021-11-18 00:54:13 +0800'
-categories: jekyll
+categories:
+- jekyll
 ---
 
 ![banner]({{ "/assets/images/using-jekyll-admin-banner.png" | absolute_url }})

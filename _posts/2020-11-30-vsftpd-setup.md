@@ -1,7 +1,9 @@
 ---
-title:  "vsFTPd 配置"
-date: 2020-11-30 05:00:00 +0800
-tags: 笔记 vsFTPd
+title: vsFTPd 配置
+date: '2020-11-30 05:00:00 +0800'
+tags:
+- 笔记
+- vsFTPd
 ---
 
 > 本文内容不太完善，请酌情阅读。  

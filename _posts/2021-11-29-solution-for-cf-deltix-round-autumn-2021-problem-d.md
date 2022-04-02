@@ -2,7 +2,8 @@
 title: 题解 | D. Social Network of Codeforces Deltix Round, Autumn 2021
 layout: post
 date: '2021-11-29 21:21:00 +0800'
-categories: 题解
+categories:
+- 题解
 ---
 
 > 原题链接: <https://codeforces.com/contest/1609/problem/D>

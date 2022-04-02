@@ -1,9 +1,11 @@
 ---
-title:  "个性化 Jekyll 博客"
+title: 个性化 Jekyll 博客
 layout: post
 date: '2021-11-24 00:54:13 +0800'
 modified_date: '2022-01-08 00:54:13 +0800'
-categories: jekyll personalize
+categories:
+- jekyll
+- personalize
 ---
 
 > 个性化只能优化阅读体验，博客内容才是王道，所以本文的讨论范围仅限于替换网站主题和一些简单的个性化方式，不会深入 Jekyll 的个性化。
