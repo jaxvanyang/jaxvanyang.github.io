@@ -22,10 +22,10 @@ ___
     安装后 `openssh` 会自动启动并开机自启，你可以输入以下命令查看状态：
     
     ```bash
-    sudo systemctl status ssh
+    systemctl status ssh
 
     # 或者
-    sudo systemctl status sshd
+    systemctl status sshd
     ```  
 
 3. 设置防火墙以允许 SSH 连接
