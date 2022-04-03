@@ -279,6 +279,6 @@ diff [参数] <文件> <文件>
 ## 参考
 ___
 
-[Linux 就该这么学](https://www.linuxprobe.com/)  
+- [Linux 就该这么学](https://www.linuxprobe.com/)  
 
-[菜鸟教程](https://www.runoob.com/linux/linux-file-attr-permission.html)
+- [菜鸟教程](https://www.runoob.com/linux/linux-file-attr-permission.html)
