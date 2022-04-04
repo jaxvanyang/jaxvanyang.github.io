@@ -27,7 +27,7 @@ tags:
 - [如何通过 GUI 连接到 FTP 服务器](#通过-gui-连接-ftp-服务器)
 
 
-![How to setup FTP server on Ubuntu 20.04 Focal Fossa Linux](/assets/images/03-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp)
+![How to setup FTP server on Ubuntu 20.04 Focal Fossa Linux]({{ "/assets/images/03-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
 ## 前提要求
 
@@ -87,7 +87,7 @@ $ sudo apt-get install vsftpd
 
 	将上面的配置复制到你新建的 `/etc/vsftpd.conf` 文件中，然后保存并关闭文件。
 
-	![VSFTPD configuration file](/assets/images/01-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp)
+	![VSFTPD configuration file]({{ "/assets/images/01-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
 4. Ubuntu 内置的防火墙默认屏蔽 FTP 流量，但下面的命令可以在 UFW（即内置的防火墙软件）中创建一个允许这些流量的规则：
 
@@ -155,15 +155,15 @@ $ sudo apt-get install vsftpd
 
 2. 点击“其它位置（Other Locations）”，然后在窗口底部的“连接到服务器（Connect to server）”输入框中输入 `ftp://127.0.0.1` 并点击“连接（connect）”。
 
-	![Connect to FTP server with Nautilus](/assets/images/02-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp)
+	![Connect to FTP server with Nautilus]({{ "/assets/images/02-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
 3. 输入我们之前设置的 FTP 账号信息，然后点击“连接（connect）”。
 
-	![Enter FTP credentials](/assets/images/03-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp)
+	![Enter FTP credentials]({{ "/assets/images/03-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
 4. 在成功连接后，你就会看到你之前创建的测试文件。
 
-	![Successful connection to FTP server](/assets/images/04-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp)
+	![Successful connection to FTP server]({{ "/assets/images/04-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
 ## 总结
 
