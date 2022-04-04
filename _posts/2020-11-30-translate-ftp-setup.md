@@ -169,7 +169,7 @@ $ sudo apt-get install vsftpd
 
 在本文中，我们了解如何使用 `VSFTPD` 在 Ubuntu 20.04 Focal Fossa 上创建 FTP 服务器。我们还介绍了如何使用命令行和 Ubuntu GUI 连接到 FTP 服务器。
 
-按照本指南，本地网络上的计算机可以通过命令行或其首选FTP客户端访问您的系统来存储和检索文件。
+按照本指南，本地网络上的计算机可以通过命令行或其首选 FTP 客户端访问您的系统来存储和检索文件。
 
 ## 相关 Linux 教程
 
