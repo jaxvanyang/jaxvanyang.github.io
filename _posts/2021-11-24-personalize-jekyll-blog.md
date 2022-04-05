@@ -22,11 +22,11 @@ categories:
 
 - [配置 LaTex](#配置-latex)
 
+- [添加评论](#添加评论)
+
 - [ ] 添加主题切换功能
 
 - [ ] 添加分类页面
-
-- [ ] 添加评论
 
 - [ ] 添加代码一键复制功能
 
@@ -313,6 +313,39 @@ MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这�
         \end{bmatrix}
         $$
 
+## 添加评论
+
+博客的评论工具我本来想用 [Gitalk](https://github.com/gitalk/gitalk)，因为它免费、美观而且易于配置，还是国人开发的。但是也有缺点，因为它使用 GitHub 的 Issues 存储评论，所以必须使用 GitHub 登录才能评论，不能匿名评论。
+ 
+另外还有很多人质疑它的安全性，因为使用 Gitalk 登录它会要求获取你的 GitHub 公共仓库的读写权限：
+
+![Gitalk grant]({{ '/assets/images/gitalk-grant.png' | absolute_url }})
+
+已经有很多人在 Issues 页讨论了这个问题：
+
+- <https://github.com/gitalk/gitalk/issues/95>
+
+- <https://github.com/gitalk/gitalk/issues/150#issuecomment-402366588>
+
+理论上来说只要博客所有者不利用访客授予的权限就没有问题，但是我在查阅 Gitalk 安全性资料的时候看到了这篇[博客](https://lookingaf.com/2021/11/16/somethings_aboout_blog/)，作者介绍了一些第三方评论插件，[utterances](https://utteranc.es/) 是作者最后选择的比 Gitalk 更安全的替代品，所以我也选择了它。
+
+`utterances` 的配置也十分简单，它的网站也很有意思，是一个交互式的[教程](https://utteranc.es/)，一路看下来你就能学会如何配置。
+
+重要的是新建的一个公开仓库用于存放评论，并安装 [utterances app](https://github.com/apps/utterances) 到这个仓库，最后在上述教程页面得到一段类似于下面的嵌入代码：
+
+```html
+<script src="https://utteranc.es/client.js"
+        repo="jaxvanyang/utterance.blog"
+        issue-term="pathname"
+        label="💬comment"
+        theme="preferred-color-scheme"
+        crossorigin="anonymous"
+        async>
+</script>
+```
+
+然后只要放到你的博客模板中合适的位置就可以了，对于 `Jekyll` 来说这个位置是 `/_layouts/post.html`。
+
 ## 参考
 
 - <https://pages.github.com/versions/>
@@ -332,3 +365,5 @@ MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这�
 - <http://docs.mathjax.org/en/latest/web/configuration.html#configuring-and-loading-in-one-script>
 
 - <https://github.com/jekyll/minima/blob/master/_layouts/post.html>
+
+- [搭建个人博客的二三事](https://lookingaf.com/2021/11/16/somethings_aboout_blog)

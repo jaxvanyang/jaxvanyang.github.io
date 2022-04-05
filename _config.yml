@@ -35,6 +35,7 @@ defaults:
     values:
       layout: "post"
       author: "Jax Young"
+      show_excerpts: true
 
   - scope:
       path: "_drafts"
@@ -42,6 +43,7 @@ defaults:
     values:
       layout: "post"
       author: "Jax Young"
+      show_excerpts: true
 
 minima:
   # refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
