@@ -335,7 +335,7 @@ MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这�
 
 ```html
 <script src="https://utteranc.es/client.js"
-        repo="jaxvanyang/utterance.blog"
+        repo="jaxvanyang/utteranc.blog"
         issue-term="pathname"
         label="💬comment"
         theme="preferred-color-scheme"
