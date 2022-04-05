@@ -1,7 +1,7 @@
 ---
 title: '[译]如何在 Ubuntu 20.04 上配置 FTP 服务器'
 date: '2020-11-30 05:00:00 +0800'
-modified_date: '2022-04-04'
+modified_date: '2022-04-05'
 tags:
 - 笔记
 - FTP
@@ -11,7 +11,7 @@ tags:
 
 在本教程中，我们将会向你展示在 [Ubuntu 20.04](https://linuxconfig.org/ubuntu-20-04-guide) Focal Fossa 上如何用 `VSFTPD` 来配置 FTP 服务器。
 
-`VSFTPS` 是配置 FTP 服务器的流行选择，而且它也是一些 [Linux 发行版](https://linuxconfig.org/how-to-choose-the-best-linux-distro) 的默认 FTP 工具。
+`VSFTPD` 是配置 FTP 服务器的流行选择，而且它也是一些 [Linux 发行版](https://linuxconfig.org/how-to-choose-the-best-linux-distro) 的默认 FTP 工具。
 跟着我们一起来看看如何安装并且配置运行你的 FTP 服务器吧。
 
 在本篇教程中你将学会：
@@ -29,14 +29,14 @@ tags:
 
 ![How to setup FTP server on Ubuntu 20.04 Focal Fossa Linux]({{ "/assets/images/03-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
-## 前提要求
+## 前提条件
 
 | 分类 | 要求、基础知识或使用的软件版本 |
 | --- | --- |
 | 系统 | 安装或[升级到 Ubuntu 20.04 Focal Fossa](https://linuxconfig.org/how-to-upgrade-ubuntu-to-20-04-lts-focal-fossa)
 | 软件 | VSFTPD |
 | 其它 | 可登录 root 用户或可以使用 `sudo` 命令 |
-| 基础知识 | 使用 root 用户或普通用户执行给出的 [Linux 命令](https://linuxconfig.org/linux-commands) |
+| 基础知识 | 会执行给出的 [Linux 命令](https://linuxconfig.org/linux-commands) |
 
 ## 安装 `VSFTPD`
 
@@ -48,7 +48,7 @@ $ sudo apt-get install vsftpd
 
 ## 配置 `VSFTPD` 服务器
 
-1. 备份原始的配置文件始终是最佳实践，以防稍后出现问题。让我们通过重命名来备份默认的配置文件：assets/images/03-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux (1).webp
+1. 备份原始的配置文件始终是最佳实践，以防稍后出现问题。让我们通过重命名来备份默认的配置文件：
 
 	```shell
 	$ sudo mv /etc/vsftpd.conf /etc/vsftpd.conf_orig
