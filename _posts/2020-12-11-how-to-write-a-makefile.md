@@ -1,10 +1,10 @@
 ---
 title: "手把手带你写一个简单的 Makefile"
 date: 2020-12-11 03:00:00 +0800
+modified_date: 2022-04-05
 ---
 
-> `Makefile` 告诉 `make` 如何编译和连接源文件  
-> 通过编写一个优雅的 `Makefile` 可以轻松管理一个大型程序的开发  
+> 推荐收藏 [Makefile Tutorial By Example](https://makefiletutorial.com/)，那是一个全面详细容易上手的教程。
 
 ## 1. make
 
@@ -17,6 +17,7 @@ date: 2020-12-11 03:00:00 +0800
 ### 2.1 规则（rule）
 
 `Makefile` 最基本的组成部分就是`规则`了，可以说只要会写`规则`就会用 `make`。  
+
 ```bash
 # rule
 target ... : prerequisite ...
