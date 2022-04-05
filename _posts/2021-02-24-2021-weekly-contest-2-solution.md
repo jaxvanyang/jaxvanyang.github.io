@@ -1,10 +1,11 @@
 ---
 title: CSUST 2021 周赛 2 题解
+modified_date: 2022-04-05
+categories:
+- 题解
 ---
 
 > 周赛补题链接：<http://acm.csust.edu.cn/contest/129/problems>  
-
-## README
 
 本文可以用 GitHub 登录评论，如果有写得不好的地方欢迎提出建议，也欢迎讨论。  
 
@@ -12,13 +13,30 @@ title: CSUST 2021 周赛 2 题解
 
 文末有少量参考链接，可以学习一下：）
 
-如果觉得太黑不适合阅读，请移步 CSDN：<https://blog.csdn.net/Jax_Yang/article/details/114021999>  
+也可以到 [CSDN](https://blog.csdn.net/Jax_Yang/article/details/114021999) 阅读
 
-## [A、睿智小明买鞭炮](http://acm.csust.edu.cn/contest/129/problem/A)
+## 目录
+
+- [A. 睿智小明买鞭炮](#a-睿智小明买鞭炮)
+
+- [B. 龙卷风摧毁停车场](#b-龙卷风摧毁停车场)
+
+- [C. 5G 传输](#c-5g-传输)
+
+- [D. 神奇的数字串](#d-神奇的数字串)
+
+- [E. 矩阵](#e-矩阵)
+
+- [参考链接](#参考链接)
+
+## [A. 睿智小明买鞭炮](http://acm.csust.edu.cn/contest/129/problem/A)
 
 ### 涉及的知识
+
 1. 二分查找
+
 2. 动态规划
+
 3. 勉强可以算作贪心
 
 ### 思路
@@ -28,7 +46,7 @@ title: CSUST 2021 周赛 2 题解
 
 我们先找到可以满足购买数最少的 `rules[i]`， 因为数组有序，所以可以用二分查找，用 `ans` 记录下 `num * rules[i][1]`；打折更狠的规则只可能在 `i` 之后，所以我们只要找到 `i` 后面的最小规则花费，这一步查询可以用 `dp[i]` 记录区间 `[i, n]` 的规则花费最小值，数组 `dp` 可以很容易地用递推式 `dp[i] = min(dp[i + 1], rules[i][0] * rules[i][1])` 得到。最后的答案就是 `min(ans, dp[i + 1])`。  
 
-### 代码
+{% details 代码 %}
 ```cpp
 #include <iostream>
 #include <vector>
@@ -79,13 +97,14 @@ int main() {
   }
 }
 ```
+{% enddetails %}
 
-<br>
-
-## [B、龙卷风摧毁停车场](http://acm.csust.edu.cn/contest/129/problem/B)
+## [B. 龙卷风摧毁停车场](http://acm.csust.edu.cn/contest/129/problem/B)
 
 ### 涉及的知识
+
 1. 模拟
+
 2. 感觉懂一点算法分析可以少走很多弯路
 
 ### 思路
@@ -97,7 +116,7 @@ int main() {
 
 为什么说懂一点算法分析可以少走弯路呢？因为我一开始想用图算法来写，但不是 `TLE` 就是 `MLE`，还写出了 `TLE` 加上 `MLE` 的代码，感兴趣的可以到我的 [gitee 仓库](https://gitee.com/Jaxvanyang/lang-study/commit/f0c6b04cf2af5375238f183327f7e49080d9341e) 看看错误代码。直到后来我注意到城市和航线数量不多于 500 的条件，我才意识到这么小的数据量就算模拟写出三层循环都不会超时，而图算法动不动就是指数级别的复杂度，所以还是老老实实模拟吧。  
 
-### 代码
+{% details 代码 %}
 ```cpp
 #include <iostream>
 #include <set>
@@ -169,22 +188,25 @@ int main() {
     printf("-1\n");
 }
 ```
+{% enddetails %}
 
-<br>  
-
-## [C、5G 传输](http://acm.csust.edu.cn/contest/129/problem/C)
+## [C. 5G 传输](http://acm.csust.edu.cn/contest/129/problem/C)
 
 ### 涉及的知识
+
 1. 最小生成树（Prim 算法或 Kruskal 算法）  
+
 2. 并查集  
+
 3. 超级源点  
 
 ### 思路
+
 因为最小生成树是很经典的算法，所以我就不多介绍了。这道题主要的难点就在于不仅要考虑边权（连接两个城市的花费），还要考虑点权（也就是建 5G 信号塔的花费），但只要想到加入超级源点就可以转化成简单的求最小生成树了，具体见代码。  
 
 我用的是 Kruskal 算法，因为不会 Prim 算法……  
 
-### 代码
+{% details 代码 %}
 ```cpp
 #include <algorithm>
 #include <iostream>
@@ -255,16 +277,18 @@ int main() {
   printf("%d\n", ans);
 }
 ```
+{% enddetails %}
 
-<br>
-
-## [D、神奇的数字串](http://acm.csust.edu.cn/contest/129/problem/D)
+## [D. 神奇的数字串](http://acm.csust.edu.cn/contest/129/problem/D)
 
 ### 涉及的知识
+
 1. 前缀和
+
 2. 单调队列
 
 ### 思路
+
 约定：`nums[i]` 表示第 `i` 个数字，`nums` 初始大小为 `n`。  
 
 对于 `nums[i]` 移位 `k` 次后就位于 `[(i + k) % n]`，为了简化移位操作可以将数组复制一份添加到原数组后面，这样 `[k, ..., k + n - 1]` 就是移位 `k` 次后得到的数字串了。  
@@ -273,7 +297,7 @@ int main() {
 
 优化的方式是采用单调队列和前缀和，使用 `index[i]` 记录前 `i` 个元素的前缀和，对于区间 `[l, r]`，用 `queMin.front()` 记录 `index[l, r]` 中的最小值，具体实现请参考代码，这样时间复杂度就降到了 `O(n)`。  
 
-### 代码
+{% details 代码 %}
 ```cpp
 #include <deque>
 #include <iostream>
@@ -321,20 +345,23 @@ int main() {
   printf("%d\n", ans);
 }
 ```
+{% enddetails %}
 
-<br>
-
-## [E、矩阵](http://acm.csust.edu.cn/contest/129/problem/E)
+## [E. 矩阵](http://acm.csust.edu.cn/contest/129/problem/E)
 
 ### 涉及的知识
+
 1. 简单的数学推导
+
 2. 前缀和
+
 3. 线段树
 
 ### 思路
+
 线段树学得不好，谁能帮我写一下……  
 
-### 代码
+{% details 代码 %}
 ```cpp
 #include <iostream>
 #include <vector>
@@ -406,10 +433,12 @@ int main() {
   }
 }
 ```
+{% enddetails %}
 
 ## 参考链接
-[线段树](https://oi-wiki.org/ds/seg/)  
 
-[最小生成树](https://weread.qq.com/web/reader/7cc32910718ff66b7cc8d9dk341323f021e34173cb3824c)  
+- [线段树](https://oi-wiki.org/ds/seg/)  
 
-[单调队列的练习题](https://leetcode-cn.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/)  
+- [最小生成树](https://weread.qq.com/web/reader/7cc32910718ff66b7cc8d9dk341323f021e34173cb3824c)  
+
+- [单调队列的练习题](https://leetcode-cn.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/)  
