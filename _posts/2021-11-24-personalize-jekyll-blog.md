@@ -2,7 +2,7 @@
 title: 个性化 Jekyll 博客
 layout: post
 date: '2021-11-24 00:54:13 +0800'
-modified_date: '2022-01-08 00:54:13 +0800'
+modified_date: '2022-04-06'
 categories:
 - jekyll
 - personalize
@@ -23,10 +23,6 @@ categories:
 - [配置 LaTex](#配置-latex)
 
 - [添加评论](#添加评论)
-
-- [ ] 添加主题切换功能
-
-- [ ] 添加分类页面
 
 - [ ] 添加代码一键复制功能
 
@@ -345,6 +341,8 @@ MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这�
 ```
 
 然后只要放到你的博客模板中合适的位置就可以了，对于 `Jekyll` 来说这个位置是 `/_layouts/post.html`。
+
+## 
 
 ## 参考
 

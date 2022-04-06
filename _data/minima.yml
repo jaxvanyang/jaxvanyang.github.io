@@ -1,0 +1,32 @@
+# refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
+date_format: "%Y-%m-%d"
+
+social_links:
+  # twitter: jekyllrb
+  github: jaxvanyang
+  stackoverflow: "13989131"
+  # dribbble: jekyll
+  # facebook: jekyll
+  # flickr: jekyll
+  # instagram: jekyll
+  # linkedin: jekyll
+  # pinterest: jekyll
+  telegram: jaxvanyang_spam
+  # microdotblog: jekyll
+  # keybase: jekyll
+
+  # mastodon:
+  #   - username: jekyll
+  #     instance: example.com
+  #   - username: jekyll2
+  #     instance: example.com
+
+  # gitlab:
+  #   - username: jekyll
+  #     instance: example.com
+  #   - username: jekyll2
+  #     instance: example.com
+
+  # youtube: jekyll
+  youtube_channel: UC9gg-jMqR2XYbJlWG9zZ0lw
+  youtube_channel_name: "Jax Young"
