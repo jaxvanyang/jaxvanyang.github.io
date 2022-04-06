@@ -1,6 +1,6 @@
 ---
 layout: none
-title: MC Server
+title: MC 服务器
 permalink: /bds-csusthub/
 ---
 
