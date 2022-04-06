@@ -119,13 +119,13 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
 
 1. Check out this first: https://jekyllrb.com/docs/step-by-step/08-blogging/
 
-2. Create new posts in [_posts](_posts) under your site directory.
+2. Create new posts in [/_posts](/_posts) under your site directory.
 
 ## Deploy on GitHub Pages
 
 1. Create a new empty repository on GitHub:
 
-    ![create a new empty repository](assets/images/create-a-new-empty-repo.png)
+    ![create a new empty repository](/assets/images/create-a-new-empty-repo.png)
 
 2. Initialize the local repository and push it to Github:
 
@@ -140,7 +140,7 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
 
 3. Activate Github Pages
 
-    ![activate GitHub Pages](assets/images/activate-github-pages.png)
+    ![activate GitHub Pages](/assets/images/activate-github-pages.png)
     
 ## Reference
 
