@@ -255,6 +255,8 @@ details {
 
 ## 配置 LaTex
 
+> Note: 现在我使用的是 [Jekyll Spaceship](https://github.com/jeffreytse/jekyll-spaceship) 的 `mathjax-processor`，有一点问题，但是在它的 Issues 页面可以找到大部分解决办法。
+
 Jekyll 默认的 Markdown 渲染器是 Kramdown，Kramdown 默认的公式渲染器是 MathJax，所以理论上 Jekyll 默认可以渲染 LaTex，事实也确实如此，但是它只做了从 Markdown 到 HTML 的转换，并没有添加样式，所以我们还需要额外引入 MathJax 库并启动它。
 
 MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这一种](https://jekyllrb.com/docs/configuration/markdown/)，应用到 Jekyll 网站上的过程大致如下：
@@ -315,10 +317,7 @@ MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这�
      - 渲染效果：
 
        $$
-       \begin{bmatrix}
-       1 & 2 & 3\\
-       a & b & c
-       \end{bmatrix}
+       \begin{bmatrix} 1 & 2 & 3 \\ a & b & c \end{bmatrix}
        $$
 
 ## 添加评论
