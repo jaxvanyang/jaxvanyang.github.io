@@ -2,7 +2,19 @@
 title: 个性化 Jekyll 博客
 layout: post
 date: '2021-11-24 00:54:13 +0800'
-modified_date: '2022-04-06'
+modified_date: '2022-04-07'
+banner:
+  video: https://vjs.zencdn.net/v/oceans.mp4
+  loop: true
+  volume: 0.8
+  start_at: 8.5
+  image: https://bit.ly/3xTmdUP
+  opacity: 0.618
+  background: "#000"
+  height: "100vh"
+  min_height: "38vh"
+  heading_style: "font-size: 4.25em; font-weight: bold; text-decoration: underline"
+  subheading_style: "color: gold"
 categories:
 - jekyll
 - personalize
@@ -40,34 +52,34 @@ categories:
 
 - 修改前：
 
-    `Gemfile`:
+  `Gemfile`:
 
-    ```ruby
-    gem "minima", "~> 2.5.1"
-    ```
+  ```ruby
+  gem "minima", "~> 2.5.1"
+  ```
 
-    `_config.yml`:
+  `_config.yml`:
 
-    ```yaml
-    theme: minima
-    ```
+  ```yaml
+  theme: minima
+  ```
 
 - 修改后：
 
-    `Gemfile`:
+  `Gemfile`:
 
-    ```ruby
-    group :jekyll_plugins do
-        gem "jekyll-remote-theme"
-        gem "jekyll-seo-tag", "~> 2.7.1"
-    end
-    ```
+  ```ruby
+  group :jekyll_plugins do
+      gem "jekyll-remote-theme"
+      gem "jekyll-seo-tag", "~> 2.7.1"
+  end
+  ```
 
-    `_config.yml`:
+  `_config.yml`:
 
-    ```yaml
-    remote_theme: jaxvanyang/minima
-    ```
+  ```yaml
+  remote_theme: jaxvanyang/minima
+  ```
 
 上述修改将 Jekyll 默认的 `Minima` 主题替换为了托管在 Github 上的 [jaxvanyang/minima](https://github.com/jaxvanyang/minima)，实际上是更新了 `Minima` 主题的版本，因为在 RubyGems 上 `Minima` 的最新版本是 `2.5.1`，而在 GitHub 上已经更新到了 `3.0` 以上，但是不知道为什么没有创建新的 release。顺带一提，上面用到的主题地址是我 fork 原仓库 [jekyll/minima](https://github.com/jekyll/minima) 的地址，这样做的原因是方便我以后修改主题。
 
@@ -237,7 +249,7 @@ details {
 
 4. 部署情况可以在 GitHub 上查看，如果构建成功的话，GitHub Actions 会自动创建一个 `gh-pages` 分支，这个操作会覆盖原有的 `gh-pages` 分支，所以不要在仓库里手动修改这个分支。
 
-最后你需要将仓库的 **Pages** 设置页里的 **Source** 改成 `gh-pages` 分支的根目录，这样 GitHub 就会自动部署构建好的网站了。
+    最后你需要将仓库的 **Pages** 设置页里的 **Source** 改成 `gh-pages` 分支的根目录，这样 GitHub 就会自动部署构建好的网站了。
 
 ![GitHub Pages Source]({{ "/assets/images/github-pages-source-screenshot.png" | absolute_url }})
 
@@ -249,65 +261,65 @@ MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这�
 
 1. 创建一个 `loda-mathjax.js` 脚本，内容如下：
 
-    ```js
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-
-    (function () {
-      var script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
-      script.async = true;
-      document.head.appendChild(script);
-    })();
-    ```
+   ```js
+   window.MathJax = {
+     tex: {
+       inlineMath: [['$', '$'], ['\\(', '\\)']]
+     },
+     svg: {
+       fontCache: 'global'
+     }
+   };
+ 
+   (function () {
+     var script = document.createElement('script');
+     script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
+     script.async = true;
+     document.head.appendChild(script);
+   })();
+   ```
 
 2. 在网站的 `<head>` 标签内引入上述脚本，方法和[更换主题](#-更换主题)一节中的方法一样，因为我把脚本放在 `assets/js/load-mathjax.js`，所以我需要在 `_includes/custom-head.html` 里加入：
 
-    ```html
-    <script src="/assets/js/load-mathjax.js" async></script>
-    ```
+   ```html
+   <script src="/assets/js/load-mathjax.js" async></script>
+   ```
 
-然后就可以开始编写公式了。
+   然后就可以开始编写公式了。
 
-- 行内公式：
+   - 行内公式：
 
-    - 公式：
+     - 公式：
 
-        ```markdown
-        $E = mc^2$
-        ```
+       ```markdown
+       $E = mc^2$
+       ```
 
-    - 渲染效果：
+     - 渲染效果：
 
-        $E = mc^2$
+       $E = mc^2$
 
-- 公式块：
+   - 公式块：
 
-    - 公式：
+     - 公式：
 
-        ```markdown
-        $$
-        \begin{bmatrix}
-        1 & 2 & 3\\
-        a & b & c
-        \end{bmatrix}
-        $$
-        ```
+       ```markdown
+       $$
+       \begin{bmatrix}
+       1 & 2 & 3\\
+       a & b & c
+       \end{bmatrix}
+       $$
+       ```
 
-    - 渲染效果：
+     - 渲染效果：
 
-        $$
-        \begin{bmatrix}
-        1 & 2 & 3\\
-        a & b & c
-        \end{bmatrix}
-        $$
+       $$
+       \begin{bmatrix}
+       1 & 2 & 3\\
+       a & b & c
+       \end{bmatrix}
+       $$
 
 ## 添加评论
 
@@ -342,8 +354,6 @@ MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这�
 
 然后只要放到你的博客模板中合适的位置就可以了，对于 `Jekyll` 来说这个位置是 `/_layouts/post.html`。
 
-## 
-
 ## 参考
 
 - <https://pages.github.com/versions/>
@@ -365,3 +375,5 @@ MathJax 的官方文档提供多种配置方法，我觉得比较好的是[这�
 - <https://github.com/jekyll/minima/blob/master/_layouts/post.html>
 
 - [搭建个人博客的二三事](https://lookingaf.com/2021/11/16/somethings_aboout_blog)
+
+- [GitHub 风格的 Markdown 规范](http://gfm.docschina.org/zh-hans/)
