@@ -50,56 +50,56 @@ $ sudo apt-get install vsftpd
 
 1. 备份原始的配置文件始终是最佳实践，以防稍后出现问题。让我们通过重命名来备份默认的配置文件：
 
-	```shell
-	$ sudo mv /etc/vsftpd.conf /etc/vsftpd.conf_orig
-	```
+	 ```shell
+	 $ sudo mv /etc/vsftpd.conf /etc/vsftpd.conf_orig
+	 ```
 
 2. 用 nano 或者其它你喜欢的文本编辑器创建一个新的 `VSFTPD` 配置文件：
 
-	```shell
-	$ sudo nano /etc/vsftpd.conf
-	```
+	 ```shell
+	 $ sudo nano /etc/vsftpd.conf
+	 ```
 
 3. 将下面的基础配置复制到你的配置文件。这对于一个基本的 FTP 服务器来说是足够的，并且在你确定能正常工作后还可以根据你的需要进行修改。
 
-	```
-	listen=NO
-	listen_ipv6=YES
-	anonymous_enable=NO
-	local_enable=YES
-	write_enable=YES
-	local_umask=022
-	dirmessage_enable=YES
-	use_localtime=YES
-	xferlog_enable=YES
-	connect_from_port_20=YES
-	chroot_local_user=YES
-	secure_chroot_dir=/var/run/vsftpd/empty
-	pam_service_name=vsftpd
-	rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
-	rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
-	ssl_enable=NO
-	pasv_enable=Yes
-	pasv_min_port=10000
-	pasv_max_port=10100
-	allow_writeable_chroot=YES
-	```
+	 ```
+	 listen=NO
+	 listen_ipv6=YES
+	 anonymous_enable=NO
+	 local_enable=YES
+	 write_enable=YES
+	 local_umask=022
+	 dirmessage_enable=YES
+	 use_localtime=YES
+	 xferlog_enable=YES
+	 connect_from_port_20=YES
+	 chroot_local_user=YES
+	 secure_chroot_dir=/var/run/vsftpd/empty
+	 pam_service_name=vsftpd
+	 rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+	 rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+	 ssl_enable=NO
+	 pasv_enable=Yes
+	 pasv_min_port=10000
+	 pasv_max_port=10100
+	 allow_writeable_chroot=YES
+	 ```
 
-	将上面的配置复制到你新建的 `/etc/vsftpd.conf` 文件中，然后保存并关闭文件。
+	 将上面的配置复制到你新建的 `/etc/vsftpd.conf` 文件中，然后保存并关闭文件。
 
-	![VSFTPD configuration file]({{ "/assets/images/01-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
+	 ![VSFTPD configuration file]({{ "/assets/images/01-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
 4. Ubuntu 内置的防火墙默认屏蔽 FTP 流量，但下面的命令可以在 UFW（即内置的防火墙软件）中创建一个允许这些流量的规则：
 
-	```shell
-	$ sudo ufw allow from any to any port 20,21,10000:10100 proto tcp
-	```
+	 ```shell
+	 $ sudo ufw allow from any to any port 20,21,10000:10100 proto tcp
+	 ```
 
 5. 在保存配置文件和更新防火墙规则之后，重启 `VSFTPD` 以应用这些更改：
 
-	```shell
-	$ sudo systemctl restart vsftpd
-	```
+	 ```shell
+	 $ sudo systemctl restart vsftpd
+	 ```
 
 ## 创建一个 FTP 用户
 
@@ -107,19 +107,19 @@ $ sudo apt-get install vsftpd
 
 1. 用第一条命令创建一个新帐号 `ftpuser`，然后用第二条命令为其设置密码：
 
-	```shell
-	$ sudo useradd -m ftpuser
-	$ sudo passwd ftpuser
-	New password: 
-	Retype new password: 
-	passwd: password updated successfully
-	```
+	 ```shell
+	 $ sudo useradd -m ftpuser
+	 $ sudo passwd ftpuser
+	 New password: 
+	 Retype new password: 
+	 passwd: password updated successfully
+	 ```
 
 2. 为了验证一切工作正常，你需要在 `ftpuser` 的家目录下存放至少一个文件。当我们在后面登录 FTP 时应该是可见的。
 
-	```shell
-	$ sudo bash -c "echo FTP TESTING > /home/ftpuser/FTP-TEST"
-	```
+	 ```shell
+	 $ sudo bash -c "echo FTP TESTING > /home/ftpuser/FTP-TEST"
+	 ```
 
 > NOTE: FTP 并不是一个加密的协议，它之应该被用于在你的本地网络上访问和传输文件。如果你打算接受来自互联网的流量，你最好配置一个 SFTP 服务器以获得额外的安全性。
 
@@ -127,25 +127,25 @@ $ sudo apt-get install vsftpd
 
 1. 你现在应该可以通过 IP 地址或者主机名连接到你的 FTP 服务器了。要通过[命令行](https://linuxconfig.org/linux-command-line-tutorial)连接并验证一切正常，你需要[打开一个终端](https://linuxconfig.org/shortcuts-to-access-terminal-on-ubuntu-20-04-focal-fossa)然后使用 Ubuntu 的 `ftp` 命令连接到你的环回地址（127.0.0.1）。
 
-	```shell
-	$ ftp 127.0.0.1
-	Connected to 127.0.0.1.
-	220 (vsFTPd 3.0.3)
-	Name (127.0.0.1:user1): ftpuser
-	331 Please specify the password.
-	Password:
-	230 Login successful.
-	Remote system type is UNIX.
-	Using binary mode to transfer files.
-	ftp> ls
-	200 PORT command successful. Consider using PASV.
-	150 Here comes the directory listing.
-	-rw-r--r--    1 0        0              12 Mar 04 22:41 FTP-TEST
-	226 Directory send OK.
-	ftp> 
-	```
+	 ```shell
+	 $ ftp 127.0.0.1
+	 Connected to 127.0.0.1.
+	 220 (vsFTPd 3.0.3)
+	 Name (127.0.0.1:user1): ftpuser
+	 331 Please specify the password.
+	 Password:
+	 230 Login successful.
+	 Remote system type is UNIX.
+	 Using binary mode to transfer files.
+	 ftp> ls
+	 200 PORT command successful. Consider using PASV.
+	 150 Here comes the directory listing.
+	 -rw-r--r--    1 0        0              12 Mar 04 22:41 FTP-TEST
+	 226 Directory send OK.
+	 ftp> 
+	 ```
 
-	你的输出应该和上面的差不多，它表示登录成功而且有一条 `ls` 命令列出了我们之前创建的测试文件。
+	 你的输出应该和上面的差不多，它表示登录成功而且有一条 `ls` 命令列出了我们之前创建的测试文件。
 
 ## 通过 GUI 连接 FTP 服务器
 
@@ -155,15 +155,15 @@ $ sudo apt-get install vsftpd
 
 2. 点击“其它位置（Other Locations）”，然后在窗口底部的“连接到服务器（Connect to server）”输入框中输入 `ftp://127.0.0.1` 并点击“连接（connect）”。
 
-	![Connect to FTP server with Nautilus]({{ "/assets/images/02-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
+	 ![Connect to FTP server with Nautilus]({{ "/assets/images/02-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
 3. 输入我们之前设置的 FTP 账号信息，然后点击“连接（connect）”。
 
-	![Enter FTP credentials]({{ "/assets/images/03-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
+	 ![Enter FTP credentials]({{ "/assets/images/03-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
 4. 在成功连接后，你就会看到你之前创建的测试文件。
 
-	![Successful connection to FTP server]({{ "/assets/images/04-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
+	 ![Successful connection to FTP server]({{ "/assets/images/04-how-to-setup-ftp-server-on-ubuntu-20-04-focal-fossa-linux.webp" | absolute_url }})
 
 ## 总结
 

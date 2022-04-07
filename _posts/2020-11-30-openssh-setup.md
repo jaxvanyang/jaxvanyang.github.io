@@ -12,27 +12,27 @@ ___
 
 1. 安装 `openssh`  
 
-    ```bash
-    sudo apt update
-    sudo apt install openssh-server
-    ```
+   ```bash
+   sudo apt update
+   sudo apt install openssh-server
+   ```
 
 2. 查看运行状态  
 
-    安装后 `openssh` 会自动启动并开机自启，你可以输入以下命令查看状态：
-    
-    ```bash
-    systemctl status ssh
-
-    # 或者
-    systemctl status sshd
-    ```  
+   安装后 `openssh` 会自动启动并开机自启，你可以输入以下命令查看状态：
+   
+   ```bash
+   systemctl status ssh
+   
+   # 或者
+   systemctl status sshd
+   ```  
 
 3. 设置防火墙以允许 SSH 连接
 
-    ```bash
-    sudo ufw allow ssh
-    ```
+   ```bash
+   sudo ufw allow ssh
+   ```
 
 <br>
 
@@ -41,15 +41,15 @@ ___
 
 1. 通过以下命令查看本机 IP 地址：
 
-    ```bash
-    ip a
-    ```
+   ```bash
+   ip a
+   ```
 
 2. 连接 SSH 服务器：
 
-    ```bash
-    ssh <username>@<ip_address>
-    ```
+   ```bash
+   ssh <username>@<ip_address>
+   ```
 
 3. 根据提示输入密码
 
@@ -60,15 +60,15 @@ ___
 
 1. 禁用：
 
-    ```bash
-    sudo systemctl disable --now ssh
-    ```
+   ```bash
+   sudo systemctl disable --now ssh
+   ```
 
 2. 启用：
 
-    ```bash
-    sudo systemctl enable --now ssh
-    ```
+   ```bash
+   sudo systemctl enable --now ssh
+   ```
 
 <br>
 
@@ -84,82 +84,82 @@ ___
 
 1. 检查已有的 SSH 密钥对，如果有，则可以使用这些密钥，或者备份并删除它们。
 
-    ```bash
-    ls -al ~/.ssh/id_*.pub
-    ```
+   ```bash
+   ls -al ~/.ssh/id_*.pub
+   ```
 
 2. 生成新的 SSH 密钥对：
 
-    ```bash
-    # 推荐
-    ssh-keygen -t ed25519 -C "your_email@example.com"
-    ```
-
-    或者：
-
-    ```bash
-    # 如果 OpenSSH 版本较老不支持上面那条就用这一条
-    ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-    ```
+   ```bash
+   # 推荐
+   ssh-keygen -t ed25519 -C "your_email@example.com"
+   ```
+   
+   或者：
+   
+   ```bash
+   # 如果 OpenSSH 版本较老不支持上面那条就用这一条
+   ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+   ```
 
 3. 确保真的生成了新的密钥对：
 
-    ```bash
-    ls ~/.ssh/id_*
-    ```
+   ```bash
+   ls ~/.ssh/id_*
+   ```
 
 4. 复制公钥到服务器上：
 
-    ```bash
-    ssh-copy-id remote_username@server_ip_address
-    ```
-
-    如果上述命令用不了，可以使用以下命令：
-
-    ```bash
-    cat ~/.ssh/id_rsa.pub | ssh remote_username@server_ip_address "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
-    ```
+   ```bash
+   ssh-copy-id remote_username@server_ip_address
+   ```
+   
+   如果上述命令用不了，可以使用以下命令：
+   
+   ```bash
+   cat ~/.ssh/id_rsa.pub | ssh remote_username@server_ip_address "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+   ```
 
 5. 使用 SSH 密钥登录服务器：
 
-    ```bash
-    ssh remote_username@server_ip_address
-    ```
+   ```bash
+   ssh remote_username@server_ip_address
+   ```
 
-    如果配置正确，你现在不用输密码就可以登录到服务器上了。
+   如果配置正确，你现在不用输密码就可以登录到服务器上了。
 
 ## 关闭 SSH 的密码验证
 
 1. 使用超级用户（sudo）或 root 登录到服务器：
 
-    ```bash
-    ssh sudo_user@server_ip_address
-    ```
+   ```bash
+   ssh sudo_user@server_ip_address
+   ```
 
-    或者先用普通用户登录到服务器上再切换到超级用户。
+ 或者先用普通用户登录到服务器上再切换到超级用户。
 
 2. 打开 SSH 的配置文件 `/etc/ssh/sshd_config`，找到下面的配置项并修改得和下面一样：
 
-    ```text
-    /etc/ssh/sshd_config
-    PasswordAuthentication no
-    ChallengeResponseAuthentication no
-    UsePAM no
-    ```
+   ```text
+   /etc/ssh/sshd_config
+   PasswordAuthentication no
+   ChallengeResponseAuthentication no
+   UsePAM no
+   ```
 
 3. 保存文件后重启 SSH 服务
 
-    - Ubuntu 或 Debian 服务器：
+   - Ubuntu 或 Debian 服务器：
 
-        ```bash
-        sudo systemctl restart ssh
-        ```
+     ```bash
+     sudo systemctl restart ssh
+     ```
 
-    - CentOS、Fedora 或 Arch Linux 服务器：
+   - CentOS、Fedora 或 Arch Linux 服务器：
 
-        ```bash
-        sudo systemctl restart sshd
-        ```
+     ```bash
+     sudo systemctl restart sshd
+     ```
 
 ## 如果你想要了解密钥对算法和它的安全性
 ___
