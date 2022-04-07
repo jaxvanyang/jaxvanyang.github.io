@@ -223,23 +223,23 @@ details {
 
 1. 先在仓库中新建一个 `.github/workflows/github-pages.yml` 文件，内容如下：
 
-    ```yaml
-    name: Build and deploy Jekyll site to GitHub Pages
-
-    on:
-      push:
-        branches:
-          - main
-
-    jobs:
-      github-pages:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v2
-          - uses: helaili/jekyll-action@v2
-            with:
-            token: ${{ secrets.DEPLOY_TOKEN }}
-    ```
+   ```yaml
+   name: Build and deploy Jekyll site to GitHub Pages
+ 
+   on:
+     push:
+       branches:
+         - main
+ 
+   jobs:
+     github-pages:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v2
+         - uses: helaili/jekyll-action@v2
+           with:
+           token: ${% raw %}{{ secrets.DEPLOY_TOKEN }}{% endraw %}
+   ```
 
     > Note: [原教程](https://jekyllrb.com/docs/continuous-integration/github-actions/) 里使用的 `token` 名为 `GITHUB_TOKEN`，但是现在 GitHub 规定不能生成以 `GITHUB` 开头的 `secrets`，所以我改成了 `DEPLOY_TOKEN`。
 
