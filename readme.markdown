@@ -4,7 +4,7 @@ title: ReadMe
 permalink: /readme/
 ---
 
-<img src="/assets/images/avatar.png" alt="头像" height="128px" width="128px">
+<img src="{{ '/assets/images/avatar.png' | absolute_url }}" alt="Avatar" class="avatar">
 
 $Jax\ Young\ or\ Jax\ Van\ Yang$
 
