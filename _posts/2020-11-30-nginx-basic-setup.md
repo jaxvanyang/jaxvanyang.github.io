@@ -35,9 +35,9 @@ sudo apt install nginx
 
 1. 方法一：查看系统进程  
 
-    ```bash
-    sudo systemctl status nginx
-    ```
+   ```bash
+   sudo systemctl status nginx
+   ```
 
 2. 方法二：浏览器打开 <http://localhost> 或 <http://YOUR_IP>  
 
@@ -113,13 +113,13 @@ ___
 
 8. 你可以将你的网站根目录设置在任何你想要的地方。常用的网站根目录位置有：
 
-    1. `/home/<user_name>/<site_name>`
+   1. `/home/<user_name>/<site_name>`
 
-    2. `/var/www/<site_name>`
+   2. `/var/www/<site_name>`
 
-    3. `/var/www/html/<site_name>`
+   3. `/var/www/html/<site_name>`
 
-    4. `/opt/<site_name>`
+   4. `/opt/<site_name>`
     
 <br>
 

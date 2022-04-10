@@ -74,33 +74,33 @@ gem install jekyll bundler
 
 1. 创建并初始化网站目录 `./myblog`：
 
-    ```shell
-    jekyll new myblog
-    ```
+   ```shell
+   jekyll new myblog
+   ```
 
 2. 打开新建的网站目录：
 
-    ```shell
-    cd myblog
-    ```
+   ```shell
+   cd myblog
+   ```
 
 3. 构建网站并试运行：
 
-    ```shell
-    bundle exec jekyll serve
-    ```
+   ```shell
+   bundle exec jekyll serve
+   ```
 
-    如果一切顺利的话，通过浏览器打开 <http://127.0.0.1:4000> 就可以看到 Jekyll 通过默认模板生成的网站了，你可以在这个网站上到处逛逛，看看 Jekyll 都生成了哪些页面，并在之后的学习中尝试修改这些页面，毕竟 Jekyll 是可以完全自定义的。
+   如果一切顺利的话，通过浏览器打开 <http://127.0.0.1:4000> 就可以看到 Jekyll 通过默认模板生成的网站了，你可以在这个网站上到处逛逛，看看 Jekyll 都生成了哪些页面，并在之后的学习中尝试修改这些页面，毕竟 Jekyll 是可以完全自定义的。
 
-    ![Jekyll Default Site]({{ "/assets/images/jekyll-default-site.png" | absolute_url }})
+   ![Jekyll Default Site]({{ "/assets/images/jekyll-default-site.png" | absolute_url }})
 
-    实际上这条命令会在当前目录下创建一个 `_site` 目录来存放生成的网站代码，然后在 <http://127.0.0.1:4000> 上运行，并且会在编辑博客的时候自动更新网站代码。
+   实际上这条命令会在当前目录下创建一个 `_site` 目录来存放生成的网站代码，然后在 <http://127.0.0.1:4000> 上运行，并且会在编辑博客的时候自动更新网站代码。
 
-    > Hint: 如果你想要网页也实时刷新，可以为命令加上 `--livereload` 参数。
+   > Hint: 如果你想要网页也实时刷新，可以为命令加上 `--livereload` 参数。
 
-    如果你不需要一个运行的网页服务器，可以用 `bundle exec jekyll build`，这条命令只会生成网站代码而不会运行服务器。
+   如果你不需要一个运行的网页服务器，可以用 `bundle exec jekyll build`，这条命令只会生成网站代码而不会运行服务器。
 
-    > Note: 如果你选择的是 fork 他人仓库来初始化，这一步可能会遇到“找不到依赖包”的错误，这可以通过 `bundle install` 来解决，这也是使用 `bundler` 的好处之一。
+   > Note: 如果你选择的是 fork 他人仓库来初始化，这一步可能会遇到“找不到依赖包”的错误，这可以通过 `bundle install` 来解决，这也是使用 `bundler` 的好处之一。
 
 
 ## 3. 写博客（Blogging）
@@ -152,75 +152,75 @@ ___
 
 1. 指定主题（以 `hacker` 为例）
 
-    1. 修改 `_config.yml` 中的 `theme` 项：  
+   1. 修改 `_config.yml` 中的 `theme` 项：  
 
-        ```yml
-        # 注释掉默认主题，再指定主题
-        # theme minima
-        theme jekyll-theme-hacker
-        ```
+      ```yml
+      # 注释掉默认主题，再指定主题
+      # theme minima
+      theme jekyll-theme-hacker
+      ```
 
-    2. 添加 `jekyll-theme-hacker` 到 `Gemfile`:  
+   2. 添加 `jekyll-theme-hacker` 到 `Gemfile`:  
 
-        ```bash
-        echo 'gem "jekyll-theme-hacker"' >> Gemfile
-        ```
+      ```bash
+      echo 'gem "jekyll-theme-hacker"' >> Gemfile
+      ```
 
 2. 修改头信息
 
-    因为 `hacker` 只包含 `default` 和 `post` 默认布局，而没有 `home` 和 `page` 默认布局，所以你需要修改引用了 `home` 的 `index.md` 和 引用了 `page` 的 `about.md` 的头信息：
+   因为 `hacker` 只包含 `default` 和 `post` 默认布局，而没有 `home` 和 `page` 默认布局，所以你需要修改引用了 `home` 的 `index.md` 和 引用了 `page` 的 `about.md` 的头信息：
 
-    ```text
-    ---
-    # layout: page
-    layout: default
-    ---
-    ```
+   ```text
+   ---
+   # layout: page
+   layout: default
+   ---
+   ```
 
 3. 修改主页或编写布局
 
-    由于 `hacker` 提供的布局不会自动生成一个包含所有 post 的主页，所以你需要自己编写布局文件，或重写主页文件 `index.html` 或 `index.md`（现在应该还是空的）。
+   由于 `hacker` 提供的布局不会自动生成一个包含所有 post 的主页，所以你需要自己编写布局文件，或重写主页文件 `index.html` 或 `index.md`（现在应该还是空的）。
 
-    编写布局文件请参考 [Layouts](https://jekyllrb.com/docs/step-by-step/04-layouts/)  
+   编写布局文件请参考 [Layouts](https://jekyllrb.com/docs/step-by-step/04-layouts/)  
 
-    编写主页你可以参考 [Blogging](https://jekyllrb.com/docs/step-by-step/08-blogging/)  
+   编写主页你可以参考 [Blogging](https://jekyllrb.com/docs/step-by-step/08-blogging/)  
 
-    以下给出一个主页文件 `index.html` 的示例：  
+   以下给出一个主页文件 `index.html` 的示例：  
 
-    ```html
-    ---
-    layout: default
-    title: Blog
-    ---
-    <h1>Latest Posts</h1>
+   ```html
+   ---
+   layout: default
+   title: Blog
+   ---
+   <h1>Latest Posts</h1>
 
-    <ul>
-    {% raw %}{% for post in site.posts %}
-        <li>
-        <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-        {{ post.excerpt }}
-        </li>
-    {% endfor %}{% endraw %}
-    </ul>
-    ```
+   <ul>
+   {% raw %}{% for post in site.posts %}
+      <li>
+      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+      {{ post.excerpt }}
+      </li>
+   {% endfor %}{% endraw %}
+   </ul>
+   ```
 
-    上述代码使用了 `Liquid` 模板，会生成一个包括了 `_posts` 目录下所有文章的静态页面。
+   上述代码使用了 `Liquid` 模板，会生成一个包括了 `_posts` 目录下所有文章的静态页面。
 
 4. 测试
 
-    ```bash
-    bundle exec jekyll serve
-    ```
+   ```bash
+   bundle exec jekyll serve
+   ```
 
-    > 提示：现在的 `jekyll` 支持热更新，你可以在启动服务后修改博客（不包括配置文件 `_config.yml`），刷新网页就可以看到修改内容。  
+   > 提示：现在的 `jekyll` 支持热更新，你可以在启动服务后修改博客（不包括配置文件 `_config.yml`），刷新网页就可以看到修改内容。  
 
-    如果报错按照错误信息操作即可，一切顺利的话，打开 <http://localhost:4000> 应该会看到以下界面：  
+   如果报错按照错误信息操作即可，一切顺利的话，打开 <http://localhost:4000> 应该会看到以下界面：  
 
-    ![网站截图]({{ "/assets/images/screenshoot.png" | absolute_url }})
+   ![网站截图]({{ "/assets/images/screenshoot.png" | absolute_url }})
 
 5. 完善网站
 
-    之后你就可以正常地添加文章和修改网站样式，不过在开始之前可以看看 `jekyll` 的官方教程 [Step by Step Tutorial](https://jekyllrb.com/docs/step-by-step/01-setup/)
+   之后你就可以正常地添加文章和修改网站样式，不过在开始之前可以看看 `jekyll` 的官方教程 [Step by Step Tutorial](https://jekyllrb.com/docs/step-by-step/01-setup/)
 
 <br>
 
@@ -229,94 +229,94 @@ ___
 
 1. 在 `_config.yml` 中指定文件编码
 
-    ```yml
-    encoding: UTF-8
-    ```
+   ```yml
+   encoding: UTF-8
+   ```
 
 2. 在 `_config.yml` 中设置默认头信息
 
-    ```yml
-    defaults:
-      -
-        scope:
-          path: ""    # 一个空的字符串代表项目里的所有文件
-          type: "posts"   # 指定类型为 post
-        values:
-          layout: "my-site"
-      -
-        scope:
-          path: "projects"  # 代表目录 projects/
-          type: "pages" # 以前的 `page`， 在 Jekyll 2.2 里。
-        values:
-          layout: "project" # 覆盖之前的默认布局
-          author: "Mr. Hyde"
-    ```
+   ```yml
+   defaults:
+   -
+      scope:
+         path: ""    # 一个空的字符串代表项目里的所有文件
+         type: "posts"   # 指定类型为 post
+      values:
+         layout: "my-site"
+   -
+      scope:
+         path: "projects"  # 代表目录 projects/
+         type: "pages" # 以前的 `page`， 在 Jekyll 2.2 里。
+      values:
+         layout: "project" # 覆盖之前的默认布局
+         author: "Mr. Hyde"
+   ```
 
 3. 在头信息里自定义变量，然后就可以在 `Liquid` 模板中被调用
 
-    下面的示例就用到了自定义的 `title` 变量：  
+   下面的示例就用到了自定义的 `title` 变量：  
 
-    ```html
-    <!DOCTYPE HTML>
-    <html>
-        <head>
-            <title>{{ page.title }}</title>
-        </head>
-        <body>
-        ...
-    ```
+   ```html
+   <!DOCTYPE HTML>
+   <html>
+      <head>
+         <title>{{ page.title }}</title>
+      </head>
+      <body>
+      ...
+   ```
 
 4. 使用 `post_url` 标签链接到其他博文，例如：
 
-    ```md
-    {% raw %}[Name of Link]({% post_url 2010-07-21-name-of-post %}){% endraw %}
-    ```
+   ```md
+   {% raw %}[Name of Link]({% post_url 2010-07-21-name-of-post %}){% endraw %}
+   ```
 
 5. 自定义摘要  
 
-    `Jekyll` 会自动取每篇文章从开头到第一次出现 `excerpt_separator` 的地方作为文章的摘要，并将此内容保存到变量 `post.excerpt` 中。  
-    如果你不喜欢自动生成摘要，你可以在文章的 `YAML` 头信息中增加 `excerpt` 来覆盖它。另外，你也可以选择在文章中自定义一个 `excerpt_separator`:  
+   `Jekyll` 会自动取每篇文章从开头到第一次出现 `excerpt_separator` 的地方作为文章的摘要，并将此内容保存到变量 `post.excerpt` 中。  
+   如果你不喜欢自动生成摘要，你可以在文章的 `YAML` 头信息中增加 `excerpt` 来覆盖它。另外，你也可以选择在文章中自定义一个 `excerpt_separator`:  
 
-    ```yml
-    ---
-    excerpt_separator: <!--more-->
-    ---
+   ```yml
+   ---
+   excerpt_separator: <!--more-->
+   ---
 
-    Excerpt
-    <!--more-->
-    Out-of-excerpt
-    ```
+   Excerpt
+   <!--more-->
+   Out-of-excerpt
+   ```
 
 6. 使用 `Liquid` 模板嵌入带行号的高亮代码
 
-    ```ruby
-    {% raw %}{% highlight ruby linenos %}
-    def show
-    @widget = Widget(params[:id])
-    respond_to do |format|
-        format.html # show.html.erb
-        format.json { render json: @widget }
-    end
-    end
-    {% endhighlight %}{% endraw %}
-    ```
+   ```ruby
+   {% raw %}{% highlight ruby linenos %}
+   def show
+   @widget = Widget(params[:id])
+   respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @widget }
+   end
+   end
+   {% endhighlight %}{% endraw %}
+   ```
 
 7. 使用草稿
 
-    草稿是你还在创作中而暂时不想发布的文章，可以不给草稿设置发布时间。想要开始使用草稿，你需要在网站根目录下创建一个名为 `_drafts` 的文件夹，并新建你的第一份草稿：  
-    ```
-    |-- _drafts/
-    |   |-- a-draft-post.md
-    ```
-    为了预览你拥有草稿的网站，运行带有 `--drafts` 配置选项的 `jekyll serve` 或者 `jekyll build`。这两种方法都会将草稿的发布时间设置为草稿的修改时间，作为其发布日期，所以你将看到当前编辑的草稿文章作为最新文章被生成。  
+   草稿是你还在创作中而暂时不想发布的文章，可以不给草稿设置发布时间。想要开始使用草稿，你需要在网站根目录下创建一个名为 `_drafts` 的文件夹，并新建你的第一份草稿：  
+   ```
+   |-- _drafts/
+   |   |-- a-draft-post.md
+   ```
+   为了预览你拥有草稿的网站，运行带有 `--drafts` 配置选项的 `jekyll serve` 或者 `jekyll build`。这两种方法都会将草稿的发布时间设置为草稿的修改时间，作为其发布日期，所以你将看到当前编辑的草稿文章作为最新文章被生成。  
 
 8. 使用 `permalink` 自定义页面的 `URL`，例如：
 
-    ```yml
-    ---
-    permalink: /about/
-    ---
-    ```
+   ```yml
+   ---
+   permalink: /about/
+   ---
+   ```
 
 ## 参考
 

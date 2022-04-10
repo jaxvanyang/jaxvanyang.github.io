@@ -22,30 +22,30 @@ categories:
 
 1. 在网站配置文件 `Gemfile` 中将 `jekyll-admin` 加入 group `:jekyll_plugins`，示例如下：
 
-    ```text
-    group :jekyll_plugins do
-    gem "jekyll-feed", "~> 0.12"
-    gem "jekyll-admin"
-    end
-    ```
+   ```text
+   group :jekyll_plugins do
+   gem "jekyll-feed", "~> 0.12"
+   gem "jekyll-admin"
+   end
+   ```
 
 2. 安装依赖：
 
-    ```shell
-    bundle install
-    ```
+   ```shell
+   bundle install
+   ```
 
 ## 使用 Jekyll Admin
 
 1. 启动网站服务：
 
-    ```shell
-    bundle exec jekyll serve
-    ```
+   ```shell
+   bundle exec jekyll serve
+   ```
 
 2. 在网站 URL 后加上 `/admin`，即可访问 Jekyll Admin：
 
-    ![using jekyll admin]({{ "/assets/images/using-jekyll-admin.png" | absolute_url }})
+   ![using jekyll admin]({{ "/assets/images/using-jekyll-admin.png" | absolute_url }})
 
 ## 参考
 

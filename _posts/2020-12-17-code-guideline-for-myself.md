@@ -24,9 +24,9 @@ modified_date: 2022-04-05
 
 1. 驼峰命名法  
 
-    1. [小驼峰法](https://baike.baidu.com/item/%E9%AA%86%E9%A9%BC%E5%91%BD%E5%90%8D%E6%B3%95#2_1)
+   1. [小驼峰法](https://baike.baidu.com/item/%E9%AA%86%E9%A9%BC%E5%91%BD%E5%90%8D%E6%B3%95#2_1)
 
-    2. [大驼峰法（也叫帕斯卡命名法）](https://baike.baidu.com/item/%E9%AA%86%E9%A9%BC%E5%91%BD%E5%90%8D%E6%B3%95#2_2)  
+   2. [大驼峰法（也叫帕斯卡命名法）](https://baike.baidu.com/item/%E9%AA%86%E9%A9%BC%E5%91%BD%E5%90%8D%E6%B3%95#2_2)  
 
 2. 下划线命名法  
 
