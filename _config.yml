@@ -104,7 +104,7 @@ header_pages:
   - tags.html
   - bds-csusthub.md
   - friends.md
-  - readme.markdown
+  - about.md
 
 # Banner default settings
 # These banner settings are for global banner default, but you can also

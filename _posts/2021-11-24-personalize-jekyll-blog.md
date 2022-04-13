@@ -2,7 +2,7 @@
 title: 个性化 Jekyll 博客
 layout: post
 date: '2021-11-24 00:54:13 +0800'
-modified_date: '2022-04-07'
+modified_date: '2022-04-13'
 banner:
   video: https://vjs.zencdn.net/v/oceans.mp4
   loop: true
@@ -105,6 +105,8 @@ categories:
   2. Customize default _includes/custom-head.html in your source directory and insert the given code snippet.
 {% endcomment %}{% endraw %}
 ```
+
+> 有热心网友推荐 <https://www.websiteplanet.com/zh-hans/webtools/favicon-generator/>，这也是一个网页图标生成工具，而且包含中文， 可以试一试。
 
 翻译一下就是说，这个文件就是用来自定义网站的 `<head>` 标签的，比如你可以在这里添加你的*网站图标*：
 

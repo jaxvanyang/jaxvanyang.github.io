@@ -153,3 +153,11 @@ This is the repository for my [blog](https://jaxvanyang.github.io).
 - <https://www.youtube.com/watch?v=EvYs1idcGnM&list=PLWzwUIYZpnJuT0sH4BN56P5oWTdHJiTNq>
 
 - [Jekyll Configuration Options](https://jekyllrb.com/docs/configuration/options/)
+
+## Image Source
+
+> Special thanks for Unsplash and its uploaders <3
+
+- <https://unsplash.com/photos/eodA_8CTOFo?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink>
+
+- <https://unsplash.com/photos/horDgLA2lek?utm_source=unsplash&utm_medium=referral&utm_content=creditShareLink>

@@ -41,3 +41,9 @@ $Jax\ Young\ or\ Jax\ Van\ Yang$
 - [![Just Call Me Jax](https://img.shields.io/badge/%E5%8D%9A%E5%AE%A2%E5%9B%AD-Jax%20Van%20Yang%20%E7%9A%84%E5%8D%9A%E5%AE%A2-blue?style=social)](https://www.cnblogs.com/jaxvanyang/)
 
 - [![Bilibili](https://img.shields.io/badge/Bilibili-蝇营狗苟之辈-blue?style=social&logo=bilibili)](https://space.bilibili.com/39860412)
+
+## Thanks
+
+![rk-78-2]({{ "/assets/images/banners/rk78.jpg" | absolute_url }})
+
+感谢 [Unsplash](https://unsplash.com) 和创作者们免费提供了众多精美的图片，你可以在我博客仓库的 [README.md](https://github.com/jaxvanyang/jaxvanyang.github.io/blob/main/README.md#image-source) 中查看所有我使用的图片的原链接。
