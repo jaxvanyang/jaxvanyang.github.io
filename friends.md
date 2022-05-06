@@ -10,9 +10,9 @@ permalink: /friends/
 
 ### Rekord
 
-$喜欢种菜的同学$
+$一个喜欢种菜的同学$
 
-<img src="http://sxrekord.com/assets/logo.jpg" alt="Avatar" class="avatar">
+<img src="{{ '/assets/images/avatars/rekord.jpg' | absolute_url }}" alt="Avatar" class="avatar">
 
 [Rekord's Blog](http://sxrekord.com)
 
