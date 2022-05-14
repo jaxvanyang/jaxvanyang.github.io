@@ -28,7 +28,7 @@ $Jax\ Young\ or\ Jax\ Van\ Yang$
 
 ![The Dream](//https://youtu.be/lqpRZ69z8_8)
 
-除了一起玩板，你还可以在他开设的 [MC 服务器](https://jaxyoung.notion.site/jaxyoung/CSUST-Hub-2409de303f704ba493eb8b7abb48afa0) 里和他一起玩耍，但对 Minecraft 的热情又能持续多久呢？
+除了一起玩板，你还可以在他开设的 [MC 服务器](https://jaxyoung.notion.site/jaxyoung/CSUST-Hub-2409de303f704ba493eb8b7abb48afa0) 里和他一起玩耍，可惜的是他已经很难找到以前畅玩 Minecraft 的感觉了。
 
 ## 关于本站
 
