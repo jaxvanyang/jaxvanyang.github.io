@@ -28,8 +28,6 @@ $Jax\ Young\ or\ Jax\ Van\ Yang$
 
 ![The Dream](//https://youtu.be/lqpRZ69z8_8)
 
-除了一起玩板，你还可以在他开设的 [MC 服务器](https://jaxyoung.notion.site/jaxyoung/CSUST-Hub-2409de303f704ba493eb8b7abb48afa0) 里和他一起玩耍，可惜的是他已经很难找到以前畅玩 Minecraft 的感觉了。
-
 ## 关于本站
 
 本站使用 [GitHub Pages](https://pages.github.com) 免费部署，所有的源文件都可以在 [GitHub 仓库](https://github.com/JaxVanYang/jaxvanyang.github.io) 查看。感兴趣的话不要忘了订阅 [RSS](https://jaxvanyang.github.io/feed.xml)。
