@@ -28,7 +28,7 @@ $数论大佬$
 
 $可爱的男孩子$
 
-<img src="https://amcones.cn/wp-content/uploads/2022/01/cropped-1-1.jpg" alt="Avatar" class="avatar">
+<img src="https://amcones.cn/images/uli.jpeg" alt="Avatar" class="avatar">
 
 [尤利の博客](https://amcones.cn)
 
