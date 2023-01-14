@@ -1,6 +1,7 @@
 # Just Call Me Jax
 
 This is the repository for my [blog](https://jaxvanyang.github.io).
+There is also a [comment repository](https://github.com/JaxVanYang/utteranc.blog) for my blog.
 
 ## Configure Dev Environment
 
