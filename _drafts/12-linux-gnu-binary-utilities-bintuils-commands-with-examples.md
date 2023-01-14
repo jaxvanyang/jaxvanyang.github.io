@@ -1,5 +1,5 @@
 ---
-title: 译 | GNU 的 12 个 binary 工具及示例（RISC-V 版）
+title: 译 | GNU 的 12 个二进制工具及示例（RISC-V 版）
 author: Terrence Sun
 category: linux
 tags:
@@ -13,37 +13,39 @@ tags:
 > 此篇文章翻译自 [12 Linux GNU Binary Utilities Binutils Commands with Examples (as, ld, ar, nm, objcopy, objdump, size, strings, strip, c++flint, addr2line, readelf Command Examples)](https://www.thegeekstuff.com/2017/01/gnu-binutils-commands/)
 >
 > 原作者：Terrence Sun
+> 
+> 翻译协力：[DeepL](https://www.deepl.com/translator)
 
-GNU BinutilsThe GNU Binary Utilities, usually called as binutils, is a collection of development tools that handle assembly files, object files, and libraries.
+GNU 二进制工具，通常被称为 binutils，是一个处理汇编文件、对象文件和库的开发工具集合。
 
-The new generation of programming languages that came in the last few years are really masking the functionality of these utilities, as they happen in the background. So, many developers are not exposed to these tools.
+在过去几年中出现的新一代编程语言掩盖了这些工具的功能，因为它们被用在后端，许多开发人员接触不到这些工具。
 
-But, if you are a developer who is working on Linux / UNIX platform, it is essential to understand the various commands that are available as part of GNU development tools.
+但如果你是一个在 Linux / UNIX平台上工作的开发者，了解 GNU 开发工具的各种命令是非常重要的。
 
-The following are the 12 different binutils commands that are covered in this tutorial.
+以下是本教程中涉及的 12 个不同的 binutils 命令。
 
-1. as – GNU Assembler Command
-2. ld – GNU Linker Command
-3. ar – GNU Archive Command
-4. nm – List Object File Symbols
-5. objcopy – Copy and Translate Object Files
-6. objdump – Display Object File Information
-7. size – List Section Size and Toal Size
-8. strings – Display Printable Characters from a File
-9. strip – Discard Symbols from Object File
-10. c++filt – Demangle Command
-11. addr2line – Convert Address to Filename and Numbers
-12. readelf – Display ELF File Info
+1. as - GNU 汇编程序命令
+2. ld - GNU 链接器命令
+3. ar - GNU 归档命令
+4. nm - 列出对象文件的符号
+5. objcopy - 复制和翻译对象文件
+6. objdump - 显示对象文件信息
+7. size - 列出符号表节大小和总大小
+8. strings - 显示文件中的可打印字符
+9. strip - 去除对象文件中的符号
+10. c++filt - 符号名称解码器命令
+11. addr2line - 转换地址为文件名和行号
+12. readelf - 显示 ELF 文件信息
 
-These tools will help you to manipulate your binary, object and library files effectively.
+这些工具将帮助你有效地处理你的二进制、对象和库文件。
 
-Out of these 12 utilities, as and ld are of the most important, they are the default backend of GNU Compiler Collection (gcc). GCC only does the job that compiles from C/C++ to assembly language, and its as and ld’s job to output executable binary.
+在这 12 个工具中，as 和 ld 是最重要的，它们是 GNU 编译器集合（gcc）的默认后端。GCC 只负责将 C/C++ 编译成汇编语言，而 as 和 ld 的工作是输出可执行二进制文件。
 
-## Prepare a Sample Code
+## 准备示例代码
 
-To understand how all these commands work, first, let’s prepare some sample assembly code from C code by using gcc -S. All the experiments shown here, are done on a x86 64bits linux box.
+为了理解所有这些命令是如何工作的，首先，让我们用 gcc -S 从 C 代码中准备一些汇编代码。这里的所有实验都是在 x86 64 位的 Linux 环境里进行的。
 
-Below is the C code, which just use the return value of external function as return code. There is no input/output, so if you want to check whether the program executed as expected, please check the return status (echo $?). We have three function, main, func1 and func2, and one file for each function.
+下面是 C 代码，它只使用外部函数的返回值作为返回代码。没有输入/输出，所以如果你想检查程序是否按预期执行，请检查返回状态（echo $?）。我们有三个函数，main、func1 和 func2，每个函数有一个文件。
 
 ```c
 // func1.c file:
@@ -62,23 +64,23 @@ int main() {
 }
 ```
 
-GCC has C runtime library support, so the main function is treated as normal function. For simplify the demo, we do not want to involve C library when compile and link these .s files. So, two modifications are done for main.s:
+GCC 集成了 C 语言运行库，所以主函数会被当作普通函数处理。为了简化演示，我们不希望在编译和链接这些 .s 文件时使用 C 库。因此，我们对 main.s 做了两个修改。
 
-First modification is that the label _start is added for link stage.
+第一个修改是在链接阶段添加了 _start 标签。
 
-_start label is the entry point of the App, if not defined, a warning like below will be reported when run ld.
+_start 标签是应用程序的入口点，如果没有定义，在运行 ld 时将会出现如下警告。
 
 ```bash
 ld: warning: cannot find entry symbol _start; defaulting to 0000000000400078
 ```
 
-Second modification is that ret is replaced by system exit call.
+第二个修改是，用 exit 系统调用代替 ret。
 
-We should manually raise the system exit interrupt. %eax is used to hold return value of the function, but system exit call hold it in %ebx. So, copy it from %eax to %ebx
+我们应该手动引发系统退出中断。%eax 用于保存函数的返回值，但 exit 系统调用使用 %ebx 作为返回状态。所以我们要把它 %eax 的值复制到 %ebx。
 
-Below is the re-edit version of gcc assembly code.
+下面是编辑过后的 gcc 汇编代码。
 
-func1.s file:
+func1.s 文件:
 
 ```asm
 	.file	"func1.c"
@@ -93,7 +95,7 @@ func1:
 	leave
 ```
 
-func2.s file:
+func2.s 文件:
 
 ```asm
 	.file	"func2.c"
@@ -108,7 +110,7 @@ func2:
 	ret
 ```
 
-main.s file:
+main.s 文件:
 
 ```asm
 	.file	"main.c"
