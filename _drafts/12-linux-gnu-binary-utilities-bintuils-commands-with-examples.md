@@ -208,7 +208,7 @@ func2.o:
 0000000000000000 T func2
 ```
 
-For full details on ar command, read this: Linux ar command Examples: How To Create, View, Extract, Modify C Archive Files (*.a)
+For full details on ar command, read this: [Linux ar command Examples: How To Create, View, Extract, Modify C Archive Files (*.a)](https://www.thegeekstuff.com/2010/08/ar-command-examples/)
 
 Test 2, ar with -s.
 
@@ -270,7 +270,7 @@ $ nm  -A ./*.o | grep func
 ./test.o:                   U func
 ```
 
-Read more: 10 Practical Linux nm Command Examples
+Read more: [10 Practical Linux nm Command Examples](https://www.thegeekstuff.com/2012/03/linux-nm-command/)
 
 ## 5. objcopy – Copy and Translate Object Files
 
@@ -288,7 +288,7 @@ The syntax of this command is :
 objcopy [options] infile [outfile]...
 ```
 
-Read more: Linux Objcopy Command Examples to Copy and Translate Object Files
+Read more: [Linux Objcopy Command Examples to Copy and Translate Object Files](https://www.thegeekstuff.com/2013/01/objcopy-examples/)
 
 ## 6. objdump – Display Object File Information
 
@@ -326,7 +326,7 @@ Disassembly of section .text:
   4000aa:	c3                   	retq   
 ```
 
-Read more: Linux Objdump Command Examples (Disassemble a Binary File)
+Read more: [Linux Objdump Command Examples (Disassemble a Binary File)](https://www.thegeekstuff.com/2012/09/objdump-examples/)
 
 ## 7. size – List Section Size and Toal Size
 
@@ -360,7 +360,7 @@ _edata
 _end
 ```
 
-Read more: Linux Strings Command Examples (Search Text in UNIX Binary Files)
+Read more: [Linux Strings Command Examples (Search Text in UNIX Binary Files)](https://www.thegeekstuff.com/2010/11/strings-command-examples/)
 
 ## 9. strip – Discard Symbols from Object File
 
@@ -398,7 +398,7 @@ SYMBOL TABLE:
 no symbols
 ```
 
-Read more: 10 Linux Strip Command Examples (Reduce Executable/Binary File Size)
+Read more: [10 Linux Strip Command Examples (Reduce Executable/Binary File Size)](https://www.thegeekstuff.com/2012/09/strip-command-examples/)
 
 ## 10. c++filt – Demangle Command
 
@@ -547,4 +547,4 @@ ELF Header:
 
 Just like readelf, you can also use elfedit which can update machine, file type and OS ABI in the elf header. Please note that, elfedit may not be included by default in your distribution.
 
-Read more: Linux ELF Object File Format (and ELF Header Structure) Basics
+Read more: [Linux ELF Object File Format (and ELF Header Structure) Basics](https://www.thegeekstuff.com/2012/07/elf-object-file-format/)
