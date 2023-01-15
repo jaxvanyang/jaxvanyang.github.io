@@ -14,13 +14,13 @@ tags:
 >
 > 原作者：Terrence Sun
 > 
-> 翻译协力：[DeepL](https://www.deepl.com/translator)、[Bing Microsoft Translator](https://www.bing.com/translator)
+> 翻译协力：[DeepL](https://www.deepl.com/translator)、[Rekord](https://sxrekord.com/)、[Bing Microsoft Translator](https://www.bing.com/translator)
 
 GNU 二进制工具，通常被称为 binutils，是一个处理汇编文件、目标文件和库的开发工具集合。
 
 在过去几年中出现的新一代编程语言掩盖了这些工具的功能，因为它们被用在后端，许多开发人员接触不到这些工具。
 
-但如果你是一个在 Linux / UNIX 平台上工作的开发者，了解 GNU 开发工具的各种命令是非常必要的。
+但如果你是一个在 Linux / UNIX 平台上工作的开发者，了解 GNU 开发工具的各种命令是很有必要的。
 
 以下是本教程中涉及的 12 个不同的 binutils 命令。
 
@@ -30,7 +30,7 @@ GNU 二进制工具，通常被称为 binutils，是一个处理汇编文件、�
 4. nm - 列出目标文件的符号
 5. objcopy - 复制和翻译目标文件
 6. objdump - 显示目标文件信息
-7. size - 列中各部分的大小信息和总的大小信息
+7. size - 列出目标文件中各部分的大小信息
 8. strings - 显示文件中的可打印字符
 9. strip - 去除目标文件中的符号
 10. c++filt - 符号名称解码器命令
@@ -132,9 +132,9 @@ main:
 
 ## 1. as – GNU 汇编程序命令
 
-as 将汇编文件作为输入，并输出一个目标文件。对象文件只是一种内部格式，它将作为 ld 的输入，用于生成最终的可执行文件。
+as 将汇编文件作为输入，并输出一个目标文件。目标文件只是一种内部格式，它将作为 ld 的输入，用于生成最终的可执行文件。
 
-在 main.s 文件上执行 as 命令，可以得到 main.o 对象文件，如下所示。
+在 main.s 文件上执行 as 命令，可以得到 main.o 目标文件，如下所示。
 
 ```bash
 as main.s -o main.o
@@ -146,7 +146,7 @@ as main.s -o main.o
 main.o: ELF 64-bit LSB relocatable, AMD x86-64, version 1 (SYSV), not stripped
 ```
 
-该对象文件是 ELF 格式，这是在 Linux 发行版中使用最广泛的文件格式。
+该目标文件是 ELF 格式，这是在 Linux 发行版中使用最广泛的文件格式。
 
 请注意，"as "命令也有对预处理、符号、约束、表达式、伪操作/指令和注释的语法支持。
 
@@ -154,7 +154,7 @@ GNU 汇编程序可以支持大量机器，但通常在编译或交叉编译时�
 
 ## 2. ld – GNU 链接器命令
 
-对象文件通常包含对不同库/对象中的外部函数的引用，链接器（ld）的工作是合并最终二进制文件所需的所有对象/库文件，重新定位符号表节，并解决引用问题。
+目标文件通常包含对不同库/对象中的外部函数的引用，链接器（ld）的工作是合并最终二进制文件所需的所有对象/库文件，重新定位符号表节，并解决引用问题。
 
 ld 的实际行为是在链接器脚本中定义的，它描述了可执行文件的内存布局。
 
@@ -165,14 +165,14 @@ main.o: In function `_start':
 main.c:(.text+0xa): undefined reference to `func1'
 ```
 
-我们需要链接全部的三个对象文件才能得到一个可执行文件（ld main.o func1.o func2.o -o main）。
+我们需要链接全部的三个目标文件才能得到一个可执行文件（ld main.o func1.o func2.o -o main）。
 
 ```bash
 # file main 
 main: ELF 64-bit LSB executable, AMD x86-64, version 1 (SYSV), statically linked, not stripped
 ```
 
-与对象文件不同，这里我们得到了一个静态链接的可执行文件。
+与目标文件不同，这里我们得到了一个静态链接的可执行文件。
 
 as 和 ld 在特定的目标/架构上工作。但是有一些工具可以在 binutils 中定义的 BFD 对象上工作。
 
@@ -248,11 +248,11 @@ func2.o:
 
 可以看到每个测试的结果都是一样的。
 
-## 4. nm – 列出对象文件的符号
+## 4. nm – 列出目标文件的符号
 
-nm 可以列出对象文件中的符号。我们已经在上一节中展示了它的用途。
+nm 可以列出目标文件中的符号。我们已经在上一节中展示了它的用途。
 
-nm 命令提供对象文件或可执行文件中使用的符号信息。
+nm 命令提供目标文件或可执行文件中使用的符号信息。
 
 nm 命令所提供的默认信息如下：
 
@@ -274,15 +274,15 @@ $ nm  -A ./*.o | grep func
 
 了解更多：[10 Practical Linux nm Command Examples](https://www.thegeekstuff.com/2012/03/linux-nm-command/)
 
-## 5. objcopy – 复制和翻译对象文件
+## 5. objcopy – 复制和翻译目标文件
 
-objcopy 可以把一个对象文件的内容复制到另一个对象文件，也可以用不同的格式输入/输出对象。
+objcopy 可以把一个目标文件的内容复制到另一个目标文件，而且输入/输出目标文件的格式可以不同。
 
-有些时候，你需要把一个可用于一种平台（如 ARM 或 x86）的对象文件移植到另一种平台。
+有些时候，你需要把一个可用于一种平台（如 ARM 或 x86）的目标文件移植到另一种平台。
 
 如果源代码是可用的，解决就相对容易些，因为它可以在目标平台上重新编译。
 
-但是，如果源代码不可用，而你仍然需要将一个对象文件从一种平台移植到另一种平台，那该怎么办？好吧，如果你使用的是 Linux，那么 objcopy 命令正好能满足你的要求。
+但是，如果源代码不可用，而你仍然需要将一个目标文件从一种平台移植到另一种平台，那该怎么办？好吧，如果你使用的是 Linux，那么 objcopy 命令正好能满足你的要求。
 
 这个命令的语法是：
 
@@ -292,9 +292,9 @@ objcopy [options] infile [outfile]...
 
 了解更多：[Linux Objcopy Command Examples to Copy and Translate Object Files](https://www.thegeekstuff.com/2013/01/objcopy-examples/)
 
-## 6. objdump – 显示对象文件信息
+## 6. objdump – 显示目标文件信息
 
-objdump 可以显示对象文件中的选定信息。我们可以使用 objdump -d 来对 main 进行反汇编。
+objdump 可以显示目标文件中的选定信息。我们可以使用 objdump -d 来对 main 进行反汇编。
 
 ```bash
 # objdump -d main
@@ -330,9 +330,9 @@ Disassembly of section .text:
 
 了解更多：[Linux Objdump Command Examples (Disassemble a Binary File)](https://www.thegeekstuff.com/2012/09/objdump-examples/)
 
-## 7. size – 列中各部分的大小信息和总的大小信息
+## 7. size – 列出目标文件中各部分的大小信息
 
-size 可以显示对象文件中各部分的大小信息。
+size 可以显示目标文件中各部分的大小信息。
 
 ```bash
 # size main
@@ -342,7 +342,7 @@ size 可以显示对象文件中各部分的大小信息。
 
 ## 8. strings – 显示文件中的可打印字符
 
-string 可以显示对象文件中可打印的字符序列。默认情况下，它只在 .data 部分进行搜索。加上 -a 选项后可以搜索所有的部分。
+string 可以显示目标文件中可打印的字符序列。默认情况下，它只在 .data 部分进行搜索。加上 -a 选项后可以搜索所有的部分。
 
 ```bash
 # strings -a main
@@ -364,9 +364,9 @@ _end
 
 了解更多：[Linux Strings Command Examples (Search Text in UNIX Binary Files)](https://www.thegeekstuff.com/2010/11/strings-command-examples/)
 
-## 9. strip – 去除对象文件中的符号
+## 9. strip – 去除目标文件中的符号
 
-strip 可以从对象文件中删除符号，这可以减少文件的大小，加快执行速度。
+strip 可以从目标文件中删除符号，这可以减少文件的大小，加快执行速度。
 
 我们可以通过 objdump 显示符号表。符号表显示了每个函数/标签的条目/偏移量。
 
@@ -406,9 +406,9 @@ no symbols
 
 C++ 支持重载，可以让同一个函数名接受不同种类/数量的参数。
 
-这是通过将重载函数名改写为底层的汇编符号名称来实现的，c++filt 可以为 C++ 和 Java 做这种符号名称解码。
+这是通过将相同的重载函数名改写为不同的底层汇编符号名来实现的，这种技术被称为符号名称编码（mangling），c++filt 可以为 C++ 和 Java 对编码后的符号名称进行解码（demangling）。
 
-在这里，我们做一个新的示例代码来解释符号名称编码。
+在这里，我们创建了一个新的示例代码来解释符号名称编码。
 
 假设我们有两种类型的 func3，分别接受不同类型的输入参数，即 void 和 int。
 
@@ -510,6 +510,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
 ```
 
 > FIXME：这里提到的反汇编结果不知道在哪里
+
 从第 2.d 节 objdump 中显示的反汇编结果，我们可以看到 0x400090 是 func1 的入口，这与 addr2line 给出的结果相同。
 
 ```bash
