@@ -14,7 +14,7 @@ tags:
 >
 > 原作者：Terrence Sun
 > 
-> 翻译协力：[DeepL](https://www.deepl.com/translator)
+> 翻译协力：[DeepL](https://www.deepl.com/translator)、[Bing Microsoft Translator](https://www.bing.com/translator)
 
 GNU 二进制工具，通常被称为 binutils，是一个处理汇编文件、对象文件和库的开发工具集合。
 
@@ -30,7 +30,7 @@ GNU 二进制工具，通常被称为 binutils，是一个处理汇编文件、�
 4. nm - 列出对象文件的符号
 5. objcopy - 复制和翻译对象文件
 6. objdump - 显示对象文件信息
-7. size - 列出符号表节大小和总大小
+7. size - 显示对象文件中各部分的大小信息
 8. strings - 显示文件中的可打印字符
 9. strip - 去除对象文件中的符号
 10. c++filt - 符号名称解码器命令
@@ -130,69 +130,69 @@ main:
 	leave
 ```
 
-## 1. as – GNU Assembler Command
+## 1. as – GNU 汇编程序命令
 
-as takes assembly file as input and output an object file. Object file is only an internal format, which will be used as the input of ld for the producing of final executable file.
+as 将汇编文件作为输入，并输出一个目标文件。对象文件只是一种内部格式，它将作为 ld 的输入，用于生成最终的可执行文件。
 
-Execute the as command on main.s file to get the main.o object file as shown below.
+在 main.s 文件上执行 as 命令，可以得到 main.o 对象文件，如下所示。
 
 ```bash
 as main.s -o main.o
 ```
 
-file main.o (produced by “as main.s -o main.o”), we can get below information.
+file main.o（由"as main.s -o main.o "生成），我们可以得到以下信息。
 
 ```bash
 main.o: ELF 64-bit LSB relocatable, AMD x86-64, version 1 (SYSV), not stripped
 ```
 
-The object file is in ELF format, which is the most widely used file format for linux distributions.
+该对象文件是 ELF 格式，这是在 Linux 发行版中使用最广泛的文件格式。
 
-Please note that “as” command also has syntax support for preprocessing, symbol, constraint, expression, pseudo ops/directives, and comments.
+请注意，"as "命令也有对预处理、符号、约束、表达式、伪操作/指令和注释的语法支持。
 
-GNU Assembler can support a huge collection of machines, but usually only one machine/architecture family is selected when compiled or cross-compiled.
+GNU 汇编程序可以支持大量的机器集合，但通常在编译或交叉编译时只选择一个机器/架构系列。
 
-## 2. ld – GNU Linker Command
+## 2. ld – GNU 链接器命令
 
-Object file usually contains reference to external functions in different library/object, and it’s linker (ld)’s job to combine all the object/library files needed for the final binary, relocate sections, and resolve the reference.
+对象文件通常包含对不同库/对象中的外部函数的引用，链接器（ld）的工作是合并最终二进制文件所需的所有对象/库文件，重新定位符号表节，并解决引用问题。
 
-The actual behavior of ld is defined in the linker script, which describes the memory layout of the executable.
+ld 的实际行为是在链接器脚本中定义的，它描述了可执行文件的内存布局。
 
-If we link main.o only (ld main.o -o main), there will be a undefined reference error:
+如果我们只链接 main.o（ld main.o -o main），会出现未定义的引用错误：
 
 ```bash
 main.o: In function `_start':
 main.c:(.text+0xa): undefined reference to `func1'
 ```
 
-We won’t get an executable file without linking all the three objection files (ld main.o func1.o func2.o -o main).
+我们需要链接全部的三个对象文件才能得到一个可执行文件（ld main.o func1.o func2.o -o main）。
 
 ```bash
 # file main 
 main: ELF 64-bit LSB executable, AMD x86-64, version 1 (SYSV), statically linked, not stripped
 ```
 
-Be different with the object file, here we get a statically linked executable.
+与对象文件不同，这里我们得到了一个静态链接的可执行文件。
 
-as and ld works on specific target/architecture. But there are some tools that working on BFD objects defined in binutils.
+as 和 ld 在特定的目标/架构上工作。但是有一些工具可以在 binutils 中定义的 BFD 对象上工作。
 
-From the last few lines of the output of objcopy -h, we can get the support targets.
+从 objcopy -h 输出的最后几行，我们可以获取到支持的目标类型。
 
 ```bash
 objcopy: supported targets: elf64-x86-64 elf32-i386 a.out-i386-linux pei-i386 pei-x86-64 elf64-l1om elf64-little elf64-big elf32-little elf32-big plugin srec symbolsrec verilog tekhex binary ihex
 ```
 
-Need to say that verilog, ihex are not supported by real OS, but it can be very useful in processing the content of objects in text format. They are widely used in chip simulation environment for memory/rom initialization.
+需要说明的是，verilog、ihex 并不被真正的操作系统所支持，但它在处理文本格式的对象内容时非常有用。它们被广泛用于芯片仿真环境中的 memory/rom 初始化。
 
-## 3. ar/ranlib – GNU Archive Command
+## 3. ar/ranlib – GNU 归档命令
 
-ar can be used to generate and manipulate static library, which is a archive file that composed by many objects.
+ar 可以用来生成和编辑静态库，这是一个由许多对象组成的档案文件。
 
-Behavior of ar can be controlled from command line argument (the unix style) or script file. ranlib can add a index of symbols to an archive, which can speed up the link speed and also facilitate the call of routines. ar -s will do the same thing as ranlib.
+ar 的行为可以通过命令行参数（Unix风格）或脚本文件来控制。ranlib 可以为归档文件添加符号索引，这可以加快链接速度，也便于调用例程。
 
-For my test, with or without -s, ar will always output the archive index.
+对于我的测试，不管有没有 -s，ar 都会输出存档索引。
 
-Test1, ar without -s.
+测试 1，ar 不加 -s。
 
 ```bash
 # ar -r extern.a func1.o func2.o && nm -s extern.a
@@ -210,9 +210,9 @@ func2.o:
 0000000000000000 T func2
 ```
 
-For full details on ar command, read this: [Linux ar command Examples: How To Create, View, Extract, Modify C Archive Files (*.a)](https://www.thegeekstuff.com/2010/08/ar-command-examples/)
+要查看 ar 命令的全部细节，请阅读此文：[Linux ar command Examples: How To Create, View, Extract, Modify C Archive Files (*.a)](https://www.thegeekstuff.com/2010/08/ar-command-examples/)
 
-Test 2, ar with -s.
+测试 2，ar 加上 -s。
 
 ```bash
 # ar -r -s externS.a func1.o func2.o && nm -s externS.a
@@ -230,7 +230,7 @@ func2.o:
 0000000000000000 T func2
 ```
 
-Test 3, run ranlib again.
+测试 3，再运行一次 ranlib。
 
 ```bash
 # cp extern.a externR.a && ranlib externR.a && nm -s externR.a
@@ -246,19 +246,19 @@ func2.o:
 0000000000000000 T func2
 ```
 
-It can be shown that each test outputs the same result.
+可以看到每个测试的结果都是一样的。
 
-## 4. nm – List Object File Symbols
+## 4. nm – 列出对象文件的符号
 
-nm can list symbols from object file. We have show the used of it in above section.
+nm 可以列出对象文件中的符号。我们已经在上一节中展示了它的用途。
 
-The nm commands provides information on the symbols being used in an object file or executable file.
+nm 命令提供对象文件或可执行文件中使用的符号信息。
 
-The default information that the nm command provides are the following:
+nm 命令所提供的默认信息如下。
 
-- Virtual address of the symbol
-- A character which depicts the symbol type. If the character is in lower case then the symbol is local but if the character is in upper case then the symbol is external
-- Name of the symbol
+- 符号的虚拟地址
+- 一个描述符号类型的字符。如果该字符是小写的，那么该符号是本地的，如果该字符是大写的，那么该符号是外部的。
+- 符号的名称
 
 ```bash
 $ nm  -A ./*.o | grep func
@@ -272,29 +272,29 @@ $ nm  -A ./*.o | grep func
 ./test.o:                   U func
 ```
 
-Read more: [10 Practical Linux nm Command Examples](https://www.thegeekstuff.com/2012/03/linux-nm-command/)
+了解更多：[10 Practical Linux nm Command Examples](https://www.thegeekstuff.com/2012/03/linux-nm-command/)
 
-## 5. objcopy – Copy and Translate Object Files
+## 5. objcopy – 复制和翻译对象文件
 
-objcopy can copy the content of one object file to another object file, and input/output object can in different format.
+objcopy 可以把一个对象文件的内容复制到另一个对象文件，输入/输出对象可以是不同的格式。
 
-There are times when you need to port an object file available for one kind of platform (like ARM or x86) to another kind of platform.
+有些时候，你需要把一个可用于一种平台（如 ARM 或 x86）的对象文件移植到另一种平台。
 
-Things are relatively easy if the source code is available as it can be re-compiled on the target platform.
+如果源代码是可用的，解决就相对容易些，因为它可以在目标平台上重新编译。
 
-But, what if the source code is not available and you still need to port an object file from type of platform to other? Well, if you are using Linux then the command objcopy does exactly the required
+但是，如果源代码不可用，而你仍然需要将一个对象文件从一种平台移植到另一种平台，那该怎么办？好吧，如果你使用的是 Linux，那么 objcopy 命令正好能满足你的要求。
 
-The syntax of this command is :
+这个命令的语法是：
 
 ```bash
 objcopy [options] infile [outfile]...
 ```
 
-Read more: [Linux Objcopy Command Examples to Copy and Translate Object Files](https://www.thegeekstuff.com/2013/01/objcopy-examples/)
+了解更多：[Linux Objcopy Command Examples to Copy and Translate Object Files](https://www.thegeekstuff.com/2013/01/objcopy-examples/)
 
-## 6. objdump – Display Object File Information
+## 6. objdump – 显示对象文件信息
 
-objdump can display selected information from object files. We can use objdump -d to apply the disassemble to main.
+objdump 可以显示对象文件中的选定信息。我们可以使用 objdump -d 来对 main 进行反汇编。
 
 ```bash
 # objdump -d main
@@ -328,11 +328,11 @@ Disassembly of section .text:
   4000aa:	c3                   	retq   
 ```
 
-Read more: [Linux Objdump Command Examples (Disassemble a Binary File)](https://www.thegeekstuff.com/2012/09/objdump-examples/)
+了解更多：[Linux Objdump Command Examples (Disassemble a Binary File)](https://www.thegeekstuff.com/2012/09/objdump-examples/)
 
-## 7. size – List Section Size and Toal Size
+## 7. size – 显示对象文件中各部分的大小信息
 
-size can display the size information of sections in object files.
+size 可以显示对象文件中各部分的大小信息。
 
 ```bash
 # size main
@@ -340,9 +340,9 @@ size can display the size information of sections in object files.
      51	      0	      0	     51	     33	main
 ```
 
-## 8. strings – Display Printable Characters from a File
+## 8. strings – 显示文件中的可打印字符
 
-string can display printable char sequence from object files. By default, it only search in .data section. With -a switch, all the sections can be searched.
+string 可以显示对象文件中可打印的字符序列。默认情况下，它只在 .data 部分进行搜索。加上 -a 选项后可以搜索所有的部分。
 
 ```bash
 # strings -a main
@@ -362,13 +362,13 @@ _edata
 _end
 ```
 
-Read more: [Linux Strings Command Examples (Search Text in UNIX Binary Files)](https://www.thegeekstuff.com/2010/11/strings-command-examples/)
+了解更多：[Linux Strings Command Examples (Search Text in UNIX Binary Files)](https://www.thegeekstuff.com/2010/11/strings-command-examples/)
 
-## 9. strip – Discard Symbols from Object File
+## 9. strip – 去除对象文件中的符号
 
-strip can remove symbols from object file, which can reduce the file size and speed up the execution.
+strip 可以从对象文件中删除符号，这可以减少文件的大小，加快执行速度。
 
-We can show the symbol table by objdump. Symbol table shows the entry/offset for each function/label.
+我们可以通过 objdump 显示符号表。符号表显示了每个函数/标签的条目/偏移量。
 
 ```bash
 # objdump -t main
@@ -389,7 +389,7 @@ SYMBOL TABLE:
 00000000006000b0 g       *ABS*	0000000000000000 _end
 ```
 
-After strip (#strip main), the symbol table will be removed.
+在剥离（#strip main）之后，符号表将被删除。
 
 ```bash
 #objdump -t main
@@ -400,17 +400,17 @@ SYMBOL TABLE:
 no symbols
 ```
 
-Read more: [10 Linux Strip Command Examples (Reduce Executable/Binary File Size)](https://www.thegeekstuff.com/2012/09/strip-command-examples/)
+了解更多：[10 Linux Strip Command Examples (Reduce Executable/Binary File Size)](https://www.thegeekstuff.com/2012/09/strip-command-examples/)
 
-## 10. c++filt – Demangle Command
+## 10. c++filt – 符号名称解码器命令
 
-C++ support overloading that can let same function name takes different kinds/number of argument.
+C++ 支持重载，可以让同一个函数名接受不同种类/数量的参数。
 
-This is done by changing the function name to low-level assembler name, which is called as mangling. c++filt can do the demangling for C++ and Java.
+这是通过将重载函数名改写为不一样的底层的汇编符号名称来实现的，c++filt 可以为 C++ 和 Java 做这种符号名称解码。
 
-Here, we make a new sample code for explanation of mangling.
+在这里，我们做一个新的示例代码来解释符号名称编码。
 
-Suppose we have two types of func3 that take different kind of input argument, the void and the int.
+假设我们有两种类型的 func3，分别接受不同类型的输入参数，即 void 和 int。
 
 ```cpp
 ==> mangling.cpp <==
@@ -425,7 +425,7 @@ int main() {
 }
 ```
 
-In assembly format, they do have different names, _Z5func3v and _Z5func3i. And, one of these will be called according to the type of argument we passed to the func3 in mangling.cpp. In this example, _Z5func3i is called.
+在汇编格式中，它们其实有不同的名字，_Z5func3v 和 _Z5func3i。而且，根据我们在 mangling.cpp 中传递给 func3 的参数类型，只有其中一个会被调用。在这个例子中，调用的是 _Z5func3i。
 
 ```bash
 ==> mangling.s <==
@@ -465,7 +465,7 @@ _Z5func3i:
 _Z5func3v:
 ```
 
-We can pass these assembly function names to c++filt, and the original function define statement will be recovered.
+我们可以把这些汇编函数名传递给 c++filt，它们就会被还原成原来的函数定义语句。
 
 ```bash
 #grep func3.*: mangling.s | c++filt 
@@ -473,7 +473,7 @@ func3(int):
 func3():
 ```
 
-objdump also can do the demangle with different styles:
+objdump 也可以用不同的风格做符号名称解码。
 
 ```
   -C, --demangle[=STYLE]
@@ -484,11 +484,11 @@ objdump also can do the demangle with different styles:
     or 'gnat'
 ```
 
-## 11. addr2line – Convert Address to Filename and Numbers
+## 11. addr2line – 转换地址为文件名和行号
 
-addr2line can get the file and line number of given address or offset inside reallocated section, by passing the debug information.
+通过传递调试信息给 addr2line，可以得到重定位后给定地址或偏移量对应的文件和行号。
 
-First, we must compile assembly file with -g flag, so that debug information will be added into object. It can be shown from below that there are some debug sections now.
+首先，我们必须用 -g 标志编译汇编文件，这样调试信息就会被添加到对象中。从下面可以看出，现在有一些调试信息节。
 
 ```bash
 objdump -h mainD
@@ -509,19 +509,21 @@ Idx Name          Size      VMA               LMA               File off  Algn
                   CONTENTS, READONLY, DEBUGGING
 ```
 
-From the disassembly result shown in section 2.d objdump, we can see that 0x400090 is the entry of func1, which is the same as the result that given by addr2line.
+> FIXME：这里提到的反汇编结果不知道在哪里
+从第 2.d 节 objdump 中显示的反汇编结果，我们可以看到 0x400090 是 func1 的入口，这与 addr2line 给出的结果相同。
 
 ```bash
 addr2line -e mainD 0x400090
 /media/shared/TGS/func1.s:6
 ```
 
-## 12. readelf – Display ELF File Info
+## 12. readelf – 显示 ELF 文件信息
 
-readelf and elfedit can operation on elf file only.
+readelf 和 elfedit 只能对 ELF 文件进行操作。
 
-readelf can display information from elf file.
-We can display detailed information of ELF header.
+readelf 可以显示 ELF 文件的信息。
+
+例如显示 ELF 头的详细信息。
 
 ```bash
 #readelf -h main_full
@@ -547,6 +549,6 @@ ELF Header:
   Section header string table index: 2
 ```
 
-Just like readelf, you can also use elfedit which can update machine, file type and OS ABI in the elf header. Please note that, elfedit may not be included by default in your distribution.
+就像 readelf 一样，你也可以使用 elfedit，它可以更新 ELF 头中的机器、文件类型和操作系统 ABI。请注意，你的发行版可能默认没有包含 elfedit。
 
-Read more: [Linux ELF Object File Format (and ELF Header Structure) Basics](https://www.thegeekstuff.com/2012/07/elf-object-file-format/)
+了解更多：[Linux ELF Object File Format (and ELF Header Structure) Basics](https://www.thegeekstuff.com/2012/07/elf-object-file-format/)
