@@ -1,5 +1,5 @@
 ---
-title: title
+title: 我的终端环境配置
 category: configuration
 tags:
 - terminal
@@ -8,11 +8,11 @@ tags:
 - best practice
 ---
 
-# 我的终端环境配置
-
 > Tested on Arch Linux & Ubuntu 22.04.
 
 > TODO: write a more comprehensive description.
+
+我的工作流现在基本上都是在终端里完成的，所以有一个好用的终端环境对我来说是很重要的。终端的配置可以很简单，随便找一个终端打开 Bash 不配置也能用，也可以很复杂，网上不乏花里胡哨的终端配置方案。这也说明了适合每个人的终端配置是不同的，在本篇文章中我将会分享一些终端美化和常用命令行工具之类的配置，你可以挑选其中喜欢的部分应用到你的终端上。
 
 一些配置可以在我的 [dotfiles 仓库](https://github.com/JaxVanYang/dotfiles)找到，里面还有自动配置脚本哦。
 
