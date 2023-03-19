@@ -16,7 +16,6 @@ gem "jekyll", "~> 4.2.1"
 # If you have any plugins, put them here!
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.15.1"
-  gem "jekyll-admin", "~> 0.11.0"
   gem "jekyll-remote-theme", "~> 0.4.3"
   gem "jekyll-seo-tag", "~> 2.7.1"
   gem "jekyll-sitemap"
