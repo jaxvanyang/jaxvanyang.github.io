@@ -6,31 +6,11 @@ permalink: /readme/
 
 <img src="{{ '/assets/images/avatar.png' | absolute_url }}" alt="Avatar" class="avatar">
 
-$Jax\ Young\ or\ Jax\ Van\ Yang$
-
-> 「Jax 是谁？」
->
-> 「武器大师贾克斯？」
->
-> 「不不不，我说的是贾克思 Jax！」
-
-**Jax**，一个喜欢编程的无名之辈而已。
-
-但他的世界并不是只有代码，除了编程他还是个音乐爱好者，这是他最近在听的其中一首（挂了梯子可能无法播放）：
-
-<p><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1476123363&auto=1&height=66"></iframe></p>
-
-尽管音乐能让他放松，可生活却不可能事事顺心，失眠在不知不觉中变成了常有的事。:disappointed:
-
-<p><iframe width=600 height=338 src="//player.bilibili.com/player.html?aid=377646080&bvid=BV1Lf4y1N7f8&cid=400718928&page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe></p>
-
-然而生活并不能就此将他打败，滑板人的核心品质就是勇于挑战。哦，差点忘记告诉你了，他还有个*滑板梦*。
-
-![The Dream](//https://youtu.be/lqpRZ69z8_8)
+> Call me Jax Young or Jax Van Yang.
 
 ## 关于本站
 
-本站使用 [GitHub Pages](https://pages.github.com) 免费部署，所有的源文件都可以在 [GitHub 仓库](https://github.com/JaxVanYang/jaxvanyang.github.io) 查看。感兴趣的话不要忘了订阅 [RSS](https://jaxvanyang.github.io/feed.xml)。
+本站使用 [GitHub Pages](https://pages.github.com) 部署，所有的源文件都可以在 [GitHub 仓库](https://github.com/JaxVanYang/jaxvanyang.github.io) 查看。感兴趣的话不要忘了订阅 [RSS](https://jaxvanyang.github.io/feed.xml)。
 
 ## My Tags
 
