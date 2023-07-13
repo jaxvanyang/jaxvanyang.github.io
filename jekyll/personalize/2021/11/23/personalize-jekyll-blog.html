@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>个性化 Jekyll 博客 | Just Call Me Jax</title>
+<meta name="generator" content="Jekyll v4.2.2">
+<meta property="og:title" content="个性化 Jekyll 博客">
+<meta name="author" content="Jax Young">
+<meta property="og:locale" content="zh_CN">
+<meta name="description" content="个性化只能优化阅读体验，博客内容才是王道，所以本文的讨论范围仅限于替换网站主题和一些简单的个性化方式，不会深入 Jekyll 的个性化。">
+<meta property="og:description" content="个性化只能优化阅读体验，博客内容才是王道，所以本文的讨论范围仅限于替换网站主题和一些简单的个性化方式，不会深入 Jekyll 的个性化。">
+<link rel="canonical" href="https://jaxvanyang.github.io/jekyll/personalize/2021/11/23/personalize-jekyll-blog.html">
+<meta property="og:url" content="https://jaxvanyang.github.io/jekyll/personalize/2021/11/23/personalize-jekyll-blog.html">
+<meta property="og:site_name" content="Just Call Me Jax">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-11-23T16:54:13+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="个性化 Jekyll 博客">
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Jax Young"},"description":"个性化只能优化阅读体验，博客内容才是王道，所以本文的讨论范围仅限于替换网站主题和一些简单的个性化方式，不会深入 Jekyll 的个性化。","url":"https://jaxvanyang.github.io/jekyll/personalize/2021/11/23/personalize-jekyll-blog.html","@type":"BlogPosting","headline":"个性化 Jekyll 博客","dateModified":"2021-11-23T16:54:13+00:00","datePublished":"2021-11-23T16:54:13+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jaxvanyang.github.io/jekyll/personalize/2021/11/23/personalize-jekyll-blog.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://jaxvanyang.github.io/feed.xml" title="Just Call Me Jax">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js" integrity="sha512-BNc7saQYlxCL10lykUYhFBcnzdKMnjx5fp5s5wPucDyZ7rKNwCoqJh1GwEAIhuePEK4WM9askJBRsu7ma0Rzvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/go.min.js" integrity="sha512-5FrrCMl+OdDp4V0/+Og+q950cGMbPLR0D9o3rE0d9e7VYfGkci4zIrwqTXQOvv5Oo4ZhMaZGwZHXH2uKxfe+iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightElement(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #bbb;
+    background-color: #454545;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: capitalize;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+  img.avatar {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    margin-right: 0.4em;
+  }
+</style>
+<script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header site-header-transparent" role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Just Call Me Jax" src="/favicon.ico" onerror="this.style.display='none'">
+  Just Call Me Jax
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/">首页</a><a class="page-link" href="/archives.html">归档</a><a class="page-link" href="/categories.html">分类</a><a class="page-link" href="/tags.html">标签</a><a class="page-link" href="/friends/">友链</a><a class="page-link" href="/readme/">README</a>
+
+
+
+
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;documentElement.setAttribute("data-header-transparent", "");var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    html .page-banner {
+      background: #000;
+    }
+  </style>
+<style>html .page-banner {
+      height:  36.8vh;
+      min-height: 38vh;
+    }
+    html[data-scroll-status="top"] .page-banner {
+      height: 100vh;
+    }
+  </style>
+<style>
+    html .page-banner .page-banner-img > *:first-child {
+      opacity: 0.618;
+    }
+
+    html[data-theme="dark"] .page-banner .page-banner-img > *:first-child {
+      opacity: 0.443724;
+    }
+  </style>
+<style>
+    html .page-banner .page-banner-inner > *:first-child > *:nth-child(1) {
+      font-size: 4.25em; font-weight: bold; text-decoration: underline
+    }
+  </style>
+<style>
+    html .page-banner .page-banner-inner > *:first-child > *:nth-child(2) {
+      color: gold
+    }
+  </style>
+<section class="page-banner">
+    <div class="page-banner-img">
+<video autoplay="" poster="https://bit.ly/3xTmdUP" playsinline>
+          <source src="https://vjs.zencdn.net/v/oceans.mp4">
+        </source></video>
+        <script>
+          (function() {
+            var video = document.querySelector('.page-banner .page-banner-img > video');
+            var videoPlay = function() {
+              video.play().catch (function() {
+                  video.muted = true;
+                  video.play();
+                });
+            }
+
+            video.onloadstart = function() {
+              video.currentTime = 8.5;
+              video.volume = 0.8;
+              video.muted = (video.volume == 0);
+              videoPlay();
+            }
+
+            video.onended = function() {
+              video.currentTime = 8.5;
+              video.volume = 0;video.play();}
+          })();
+        </script>
+</div>
+    <div class="wrapper">
+      <div class="page-banner-inner">
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">个性化 Jekyll 博客</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2021-11-23T16:54:13+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> 2021-11-23
+    </time>~<time class="dt-modified" datetime="2022-04-13T00:00:00+00:00" itemprop="dateModified">
+      <i class="fa fa-calendar"></i> 2022-04-13
+      </time>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 27 mins</span>
+  </p></header>
+</div>
+    </div>
+  </section><script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <blockquote>
+  <p>个性化只能优化阅读体验，博客内容才是王道，所以本文的讨论范围仅限于替换网站主题和一些简单的个性化方式，不会深入 Jekyll 的个性化。</p>
+</blockquote>
+
+<h2 id="toc">TOC</h2>
+
+<ul class="task-list">
+  <li>
+    <p><a href="#%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98">更换主题</a></p>
+  </li>
+  <li>
+    <p><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%BE%E6%A0%87">自定义图标</a></p>
+  </li>
+  <li>
+    <p><a href="#%E6%B7%BB%E5%8A%A0%E6%8A%98%E5%8F%A0%E6%96%87%E6%9C%AC%E5%9D%97%E5%8A%9F%E8%83%BD">添加折叠文本块功能</a></p>
+  </li>
+  <li>
+    <p><a href="#%E4%BD%BF%E7%94%A8-github-actions-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90">使用 GitHub Actions 持续集成</a></p>
+  </li>
+  <li>
+    <p><a href="#%E9%85%8D%E7%BD%AE-latex">配置 LaTex</a></p>
+  </li>
+  <li>
+    <p><a href="#%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA">添加评论</a></p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled>添加代码一键复制功能</p>
+  </li>
+  <li class="task-list-item">
+    <p><a href="#%E5%8F%82%E8%80%83">参考</a></p>
+  </li>
+</ul>
+
+<h2 id="更换主题">更换主题</h2>
+
+<p>更换 Jekyll 网站的主题有两种方式：一种是直接在网站工作目录下编辑布局文件；另一种是导入基于 <code class="language-plaintext highlighter-rouge">gem</code> 的主题。</p>
+
+<p>导入 <code class="language-plaintext highlighter-rouge">gem</code> 主题的方式又分为两种：一种以 <code class="language-plaintext highlighter-rouge">gem</code> 插件的形式在 <code class="language-plaintext highlighter-rouge">Gemfile</code> 中引入，再在 <code class="language-plaintext highlighter-rouge">_config.yml</code> 中以 <code class="language-plaintext highlighter-rouge">theme</code> 指定发布在 <a href="https://rubygems.org/">RubyGems</a> 上的主题；另一种通过 <code class="language-plaintext highlighter-rouge">jekyll-remote-theme</code> 插件引入托管在 <a href="https://github.com/topics/jekyll-theme">GitHub</a> 上的主题。</p>
+
+<p>一般推荐使用引入 <code class="language-plaintext highlighter-rouge">gem</code> 主题的方式，因为 <code class="language-plaintext highlighter-rouge">gem</code> 主题的更新更灵活，而且也能在此基础上进行修改。Jekyll 默认以 <code class="language-plaintext highlighter-rouge">gem</code> 插件的形式导入主题，但是 <a href="https://rubygems.org/">RubyGems</a> 上的主题有限并且更新并不是很及时，所以本文使用 <code class="language-plaintext highlighter-rouge">jekyll-remote-theme</code> 插件引入托管在 <a href="https://github.com/topics/jekyll-theme">GitHub</a> 上的主题。</p>
+
+<p>更换主题需要修改 2 个文件：<code class="language-plaintext highlighter-rouge">Gemfile</code> 和 <code class="language-plaintext highlighter-rouge">_config.yml</code>。我们需要先在 <code class="language-plaintext highlighter-rouge">Gemfile</code> 中引入 <code class="language-plaintext highlighter-rouge">jekyll-remote-theme</code> 插件，然后在 <code class="language-plaintext highlighter-rouge">_config.yml</code> 中指定主题。</p>
+
+<ul>
+  <li>
+    <p>修改前：</p>
+
+    <p><code class="language-plaintext highlighter-rouge">Gemfile</code>:</p>
+
+    <div class="language-ruby highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">gem</span> <span class="s2">"minima"</span><span class="p">,</span> <span class="s2">"~&gt; 2.5.1"</span>
+</code></pre></div>    </div>
+
+    <p><code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
+
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="na">theme</span><span class="pi">:</span> <span class="s">minima</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>修改后：</p>
+
+    <p><code class="language-plaintext highlighter-rouge">Gemfile</code>:</p>
+
+    <div class="language-ruby highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">group</span> <span class="ss">:jekyll_plugins</span> <span class="k">do</span>
+    <span class="n">gem</span> <span class="s2">"jekyll-remote-theme"</span>
+    <span class="n">gem</span> <span class="s2">"jekyll-seo-tag"</span><span class="p">,</span> <span class="s2">"~&gt; 2.7.1"</span>
+<span class="k">end</span>
+</code></pre></div>    </div>
+
+    <p><code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
+
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="na">remote_theme</span><span class="pi">:</span> <span class="s">jaxvanyang/minima</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>上述修改将 Jekyll 默认的 <code class="language-plaintext highlighter-rouge">Minima</code> 主题替换为了托管在 Github 上的 <a href="https://github.com/jaxvanyang/minima">jaxvanyang/minima</a>，实际上是更新了 <code class="language-plaintext highlighter-rouge">Minima</code> 主题的版本，因为在 RubyGems 上 <code class="language-plaintext highlighter-rouge">Minima</code> 的最新版本是 <code class="language-plaintext highlighter-rouge">2.5.1</code>，而在 GitHub 上已经更新到了 <code class="language-plaintext highlighter-rouge">3.0</code> 以上，但是不知道为什么没有创建新的 release。顺带一提，上面用到的主题地址是我 fork 原仓库 <a href="https://github.com/jekyll/minima">jekyll/minima</a> 的地址，这样做的原因是方便我以后修改主题。</p>
+
+<p>修改之后需要更新依赖，执行 <code class="language-plaintext highlighter-rouge">bundle update</code> 即可，如果碰到错误，可以先尝试删除 <code class="language-plaintext highlighter-rouge">Gemfile.lock</code> 文件，再执行 <code class="language-plaintext highlighter-rouge">bundle update</code>，如果还是不行，可能是因为缺乏依赖的原因，在 <code class="language-plaintext highlighter-rouge">Gemfile</code> 中加入缺少的依赖再执行 <code class="language-plaintext highlighter-rouge">bundle update</code>。</p>
+
+<p>需要注意的是，更换主题后，网站的一些配置可能会发生变化，比如 <code class="language-plaintext highlighter-rouge">Minima-3.0</code> 就修改了社交网络的配置方式：</p>
+
+<blockquote>
+  <p>From <code class="language-plaintext highlighter-rouge">Minima-3.0</code> onwards, the usernames are to be nested under <code class="language-plaintext highlighter-rouge">minima.social_links</code>.</p>
+</blockquote>
+
+<p>所以更换主题时最好过一遍主题的帮助文档。</p>
+
+<h2 id="自定义图标">自定义图标</h2>
+
+<blockquote>
+  <p>这是使用 <code class="language-plaintext highlighter-rouge">Minima</code> 主题自定义图标的方式，其他主题的自定义方式与之类似，根本原理就是在网页的 <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code> 标签内指定网站图标。</p>
+</blockquote>
+
+<p>如果你浏览过 <code class="language-plaintext highlighter-rouge">Minima</code> 主题的 <code class="language-plaintext highlighter-rouge">_includes/</code> 文件夹，那你就会发现一个叫 <code class="language-plaintext highlighter-rouge">custom-head.html</code> 的文件：</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{% comment %}
+  Placeholder to allow defining custom head, in principle, you can add anything here, e.g. favicons:
+
+  1. Head over to https://realfavicongenerator.net/ to add your own favicons.
+  2. Customize default _includes/custom-head.html in your source directory and insert the given code snippet.
+{% endcomment %}
+</code></pre></div></div>
+
+<blockquote>
+  <p>有热心网友推荐 <a href="https://www.websiteplanet.com/zh-hans/webtools/favicon-generator/">https://www.websiteplanet.com/zh-hans/webtools/favicon-generator/</a>，这也是一个网页图标生成工具，而且包含中文， 可以试一试。</p>
+</blockquote>
+
+<p>翻译一下就是说，这个文件就是用来自定义网站的 <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code> 标签的，比如你可以在这里添加你的<em>网站图标</em>：</p>
+
+<ol>
+  <li>
+    <p>先到 <a href="https://realfavicongenerator.net/">https://realfavicongenerator.net/</a> 生成图标。</p>
+  </li>
+  <li>
+    <p>然后在你网站的 <code class="language-plaintext highlighter-rouge">_includes/</code> 文件夹下的 <code class="language-plaintext highlighter-rouge">custom-head.html</code> 文件中添加生成的代码片段。</p>
+  </li>
+</ol>
+
+<p>注意这里是修改你网站的源文件而不是修改主题的源文件，因为主题可以应用到不同网站，而不同网站的图标可能是不同的。</p>
+
+<p><a href="https://realfavicongenerator.net/">https://realfavicongenerator.net/</a> 这个网站可以生成适配各个平台的图标，而且也有很多自定义选项，建议都试一试。</p>
+
+<p><img src="https://jaxvanyang.github.io/assets/images/real-favicon-generator-screenshot.png" alt="Favicon Generator. For real."></p>
+
+<p>如果你不能把图标文件放到网站的根目录，可以在下面这个选项里指定图标的位置：</p>
+
+<p><img src="https://jaxvanyang.github.io/assets/images/favicon-generator-options-screenshot.png" alt="Favicon Generator Options"></p>
+
+<p>点击 <code class="language-plaintext highlighter-rouge">Generate your Favicons and HTML code</code> 按钮后就会得到一个图标包和相应的 <code class="language-plaintext highlighter-rouge">HTML</code> 代码：</p>
+
+<p><img src="https://jaxvanyang.github.io/assets/images/install-favicon-screenshot.png" alt="Install your favicon"></p>
+
+<p>按照提示填入网站源文件下的 <code class="language-plaintext highlighter-rouge">_includes/custom-head.html</code>（没有就新建一个）：</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"apple-touch-icon"</span> <span class="na">sizes=</span><span class="s">"180x180"</span> <span class="na">href=</span><span class="s">"/apple-touch-icon.png"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"icon"</span> <span class="na">type=</span><span class="s">"image/png"</span> <span class="na">sizes=</span><span class="s">"32x32"</span> <span class="na">href=</span><span class="s">"/favicon-32x32.png"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"icon"</span> <span class="na">type=</span><span class="s">"image/png"</span> <span class="na">sizes=</span><span class="s">"16x16"</span> <span class="na">href=</span><span class="s">"/favicon-16x16.png"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"manifest"</span> <span class="na">href=</span><span class="s">"/site.webmanifest"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"mask-icon"</span> <span class="na">href=</span><span class="s">"/safari-pinned-tab.svg"</span> <span class="na">color=</span><span class="s">"#5bbad5"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"msapplication-TileColor"</span> <span class="na">content=</span><span class="s">"#da532c"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"theme-color"</span> <span class="na">content=</span><span class="s">"#ffffff"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<h2 id="添加折叠文本块功能">添加折叠文本块功能</h2>
+
+<blockquote>
+  <p>本节方法来自 <a href="http://movb.de/jekyll-details-support.html">Adding support for HTML5’s details element to Jekyll</a>。</p>
+</blockquote>
+
+<p>这个方法的原理是将要折叠的内容放到 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details"><code class="language-plaintext highlighter-rouge">&lt;details&gt;</code></a> 标签里，为了方便我们插入，我们需要添加插件来定义一个 <a href="https://jekyllrb.com/docs/liquid/">Liquid</a> Tag，为了做到这点，我们只需要在新建一个在 <code class="language-plaintext highlighter-rouge">_plugins/</code> 文件夹下新建一个 <code class="language-plaintext highlighter-rouge">details_tag.rb</code> 文件，并在其中添加如下代码：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span> <span class="nn">Jekyll</span>
+    <span class="k">module</span> <span class="nn">Tags</span>
+      <span class="k">class</span> <span class="nc">DetailsTag</span> <span class="o">&lt;</span> <span class="no">Liquid</span><span class="o">::</span><span class="no">Block</span>
+  
+        <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">tag_name</span><span class="p">,</span> <span class="n">markup</span><span class="p">,</span> <span class="n">tokens</span><span class="p">)</span>
+          <span class="k">super</span>
+          <span class="vi">@caption</span> <span class="o">=</span> <span class="n">markup</span>
+        <span class="k">end</span>
+  
+        <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+          <span class="n">site</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="nf">registers</span><span class="p">[</span><span class="ss">:site</span><span class="p">]</span>
+          <span class="n">converter</span> <span class="o">=</span> <span class="n">site</span><span class="p">.</span><span class="nf">find_converter_instance</span><span class="p">(</span><span class="o">::</span><span class="no">Jekyll</span><span class="o">::</span><span class="no">Converters</span><span class="o">::</span><span class="no">Markdown</span><span class="p">)</span>
+          <span class="c1"># below Jekyll 3.x use this:</span>
+          <span class="c1"># converter = site.getConverterImpl(::Jekyll::Converters::Markdown)</span>
+          <span class="n">caption</span> <span class="o">=</span> <span class="n">converter</span><span class="p">.</span><span class="nf">convert</span><span class="p">(</span><span class="vi">@caption</span><span class="p">).</span><span class="nf">gsub</span><span class="p">(</span><span class="sr">/&lt;\/?p[^&gt;]*&gt;/</span><span class="p">,</span> <span class="s1">''</span><span class="p">).</span><span class="nf">chomp</span>
+          <span class="n">body</span> <span class="o">=</span> <span class="n">converter</span><span class="p">.</span><span class="nf">convert</span><span class="p">(</span><span class="k">super</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+          <span class="s2">"&lt;details&gt;&lt;summary&gt;</span><span class="si">#{</span><span class="n">caption</span><span class="si">}</span><span class="s2">&lt;/summary&gt;</span><span class="si">#{</span><span class="n">body</span><span class="si">}</span><span class="s2">&lt;/details&gt;"</span>
+        <span class="k">end</span>
+  
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+<span class="no">Liquid</span><span class="o">::</span><span class="no">Template</span><span class="p">.</span><span class="nf">register_tag</span><span class="p">(</span><span class="s1">'details'</span><span class="p">,</span> <span class="no">Jekyll</span><span class="o">::</span><span class="no">Tags</span><span class="o">::</span><span class="no">DetailsTag</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>然后我们就可以使用 <code class="language-plaintext highlighter-rouge">{% details %}</code> 标签来折叠内容了：</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{% details 示例%}
+<span class="gu">#### 这是一个折叠块的示例</span>
+
+<span class="p">```</span><span class="nl">python
+</span><span class="k">print</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="p">)</span>
+<span class="p">```</span>
+{% enddetails %}
+</code></pre></div></div>
+
+<details><summary>示例</summary>
+<h4 id="这是一个折叠块的示例">这是一个折叠块的示例</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="p">)</span>
+</code></pre></div></div>
+</details>
+
+<p><code class="language-plaintext highlighter-rouge">&lt;details&gt;</code> 是 HTML5 新增的标签，有些浏览器可能不支持，如果你需要为过时的浏览器提供支持，可以在原文的 <a href="http://movb.de/jekyll-details-support.html#polyfill">Polyfill</a> 找到解决方案。</p>
+
+<p>还可以使用自定义 SCSS 美化折叠块，我使用的是 <code class="language-plaintext highlighter-rouge">Minima</code> 主题，添加自定义样式只需要在 <code class="language-plaintext highlighter-rouge">_sass/minima/custom-styles.scss</code> 添加内容即可，我这里就简单地修改了一下原文提供的样式代码：</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// _sass/minima/custom-styles.scss</span>
+<span class="nt">details</span> <span class="p">{</span>
+    <span class="nt">summary</span> <span class="p">{</span>
+        <span class="nl">color</span><span class="p">:</span> <span class="no">teal</span><span class="p">;</span>
+        <span class="k">&amp;</span><span class="nd">::before</span> <span class="p">{</span>
+            <span class="nl">font-family</span><span class="p">:</span> <span class="n">FontAwesome</span><span class="p">;</span>
+            <span class="nl">font-size</span><span class="p">:</span> <span class="m">1</span><span class="mi">.2em</span><span class="p">;</span>
+            <span class="nl">float</span><span class="p">:</span> <span class="nb">left</span><span class="p">;</span>
+            <span class="nl">margin-right</span><span class="p">:</span> <span class="m">0</span><span class="mi">.4em</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">&amp;</span><span class="nd">::-webkit-details-marker</span> <span class="p">{</span>
+            <span class="nl">display</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nl">margin-bottom</span><span class="p">:</span> <span class="m">0</span><span class="mi">.8em</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="n">grey</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="使用-github-actions-持续集成">使用 GitHub Actions 持续集成</h2>
+
+<blockquote>
+  <p>详细教程参见 <a href="https://jekyllrb.com/docs/continuous-integration/github-actions/">https://jekyllrb.com/docs/continuous-integration/github-actions/</a></p>
+</blockquote>
+
+<p>之前我使用的部署方式是最简单的 GitHub Pages 标准方式，但是标准方式有许多安全限制，构建网站的 Jekyll 版本不是最新的，很多插件也不能用，比如前面我们定义的 <code class="language-plaintext highlighter-rouge">{% details %}</code> 标签就用不了，为了解决这个问题我们可以现在本地构建，再把网站代码推送上去，但是这样会使用额外的仓库空间，并且每次还需要手动构建，为了偷懒我们可以使用 GitHub Actions 来自动部署，而且这也是推荐的网站发布方式。</p>
+
+<ol>
+  <li>
+    <p>先在仓库中新建一个 <code class="language-plaintext highlighter-rouge">.github/workflows/github-pages.yml</code> 文件，内容如下：</p>
+
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Build and deploy Jekyll site to GitHub Pages</span>
+ 
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">main</span>
+ 
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">github-pages</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">helaili/jekyll-action@v2</span>
+        <span class="na">with</span><span class="pi">:</span>
+        <span class="na">token</span><span class="pi">:</span> <span class="s">${{ secrets.DEPLOY_TOKEN }}</span>
+</code></pre></div>    </div>
+
+    <blockquote>
+      <p>Note: <a href="https://jekyllrb.com/docs/continuous-integration/github-actions/">原教程</a> 里使用的 <code class="language-plaintext highlighter-rouge">token</code> 名为 <code class="language-plaintext highlighter-rouge">GITHUB_TOKEN</code>，但是现在 GitHub 规定不能生成以 <code class="language-plaintext highlighter-rouge">GITHUB</code> 开头的 <code class="language-plaintext highlighter-rouge">secrets</code>，所以我改成了 <code class="language-plaintext highlighter-rouge">DEPLOY_TOKEN</code>。</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>再到 GitHub 的 <a href="https://github.com/settings/tokens">Personal Access Tokens</a> 生成一个勾选了 <code class="language-plaintext highlighter-rouge">public_repos</code> 权限的 <code class="language-plaintext highlighter-rouge">token</code>，复制这个 <code class="language-plaintext highlighter-rouge">token</code> 的值，然后到 GitHub 上仓库的 <strong>Settings</strong> 选项选择 <strong>Secrets</strong> 标签，添加一个名为 <code class="language-plaintext highlighter-rouge">DEPLOY_TOKEN</code> 的 <strong>repository secret</strong> 并填入之前复制的 <code class="language-plaintext highlighter-rouge">token</code>。</p>
+  </li>
+  <li>
+    <p>配置好了就在本地提交修改并推送到 GitHub 的 <code class="language-plaintext highlighter-rouge">main</code> 分支，这样 GitHub Actions 就会自动构建，但是这个过程有一点点慢，需要耐心等待。</p>
+  </li>
+  <li>
+    <p>部署情况可以在 GitHub 上查看，如果构建成功的话，GitHub Actions 会自动创建一个 <code class="language-plaintext highlighter-rouge">gh-pages</code> 分支，这个操作会覆盖原有的 <code class="language-plaintext highlighter-rouge">gh-pages</code> 分支，所以不要在仓库里手动修改这个分支。</p>
+
+    <p>最后你需要将仓库的 <strong>Pages</strong> 设置页里的 <strong>Source</strong> 改成 <code class="language-plaintext highlighter-rouge">gh-pages</code> 分支的根目录，这样 GitHub 就会自动部署构建好的网站了。</p>
+  </li>
+</ol>
+
+<p><img src="https://jaxvanyang.github.io/assets/images/github-pages-source-screenshot.png" alt="GitHub Pages Source"></p>
+
+<h2 id="配置-latex">配置 LaTex</h2>
+
+<blockquote>
+  <p>Note: 现在我使用的是 <a href="https://github.com/jeffreytse/jekyll-spaceship">Jekyll Spaceship</a> 的 <code class="language-plaintext highlighter-rouge">mathjax-processor</code>，有一点问题，但是在它的 Issues 页面可以找到大部分解决办法。</p>
+</blockquote>
+
+<p>Jekyll 默认的 Markdown 渲染器是 Kramdown，Kramdown 默认的公式渲染器是 MathJax，所以理论上 Jekyll 默认可以渲染 LaTex，事实也确实如此，但是它只做了从 Markdown 到 HTML 的转换，并没有添加样式，所以我们还需要额外引入 MathJax 库并启动它。</p>
+
+<p>MathJax 的官方文档提供多种配置方法，我觉得比较好的是<a href="https://jekyllrb.com/docs/configuration/markdown/">这一种</a>，应用到 Jekyll 网站上的过程大致如下：</p>
+
+<ol>
+  <li>
+    <p>创建一个 <code class="language-plaintext highlighter-rouge">loda-mathjax.js</code> 脚本，内容如下：</p>
+
+    <div class="language-js highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">window</span><span class="p">.</span><span class="nx">MathJax</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">tex</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">inlineMath</span><span class="p">:</span> <span class="p">[[</span><span class="dl">'</span><span class="s1">$</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">$</span><span class="dl">'</span><span class="p">],</span> <span class="p">[</span><span class="dl">'</span><span class="se">\\</span><span class="s1">(</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="se">\\</span><span class="s1">)</span><span class="dl">'</span><span class="p">]]</span>
+  <span class="p">},</span>
+  <span class="na">svg</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">fontCache</span><span class="p">:</span> <span class="dl">'</span><span class="s1">global</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+ 
+<span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">script</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">script</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">script</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js</span><span class="dl">'</span><span class="p">;</span>
+  <span class="nx">script</span><span class="p">.</span><span class="k">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">script</span><span class="p">);</span>
+<span class="p">})();</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>在网站的 <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code> 标签内引入上述脚本，方法和<a href="#-%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98">更换主题</a>一节中的方法一样，因为我把脚本放在 <code class="language-plaintext highlighter-rouge">assets/js/load-mathjax.js</code>，所以我需要在 <code class="language-plaintext highlighter-rouge">_includes/custom-head.html</code> 里加入：</p>
+
+    <div class="language-html highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/assets/js/load-mathjax.js"</span> <span class="na">async</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div>    </div>
+
+    <p>然后就可以开始编写公式了。</p>
+
+    <ul>
+      <li>
+        <p>行内公式：</p>
+
+        <ul>
+          <li>
+            <p>公式：</p>
+
+            <div class="language-markdown highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>$E = mc^2$
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p>渲染效果：</p>
+
+            <p>$E = mc^2$</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>公式块：</p>
+
+        <ul>
+          <li>
+            <p>公式：</p>
+
+            <div class="language-markdown highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>$$
+<span class="se">\b</span>egin{bmatrix}
+1 &amp; 2 &amp; 3<span class="se">\\</span>
+a &amp; b &amp; c
+<span class="se">\e</span>nd{bmatrix}
+$$
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p>渲染效果：</p>
+
+            <p>$$
+\begin{bmatrix} 1 &amp; 2 &amp; 3 \\ a &amp; b &amp; c \end{bmatrix}
+$$</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="添加评论">添加评论</h2>
+
+<p>博客的评论工具我本来想用 <a href="https://github.com/gitalk/gitalk">Gitalk</a>，因为它免费、美观而且易于配置，还是国人开发的。但是也有缺点，因为它使用 GitHub 的 Issues 存储评论，所以必须使用 GitHub 登录才能评论，不能匿名评论。</p>
+
+<p>另外还有很多人质疑它的安全性，因为使用 Gitalk 登录它会要求获取你的 GitHub 公共仓库的读写权限：</p>
+
+<p><img src="https://jaxvanyang.github.io/assets/images/gitalk-grant.png" alt="Gitalk grant"></p>
+
+<p>已经有很多人在 Issues 页讨论了这个问题：</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/gitalk/gitalk/issues/95">https://github.com/gitalk/gitalk/issues/95</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/gitalk/gitalk/issues/150#issuecomment-402366588">https://github.com/gitalk/gitalk/issues/150#issuecomment-402366588</a></p>
+  </li>
+</ul>
+
+<p>理论上来说只要博客所有者不利用访客授予的权限就没有问题，但是我在查阅 Gitalk 安全性资料的时候看到了这篇<a href="https://lookingaf.com/2021/11/16/somethings_aboout_blog/">博客</a>，作者介绍了一些第三方评论插件，<a href="https://utteranc.es/">utterances</a> 是作者最后选择的比 Gitalk 更安全的替代品，所以我也选择了它。</p>
+
+<p><code class="language-plaintext highlighter-rouge">utterances</code> 的配置也十分简单，它的网站也很有意思，是一个交互式的<a href="https://utteranc.es/">教程</a>，一路看下来你就能学会如何配置。</p>
+
+<p>重要的是新建的一个公开仓库用于存放评论，并安装 <a href="https://github.com/apps/utterances">utterances app</a> 到这个仓库，最后在上述教程页面得到一段类似于下面的嵌入代码：</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://utteranc.es/client.js"</span>
+        <span class="na">repo=</span><span class="s">"jaxvanyang/utteranc.blog"</span>
+        <span class="na">issue-term=</span><span class="s">"pathname"</span>
+        <span class="na">label=</span><span class="s">"💬comment"</span>
+        <span class="na">theme=</span><span class="s">"preferred-color-scheme"</span>
+        <span class="na">crossorigin=</span><span class="s">"anonymous"</span>
+        <span class="na">async</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div>
+
+<p>然后只要放到你的博客模板中合适的位置就可以了，对于 <code class="language-plaintext highlighter-rouge">Jekyll</code> 来说这个位置是 <code class="language-plaintext highlighter-rouge">/_layouts/post.html</code>。</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+  <li>
+    <p><a href="https://pages.github.com/versions/">https://pages.github.com/versions/</a></p>
+  </li>
+  <li>
+    <p><a href="https://jekyllrb.com/docs/themes/#installing-a-theme">https://jekyllrb.com/docs/themes/#installing-a-theme</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/jekyll/minima">https://github.com/jekyll/minima</a></p>
+  </li>
+  <li>
+    <p><a href="http://movb.de/jekyll-details-support.html">Adding support for HTML5’s details element to Jekyll</a></p>
+  </li>
+  <li>
+    <p><a href="https://jekyllrb.com/docs/continuous-integration/github-actions/">https://jekyllrb.com/docs/continuous-integration/github-actions/</a></p>
+  </li>
+  <li>
+    <p><a href="https://jekyllrb.com/docs/configuration/markdown/">https://jekyllrb.com/docs/configuration/markdown/</a></p>
+  </li>
+  <li>
+    <p><a href="https://kramdown.gettalong.org/math_engine/mathjax.html">https://kramdown.gettalong.org/math_engine/mathjax.html</a></p>
+  </li>
+  <li>
+    <p><a href="http://docs.mathjax.org/en/latest/web/configuration.html#configuring-and-loading-in-one-script">http://docs.mathjax.org/en/latest/web/configuration.html#configuring-and-loading-in-one-script</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/jekyll/minima/blob/master/_layouts/post.html">https://github.com/jekyll/minima/blob/master/_layouts/post.html</a></p>
+  </li>
+  <li>
+    <p><a href="https://lookingaf.com/2021/11/16/somethings_aboout_blog">搭建个人博客的二三事</a></p>
+  </li>
+  <li>
+    <p><a href="http://gfm.docschina.org/zh-hans/">GitHub 风格的 Markdown 规范</a></p>
+  </li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll/2021/11/17/using-jekyll-admin.html" title="使用 Jekyll Admin">使用 Jekyll Admin</a><a class="next" href="/%E9%A2%98%E8%A7%A3/2021/11/29/solution-for-cf-deltix-round-autumn-2021-problem-d.html" title="题解 | D. Social Network of Codeforces Deltix Round, Autumn 2021">题解 | D. Social Network of...</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/2020/11/29/nginx-basic-setup.html" title="题解 | D. Social Network of Codeforces Deltix Round, Autumn 2021">Nginx 安装及基本配置</a></li>
+<li><a class="post-link" href="/2021/01/11/how-to-setup-tensorflow-env.html" title="题解 | D. Social Network of Codeforces Deltix Round, Autumn 2021">开源教程 | 快速配置 TensorFlow 本地开发环境（Docker + Jupyter + VS Code）</a></li>
+<li><a class="post-link" href="/%E9%A2%98%E8%A7%A3/2021/02/24/2021-weekly-contest-2-solution.html" title="题解 | D. Social Network of Codeforces Deltix Round, Autumn 2021">CSUST 2021 周赛 2 题解</a></li>
+<li><a class="post-link" href="/jekyll/2021/11/17/using-jekyll-admin.html" title="题解 | D. Social Network of Codeforces Deltix Round, Autumn 2021">使用 Jekyll Admin</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<script async crossorigin="anonymous" issue-term="pathname" label="💬comment" onload="initUtterancesTheme()" repo="jaxvanyang/utteranc.blog" src="https://utteranc.es/client.js" theme="preferred-color-scheme">
+</script><script>
+  const setUtterancesTheme = (dataTheme) => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (iframe) {
+      const utterancesTheme = dataTheme === 'dark' ? 'github-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: utterancesTheme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  // init theme
+  const initUtterancesTheme = () => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (!iframe) return
+    iframe.onload = () => {
+      setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+    }
+  }
+
+  // dynamic change
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+      }
+    }
+  });
+  observer.observe(document.documentElement, {attributes: true, childList: false, subtree: false});
+</script>
+</div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyleft <span class="copyleft">©</span> 2019-2023 <a href="https://github.com/jaxvanyang">Jax Young</a>
+</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

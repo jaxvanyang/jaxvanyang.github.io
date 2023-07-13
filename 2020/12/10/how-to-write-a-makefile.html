@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>手把手带你写一个简单的 Makefile | Just Call Me Jax</title>
+<meta name="generator" content="Jekyll v4.2.2">
+<meta property="og:title" content="手把手带你写一个简单的 Makefile">
+<meta name="author" content="Jax Young">
+<meta property="og:locale" content="zh_CN">
+<meta name="description" content="推荐收藏 Makefile Tutorial By Example，那是一个全面详细容易上手的教程。">
+<meta property="og:description" content="推荐收藏 Makefile Tutorial By Example，那是一个全面详细容易上手的教程。">
+<link rel="canonical" href="https://jaxvanyang.github.io/2020/12/10/how-to-write-a-makefile.html">
+<meta property="og:url" content="https://jaxvanyang.github.io/2020/12/10/how-to-write-a-makefile.html">
+<meta property="og:site_name" content="Just Call Me Jax">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-12-10T19:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="手把手带你写一个简单的 Makefile">
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Jax Young"},"description":"推荐收藏 Makefile Tutorial By Example，那是一个全面详细容易上手的教程。","url":"https://jaxvanyang.github.io/2020/12/10/how-to-write-a-makefile.html","@type":"BlogPosting","headline":"手把手带你写一个简单的 Makefile","dateModified":"2020-12-10T19:00:00+00:00","datePublished":"2020-12-10T19:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jaxvanyang.github.io/2020/12/10/how-to-write-a-makefile.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://jaxvanyang.github.io/feed.xml" title="Just Call Me Jax">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js" integrity="sha512-BNc7saQYlxCL10lykUYhFBcnzdKMnjx5fp5s5wPucDyZ7rKNwCoqJh1GwEAIhuePEK4WM9askJBRsu7ma0Rzvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/go.min.js" integrity="sha512-5FrrCMl+OdDp4V0/+Og+q950cGMbPLR0D9o3rE0d9e7VYfGkci4zIrwqTXQOvv5Oo4ZhMaZGwZHXH2uKxfe+iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightElement(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #bbb;
+    background-color: #454545;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: capitalize;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+  img.avatar {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    margin-right: 0.4em;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Just Call Me Jax" src="/favicon.ico" onerror="this.style.display='none'">
+  Just Call Me Jax
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/">首页</a><a class="page-link" href="/archives.html">归档</a><a class="page-link" href="/categories.html">分类</a><a class="page-link" href="/tags.html">标签</a><a class="page-link" href="/friends/">友链</a><a class="page-link" href="/readme/">README</a>
+
+
+
+
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">手把手带你写一个简单的 Makefile</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2020-12-10T19:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> 2020-12-10
+    </time>~<time class="dt-modified" datetime="2022-04-05T00:00:00+00:00" itemprop="dateModified">
+      <i class="fa fa-calendar"></i> 2022-04-05
+      </time>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 8 mins</span>
+  </p></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <blockquote>
+  <p>推荐收藏 <a href="https://makefiletutorial.com/">Makefile Tutorial By Example</a>，那是一个全面详细容易上手的教程。</p>
+</blockquote>
+
+<h2 id="1-make">1. make</h2>
+
+<p><code class="language-plaintext highlighter-rouge">make</code> 通常用于 C 语言程序的开发管理，通过编写 <code class="language-plaintext highlighter-rouge">Makefile</code> 你就可以只需要在命令行输入 <code class="language-plaintext highlighter-rouge">make</code> 就可以根据修改的文件自动编译连接，避免了每次输入一长串的编译指令。<code class="language-plaintext highlighter-rouge">make</code> 也不仅限于 C 语言程序的编译工作，凡是可以用 <code class="language-plaintext highlighter-rouge">shell 脚本</code> 完成的操作都可以用 <code class="language-plaintext highlighter-rouge">make</code> 实现，也就是说你几乎可以用它做任何事！</p>
+
+<h2 id="2-makefile">2. Makefile</h2>
+
+<p><code class="language-plaintext highlighter-rouge">make</code> 这个东西很好用，但也是需要配置一下的，好在配置十分简单，只需要编写一个 <code class="language-plaintext highlighter-rouge">Makefile</code> 文件放在工作目录下，写成 <code class="language-plaintext highlighter-rouge">makefile</code> 也行，看个人的喜好了。接下来就让我们一起来写一个简单的 <code class="language-plaintext highlighter-rouge">Makefile</code> 来了解一下它的用法。</p>
+
+<h3 id="21-规则rule">2.1 规则（rule）</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Makefile</code> 最基本的组成部分就是<code class="language-plaintext highlighter-rouge">规则</code>了，可以说只要会写<code class="language-plaintext highlighter-rouge">规则</code>就会用 <code class="language-plaintext highlighter-rouge">make</code>。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># rule</span>
+target ... : prerequisite ...
+      recipe    <span class="c"># 注意必须以 Tab 开头</span>
+      ...
+</code></pre></div></div>
+
+<p>一个<code class="language-plaintext highlighter-rouge">规则</code>通常由三部分组成：<code class="language-plaintext highlighter-rouge">目标（target）</code>、<code class="language-plaintext highlighter-rouge">依赖文件（prerequisite）</code>和<code class="language-plaintext highlighter-rouge">步骤（recipe）</code>，<code class="language-plaintext highlighter-rouge">目标</code>表示这条规则会生成文件，<em>依赖文件</em>则是这条<em>规则</em>运行所需要的文件，而<em>步骤</em>则是这条<em>规则</em>实际会运行的命令。<br>
+让我们一起来看看下面的这段代码来理解它们各自的作用吧：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Makefile</span>
+
+<span class="c"># rule0</span>
+hello.out : hello.c util_1.o util_2.o
+      cc <span class="nt">-o</span> hello.out hello.c util_1.o util_2.o
+
+<span class="c"># rule1</span>
+util_1.o : util_1.c helper.h
+      cc <span class="nt">-c</span> util_1.c
+
+<span class="c"># rule2</span>
+util_2.o : util_2.c helper.h
+      cc <span class="nt">-c</span> util_2.c
+</code></pre></div></div>
+
+<p>在 <code class="language-plaintext highlighter-rouge">Makefile</code> 中写下这段代码后再运行 <code class="language-plaintext highlighter-rouge">make</code>：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>make
+<span class="c"># shell 就会执行</span>
+<span class="nv">$ </span>cc <span class="nt">-c</span> util_1.c helper.h
+<span class="nv">$ </span>cc <span class="nt">-c</span> util_2.c helper.h
+<span class="nv">$ </span>cc <span class="nt">-o</span> hello.out hello.c util_1.o util_2.o
+</code></pre></div></div>
+
+<p>如果直接运行 <code class="language-plaintext highlighter-rouge">make</code> 不加参数，那么它会运行第一个 <code class="language-plaintext highlighter-rouge">rule</code>，这时 <code class="language-plaintext highlighter-rouge">make</code> 会检查<em>依赖文件</em>是否都存在，如果不存在就会下面寻找是否有<em>缺失文件</em>的规则，如果有就会执行<em>缺失文件</em>的规则，如果没有就会报错中断。所以我们会在上面看到是先运行了 <code class="language-plaintext highlighter-rouge">rule1</code> 和 <code class="language-plaintext highlighter-rouge">rule2</code> 后再执行的 <code class="language-plaintext highlighter-rouge">rule0</code>。<br>
+其实 <code class="language-plaintext highlighter-rouge">make</code> 也十分智能，只要你的源文件有所更改，比如你修改了 <code class="language-plaintext highlighter-rouge">util_1.c</code>，然后再执行 <code class="language-plaintext highlighter-rouge">make</code> 即使 <code class="language-plaintext highlighter-rouge">util_1.o</code> 已经存在，它也会重新执行 <code class="language-plaintext highlighter-rouge">rule1</code> 编译生成新的 <code class="language-plaintext highlighter-rouge">util_1.o</code>。</p>
+
+<h3 id="22-隐式规则">2.2 隐式规则</h3>
+
+<p>因为编译源文件生成对象文件是一个十分频繁的操作，所以 <code class="language-plaintext highlighter-rouge">make</code> 内置了一种隐式规则来简化这部分<em>规则</em>的书写，例如：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 你可以将之前的</span>
+util_1.o : util_1.c helper
+      cc <span class="nt">-c</span> util_1.c
+
+util_2.o : util_2.c helper
+      cc <span class="nt">-c</span> util_2.c
+
+<span class="c"># 写成</span>
+util_1.o util_1.o : helper
+</code></pre></div></div>
+
+<p>这两种写法的效果完全是一样的，因为<em>目标</em>的后缀是 <code class="language-plaintext highlighter-rouge">.o</code>，<code class="language-plaintext highlighter-rouge">make</code> 就知道你会执行 <code class="language-plaintext highlighter-rouge">cc -c example.c</code> 来编译，所以你只需要在后面指定其它的<em>依赖文件</em>，从而你就可以根据<em>依赖文件</em>来组织<em>规则</em>了。<br>
+<code class="language-plaintext highlighter-rouge">make</code> 也不会因为其中一个文件的缺失而一次重新编译两个文件，而是会自动选择，所以不必怀疑 <code class="language-plaintext highlighter-rouge">make</code> 的智能。</p>
+
+<h3 id="23-phony-标签">2.3 .PHONY 标签</h3>
+
+<p>除了编译生成文件，<code class="language-plaintext highlighter-rouge">make</code> 能做的事还有很多，比如清理工作目录。按照惯例，我们先来看一段代码：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 省略了之前编写的规则</span>
+...
+
+.PHONY : clean
+clean :
+      <span class="nt">-rm</span> hello.out
+      <span class="nt">-rm</span> util_1.o util_2.0
+</code></pre></div></div>
+
+<p>想要运行这段代码就只需要输入 <code class="language-plaintext highlighter-rouge">make clean</code>。
+因为这只是单纯的一个任务，并不需要生成文件，所以我们需要通过 <code class="language-plaintext highlighter-rouge">.PHONY 标签</code> 来告诉 <code class="language-plaintext highlighter-rouge">make</code> 不要把这个 <code class="language-plaintext highlighter-rouge">clean</code> 当成一个文件，这样可以避免因为一个真实存在的 <code class="language-plaintext highlighter-rouge">clean</code> 文件而导致的错误。<br>
+而 <code class="language-plaintext highlighter-rouge">-rm</code> 中的 <code class="language-plaintext highlighter-rouge">-</code> 则是告诉 <code class="language-plaintext highlighter-rouge">make</code> 即使这条命令出错也继续执行后面的命令。如果你不加 <code class="language-plaintext highlighter-rouge">-</code> ，假如现在 <code class="language-plaintext highlighter-rouge">hello.out</code> 文件并不存在，那么执行 <code class="language-plaintext highlighter-rouge">rm hello.out</code> 就会报错，这就会导致 <code class="language-plaintext highlighter-rouge">make</code> 退出，后面的命令就不会执行了，而如果加了 <code class="language-plaintext highlighter-rouge">-</code> 就会忽略报错继续执行后面的命令。</p>
+
+<h3 id="24-变量">2.4 变量</h3>
+
+<p>另外一个简化代码的方法就是定义<em>变量</em>，<code class="language-plaintext highlighter-rouge">Makefile</code> <em>变量</em>的使用方法和 <code class="language-plaintext highlighter-rouge">shell</code> 类似，但是等号两边可以加空格，例如：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>TARGET <span class="o">=</span> hello.out
+OBJS <span class="o">=</span> util_1.o util_2.o
+
+<span class="si">$(</span>TARGET<span class="si">)</span> : hello.c <span class="si">$(</span>OBJS<span class="si">)</span>
+      cc <span class="nt">-o</span> <span class="si">$(</span>TARGET<span class="si">)</span> hello.c <span class="si">$(</span>OBJS<span class="si">)</span>
+
+<span class="si">$(</span>OBJS<span class="si">)</span> : helper.h
+</code></pre></div></div>
+
+<p>这个过于简单就不解释了，看看就好。</p>
+
+<h2 id="3-总结">3. 总结</h2>
+
+<p>以上就是本文的全部内容了，只是简单地讲了一下 <code class="language-plaintext highlighter-rouge">Makefile</code> 的基础功能，其实还有很多复杂的功能，但是我接触 <code class="language-plaintext highlighter-rouge">make</code> 也没多久，精力也有限，有机会再展开吧。</p>
+
+<p>这里不加解释地给出 <code class="language-plaintext highlighter-rouge">make</code> 官方文档里的一段代码，可以借鉴一下：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>objects <span class="o">=</span> main.o kbd.o command.o display.o <span class="se">\</span>
+          insert.o search.o files.o utils.o
+
+edit : <span class="si">$(</span>objects<span class="si">)</span>
+        cc <span class="nt">-o</span> edit <span class="si">$(</span>objects<span class="si">)</span>
+
+main.o : defs.h
+kbd.o : defs.h command.h
+command.o : defs.h command.h
+display.o : defs.h buffer.h
+insert.o : defs.h buffer.h
+search.o : defs.h buffer.h
+files.o : defs.h buffer.h command.h
+utils.o : defs.h
+
+.PHONY : clean
+clean :
+        <span class="nb">rm </span>edit <span class="si">$(</span>objects<span class="si">)</span>
+</code></pre></div></div>
+
+<h2 id="4-参考">4. 参考</h2>
+
+<p><a href="http://www.gnu.org/software/make/manual/make.html#Overview">GUN make</a></p>
+
+<p><a href="https://juejin.cn/post/6844903957618393101#heading-0">Make 快速入门</a></p>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/2020/11/29/translate-ftp-setup.html" title="[译]如何在 Ubuntu 20.04 上配置 FTP 服务器">[译]如何在 Ubuntu 20.04 上配置 FTP 服务器...</a><a class="next" href="/2020/12/17/code-guideline-for-myself.html" title="写给自己看的编程规范">写给自己看的编程规范</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/2020/12/10/how-to-write-a-makefile.html" title="写给自己看的编程规范">手把手带你写一个简单的 Makefile</a></li>
+<li><a class="post-link" href="/%E9%A2%98%E8%A7%A3/2021/02/24/2021-weekly-contest-2-solution.html" title="写给自己看的编程规范">CSUST 2021 周赛 2 题解</a></li>
+<li><a class="post-link" href="/2022/04/10/solution-of-lanqiao-sheng-13.html" title="写给自己看的编程规范">题解 | 第十三届蓝桥杯大赛软件赛省赛</a></li>
+<li><a class="post-link" href="/2021/09/20/setup-a-github-pages-blog-from-scratch.html" title="写给自己看的编程规范">从 0 开始配置一个 GitHub Pages 博客</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<script async crossorigin="anonymous" issue-term="pathname" label="💬comment" onload="initUtterancesTheme()" repo="jaxvanyang/utteranc.blog" src="https://utteranc.es/client.js" theme="preferred-color-scheme">
+</script><script>
+  const setUtterancesTheme = (dataTheme) => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (iframe) {
+      const utterancesTheme = dataTheme === 'dark' ? 'github-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: utterancesTheme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  // init theme
+  const initUtterancesTheme = () => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (!iframe) return
+    iframe.onload = () => {
+      setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+    }
+  }
+
+  // dynamic change
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+      }
+    }
+  });
+  observer.observe(document.documentElement, {attributes: true, childList: false, subtree: false});
+</script>
+</div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyleft <span class="copyleft">©</span> 2019-2023 <a href="https://github.com/jaxvanyang">Jax Young</a>
+</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

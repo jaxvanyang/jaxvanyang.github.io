@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>开源教程 快速配置 TensorFlow 本地开发环境（Docker + Jupyter + VS Code） | Just Call Me Jax</title>
+<meta name="generator" content="Jekyll v4.2.2">
+<meta property="og:title" content="开源教程 快速配置 TensorFlow 本地开发环境（Docker + Jupyter + VS Code）">
+<meta name="author" content="Jax Young">
+<meta property="og:locale" content="zh_CN">
+<meta name="description" content="本文主要参考自 TensorFlow 官方安装教程，选择了 Docker 容器作为开发环境，并且可以用 Jupyter 和 VS Code 开发。">
+<meta property="og:description" content="本文主要参考自 TensorFlow 官方安装教程，选择了 Docker 容器作为开发环境，并且可以用 Jupyter 和 VS Code 开发。">
+<link rel="canonical" href="https://jaxvanyang.github.io/2021/01/11/how-to-setup-tensorflow-env.html">
+<meta property="og:url" content="https://jaxvanyang.github.io/2021/01/11/how-to-setup-tensorflow-env.html">
+<meta property="og:site_name" content="Just Call Me Jax">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-01-11T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="开源教程 快速配置 TensorFlow 本地开发环境（Docker + Jupyter + VS Code）">
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Jax Young"},"description":"本文主要参考自 TensorFlow 官方安装教程，选择了 Docker 容器作为开发环境，并且可以用 Jupyter 和 VS Code 开发。","url":"https://jaxvanyang.github.io/2021/01/11/how-to-setup-tensorflow-env.html","@type":"BlogPosting","headline":"开源教程 快速配置 TensorFlow 本地开发环境（Docker + Jupyter + VS Code）","dateModified":"2021-01-11T00:00:00+00:00","datePublished":"2021-01-11T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jaxvanyang.github.io/2021/01/11/how-to-setup-tensorflow-env.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://jaxvanyang.github.io/feed.xml" title="Just Call Me Jax">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js" integrity="sha512-BNc7saQYlxCL10lykUYhFBcnzdKMnjx5fp5s5wPucDyZ7rKNwCoqJh1GwEAIhuePEK4WM9askJBRsu7ma0Rzvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/go.min.js" integrity="sha512-5FrrCMl+OdDp4V0/+Og+q950cGMbPLR0D9o3rE0d9e7VYfGkci4zIrwqTXQOvv5Oo4ZhMaZGwZHXH2uKxfe+iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightElement(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #bbb;
+    background-color: #454545;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: capitalize;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+  img.avatar {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    margin-right: 0.4em;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Just Call Me Jax" src="/favicon.ico" onerror="this.style.display='none'">
+  Just Call Me Jax
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/">首页</a><a class="page-link" href="/archives.html">归档</a><a class="page-link" href="/categories.html">分类</a><a class="page-link" href="/tags.html">标签</a><a class="page-link" href="/friends/">友链</a><a class="page-link" href="/readme/">README</a>
+
+
+
+
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">开源教程 | 快速配置 TensorFlow 本地开发环境（Docker + Jupyter + VS Code）</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2021-01-11T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> 2021-01-11
+    </time>~<time class="dt-modified" datetime="2022-04-05T00:00:00+00:00" itemprop="dateModified">
+      <i class="fa fa-calendar"></i> 2022-04-05
+      </time>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 26 mins</span>
+  </p></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <p><img src="https://jaxvanyang.github.io/assets/images/tensorflow-logo.png" alt="TensorFlow logo"></p>
+
+<blockquote>
+  <p>本文主要参考自 <a href="https://tensorflow.google.cn/install">TensorFlow 官方安装教程</a>，选择了 Docker 容器作为开发环境，并且可以用 Jupyter 和 VS Code 开发。</p>
+</blockquote>
+
+<p>安装 TensorFlow 有很多种方法，最方便快捷的是使用 <code class="language-plaintext highlighter-rouge">pip</code> 安装，这在官网上有十分简单的说明，我就不在这里重复了，这篇文章主要是带你看看安装 TensorFlow 容器，和如何解决可能会碰到的一些问题，让我们开始吧！</p>
+
+<p>因为我使用的是 Ubuntu 20.04，所以在配置过程中我都是用 Ubuntu 演示的，如果你用的也是 Ubuntu，那就太好了，如果不是请仅作参考。</p>
+
+<h2 id="0-关于开源教程">0. 关于开源教程</h2>
+
+<p>这是我写的第一篇开源教程，开源的意思就是任何人都可以引用、编辑，网上的各种教程五花八门，但很多都不会随时间更新，这就会造成一些教程一开始是可行的，但是过了一段时间就会遇到一些错误，所以我建议大家在学习的时候多看官方教程，因为官方的教程一般都会及时更新并且是最佳实践。</p>
+
+<p>这篇教程也不适合所有人，很多细节我并没有研究得很透彻，主要是给那些新手快速配置环境看的，但我也希望这篇文章足够可靠，如果你有任何问题和建议都可以在评论区提出，有能力的也可以到我的 <a href="https://github.com/JaxVanYang/jaxvanyang.github.io/blob/main/_posts/2021-01-11-how-to-setup-tensorflow-env.md">GitHub 仓库</a>  提交 PR。</p>
+
+<h2 id="1-安装-docker">1. 安装 Docker</h2>
+
+<p>我们先来看看 <a href="https://docs.docker.com/get-docker/">Docker 官方安装教程</a> 是如何介绍 Docker 的：</p>
+
+<p><img src="https://jaxvanyang.github.io/assets/images/get-docker.png" alt="Get Docker"></p>
+
+<p>翻译：</p>
+
+<blockquote>
+  <p>Docker 是一个用于开发，发布和运行应用程序的开放平台。
+Docker 使您能够将应用程序与基础架构分开，从而可以快速交付软件。
+借助 Docker，您可以以与管理应用程序相同的方式来管理基础架构。
+通过利用 Docker 的方法进行快速的运输，测试和部署，您可以大大减少编写代码和在生产环境中运行代码之间的延迟。</p>
+</blockquote>
+
+<p>简单来说，Docker 可以让我们在多种环境中开发，并且易于切换，不用每次都大费周章地配置环境。因为我用的是 Ubuntu 20.04，所以我就选择 Linux 的 Docker 安装作为演示，你可以根据自己的情况在官网选择对应的安装方式。</p>
+
+<h3 id="1-卸载旧版本如果没有安装过-docker可以忽略此步骤">1. 卸载旧版本（如果没有安装过 Docker，可以忽略此步骤）</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt remove docker docker-engine docker.io containerd runc
+</code></pre></div></div>
+
+<h3 id="2-安装-docker">2. 安装 Docker</h3>
+
+<p>安装 Docker 也有好几种方法，这是它们的区别：<a href="https://docs.docker.com/engine/install/ubuntu/#installation-methods">https://docs.docker.com/engine/install/ubuntu/#installation-methods</a>，为了避免麻烦，本文只介绍如何使用仓库来安装。</p>
+
+<ol>
+  <li>
+    <p>更新 <code class="language-plaintext highlighter-rouge">apt</code> 包的索引并安装一些可以让 <code class="language-plaintext highlighter-rouge">apt</code> 使用 HTTPS 连接仓库的包：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update
+
+<span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="se">\</span>
+apt-transport-https <span class="se">\</span>
+ca-certificates <span class="se">\</span>
+curl <span class="se">\</span>
+gnupg-agent <span class="se">\</span>
+software-properties-common
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>添加 Docker 的官方 GPG 公钥：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>curl <span class="nt">-fsSL</span> https://download.docker.com/linux/ubuntu/gpg | <span class="nb">sudo </span>apt-key add -
+</code></pre></div>    </div>
+
+    <p>测试是否添加成功：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-key fingerprint 0EBFCD88
+</code></pre></div>    </div>
+
+    <p>如果出现类似以下信息，那就是成功了：</p>
+
+    <div class="language-text highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>pub     rsa4096 2017-02-22 [SCEA]
+      9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
+uid           [ 未知 ] Docker Release (CE deb) &lt;docker@docker.com&gt;
+sub     rsa4096 2017-02-22 [S]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>设置 <strong>stable</strong>（稳定版）仓库：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>add-apt-repository <span class="se">\</span>
+<span class="s2">"deb [arch=amd64] https://download.docker.com/linux/ubuntu </span><span class="se">\</span><span class="s2">
+</span><span class="si">$(</span>lsb_release <span class="nt">-cs</span><span class="si">)</span><span class="s2"> </span><span class="se">\</span><span class="s2">
+stable"</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装最新版本的 Docker Engine：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>docker-ce docker-ce-cli containerd.io
+</code></pre></div>    </div>
+
+    <p>测试是否安装成功：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>docker run hello-world
+</code></pre></div>    </div>
+
+    <p>第一次运行需要下载，等待一段时间即可，以下是成功信息：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>Hello from Docker!
+This message shows that your installation appears to be working correctly.
+...
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="3-让你的-docker-更好用">3. 让你的 Docker 更好用</h2>
+
+<p>由于 Docker 官方的镜像源受到魔法的影响，直接连接速度感人，所以我们使用 Docker 的第一步就是换源。这里有几个免费的加速器：</p>
+
+<ol>
+  <li>
+    <p>Docker官方的中国镜像加速器：https://registry.docker-cn.com  不用注册</p>
+  </li>
+  <li>
+    <p>中科大的镜像加速器：https://docker.mirrors.ustc.edu.cn/   不用注册</p>
+  </li>
+  <li>
+    <p>阿里云的镜像加速器：登录阿里云的容器hub服务，镜像加速器那一栏里会为你独立分配一个加速器地址 要注册</p>
+  </li>
+  <li>
+    <p>DaoCloud的镜像加速器：登录DaoCloud的加速器获取脚本，该脚本可以将加速器添加到守护进程的配置文件中 要注册</p>
+  </li>
+</ol>
+
+<p>这里使用 Docker 官方的中国镜像加速器作为示范，直接输入以下命令即可：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /etc/docker
+<span class="nb">sudo tee</span> /etc/docker/daemon.json <span class="o">&lt;&lt;-</span><span class="sh">'</span><span class="no">EOF</span><span class="sh">'
+{
+  "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+</span><span class="no">EOF
+</span><span class="nb">sudo </span>systemctl daemon-reload
+<span class="nb">sudo </span>systemctl restart docker
+</code></pre></div></div>
+
+<p>使用阿里云镜像加速器可以参考这篇文章：<a href="https://blog.csdn.net/weixin_43569697/article/details/89279225">docker下载镜像太慢的解决方案</a></p>
+
+<p>因为 Docker 的使用可能会影响到系统安全，所以大部分的 <code class="language-plaintext highlighter-rouge">docker</code> 命令都要使用 <code class="language-plaintext highlighter-rouge">sudo</code> 才能运行，如果你不想每次都加一个 <code class="language-plaintext highlighter-rouge">sudo</code> 的话，可以使用以下命令解决：</p>
+
+<ol>
+  <li>
+    <p>添加 <code class="language-plaintext highlighter-rouge">docker</code> 组：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>groupadd docker
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>添加当前用户到 <code class="language-plaintext highlighter-rouge">docker</code> 组：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>用户组的更改需要重新登录才能刷新，重新登录后可以使用 <code class="language-plaintext highlighter-rouge">docker run hello-world</code> 测试是否成功，建议不要在服务器上使用这个方法。</p>
+
+<h2 id="4-下载-tensorflow-docker-映像">4. 下载 TensorFlow Docker 映像</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>标记</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>latest</td>
+      <td>TensorFlow CPU 二进制映像的最新版本。（默认版本）</td>
+    </tr>
+    <tr>
+      <td>nightly</td>
+      <td>TensorFlow 映像的每夜版（不稳定）。</td>
+    </tr>
+    <tr>
+      <td>version</td>
+      <td>指定 TensorFlow 二进制映像的版本，例如：2.1.0</td>
+    </tr>
+    <tr>
+      <td>devel</td>
+      <td>TensorFlow master 开发环境的每夜版。包含 TensorFlow 源代码。</td>
+    </tr>
+    <tr>
+      <td>custom-op</td>
+      <td>用于开发 TF 自定义操作的特殊实验性映像。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>如需了解更多信息，请点击以下链接：<a href="https://github.com/tensorflow/custom-op">https://github.com/tensorflow/custom-op</a></p>
+
+<p>每个基本标记都有会添加或更改功能的变体：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>标记变体</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>tag-gpu</td>
+      <td>支持 GPU 的指定标记版本。（详见下文）</td>
+    </tr>
+    <tr>
+      <td>tag-jupyter</td>
+      <td>针对 Jupyter 的指定标记版本（包含 TensorFlow 教程笔记本）</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>您可以一次使用多个变体。例如，以下命令会将 TensorFlow 版本映像下载到计算机上：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull tensorflow/tensorflow                     <span class="c"># latest stable release</span>
+docker pull tensorflow/tensorflow:devel-gpu           <span class="c"># nightly dev release w/ GPU support</span>
+docker pull tensorflow/tensorflow:latest-gpu-jupyter  <span class="c"># latest release w/ GPU support and Jupyter</span>
+</code></pre></div></div>
+
+<p>以上内容摘自 [TensorFlow 官网安装教程]，我使用的是 <code class="language-plaintext highlighter-rouge">docker pull tensorflow/tensorflow:latest-gpu-jupyter</code>，注意一定要换源后再安装，不然你就可以先睡一觉明天再起来看了。</p>
+
+<p>安装成功后你就可以在 Docker 容器中开发了，例如在仅支持 CPU 的映像中启动 <code class="language-plaintext highlighter-rouge">bash</code> 会话：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> tensorflow/tensorflow bash
+</code></pre></div></div>
+
+<p>不过这样还不够方便，我们可以使用 Jupyter 笔记本来开发：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">-p</span> 8888:8888 tensorflow/tensorflow:latest-jupyter
+</code></pre></div></div>
+
+<p>然后按照终端输出的提示在主机网络浏览器中打开以下网址：<code class="language-plaintext highlighter-rouge">http://127.0.0.1:8888/?token=...</code></p>
+
+<h2 id="5-使用-gpu-支持">5. 使用 GPU 支持</h2>
+
+<p>Docker 是在 GPU 上运行 TensorFlow 的最简单的方法，因为主机只需安装 NVIDIA® 驱动程序，而不必安装 NVIDIA® CUDA® 工具包。</p>
+
+<ol>
+  <li>
+    <p>使用最新的驱动程序</p>
+
+    <p>如果你使用的也是 Ubuntu 20.04，那么恭喜你，切换到最新的驱动十分容易，只需要打开自带的软件“软件和更新”，然后选择最新的驱动即可，如图所示：<br>
+<img src="https://jaxvanyang.github.io/assets/images/nvidia-drive.png" alt="NVIDIA 驱动"></p>
+
+    <p>如果你使用的不是 20 版本的 Ubuntu，或者使用的是其他发行版，那么可以参考 <a href="https://github.com/NVIDIA/nvidia-docker/wiki/Frequently-Asked-Questions#how-do-i-install-the-nvidia-driver">How do I install the NVIDIA driver?</a></p>
+  </li>
+  <li>
+    <p>检查 GPU 是否可用：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>lspci | <span class="nb">grep</span> <span class="nt">-i</span> nvidia
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>安装 NVIDIA 容器工具包：</p>
+
+    <blockquote>
+      <p>请通过 docker -v 检查 Docker 版本。对于 19.03 之前的版本，您需要使用 nvidia-docker2 和 –runtime=nvidia 标记；对于 19.03 及之后的版本，您将需要使用 nvidia-container-toolkit 软件包和 –gpus all 标记。</p>
+    </blockquote>
+
+    <ol>
+      <li>
+        <p>配置 <code class="language-plaintext highlighter-rouge">stable</code> 仓库和 GPG 公钥：</p>
+
+        <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nv">distribution</span><span class="o">=</span><span class="si">$(</span><span class="nb">.</span> /etc/os-release<span class="p">;</span><span class="nb">echo</span> <span class="nv">$ID$VERSION_ID</span><span class="si">)</span> <span class="se">\</span>
+<span class="o">&amp;&amp;</span> curl <span class="nt">-s</span> <span class="nt">-L</span> https://nvidia.github.io/nvidia-docker/gpgkey | <span class="nb">sudo </span>apt-key add - <span class="se">\</span>
+<span class="o">&amp;&amp;</span> curl <span class="nt">-s</span> <span class="nt">-L</span> https://nvidia.github.io/nvidia-docker/<span class="nv">$distribution</span>/nvidia-docker.list | <span class="nb">sudo tee</span> /etc/apt/sources.list.d/nvidia-docker.list
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>安装 <code class="language-plaintext highlighter-rouge">nvidia-container-toolkit</code>：</p>
+
+        <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> nvidia-container-toolkit
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>重启 Docker：</p>
+
+        <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl restart docker
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>测试是否安装成功：</p>
+
+        <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>docker run <span class="nt">--rm</span> <span class="nt">--gpus</span> all nvidia/cuda:11.0-base nvidia-smi
+</code></pre></div>        </div>
+
+        <p>示例输出：</p>
+
+        <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>Mon Jan 11 05:33:48 2021       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.32.03    Driver Version: 460.32.03    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|<span class="o">===============================</span>+<span class="o">======================</span>+<span class="o">======================</span>|
+|   0  GeForce GTX 950M    Off  | 00000000:01:00.0 Off |                  N/A |
+| N/A   50C    P0    N/A /  N/A |    397MiB /  4046MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                                 
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|<span class="o">=============================================================================</span>|
++-----------------------------------------------------------------------------+
+</code></pre></div>        </div>
+      </li>
+    </ol>
+
+    <p>其他系统请参考 <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker">https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker</a></p>
+  </li>
+  <li>
+    <p>验证安装效果：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--gpus</span> all <span class="nt">--rm</span> nvidia/cuda nvidia-smi
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>使用支持 GPU 的映像在容器中启动 <code class="language-plaintext highlighter-rouge">bash</code>：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>docker run <span class="nt">--gpus</span> all <span class="nt">-it</span> tensorflow/tensorflow:latest-gpu bash
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="6-使用-vs-code-编辑-jupyter-笔记本">6. 使用 VS Code 编辑 Jupyter 笔记本</h2>
+
+<p>我们可以使用仅支持 CPU 的 Jupyter 服务器：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">-p</span> 8888:8888 tensorflow/tensorflow:latest-jupyter
+</code></pre></div></div>
+
+<p>也可以使用支持 GPU 的 Jupyter 服务器：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">-p</span> 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter
+</code></pre></div></div>
+
+<p>我比较喜欢使用支持 GPU 的，如果不想每次输入这么长的命令可以使用 <code class="language-plaintext highlighter-rouge">alias</code>：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim ~/.bashrc
+<span class="c"># 将以下内容加入 .bashrc</span>
+<span class="nb">alias </span><span class="nv">webj</span><span class="o">=</span><span class="s1">'docker run -it -p 8888:8888 tensorflow/tensorflow:latest-gpu-jupyter'</span>
+<span class="c"># 更新 alias</span>
+<span class="nb">source</span> ~/.bashrc
+</code></pre></div></div>
+
+<p>然后就可以使用 <code class="language-plaintext highlighter-rouge">webj</code> 来达到相同的作用了：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>webj
+<span class="c"># 示例输出</span>
+<span class="o">[</span>I 05:46:26.894 NotebookApp] Writing notebook server cookie secret to /root/.local/share/jupyter/runtime/notebook_cookie_secret
+jupyter_http_over_ws extension initialized. Listening on /http_over_websocket
+<span class="o">[</span>I 05:46:27.805 NotebookApp] Serving notebooks from <span class="nb">local </span>directory: /tf
+<span class="o">[</span>I 05:46:27.806 NotebookApp] Jupyter Notebook 6.1.5 is running at:
+<span class="o">[</span>I 05:46:27.806 NotebookApp] http://7ce58fd012c4:8888/?token<span class="o">=</span>dc6015d8174f76ba8842f65df0c731dd3c802dc7ec7818e1
+<span class="o">[</span>I 05:46:27.806 NotebookApp]  or http://127.0.0.1:8888/?token<span class="o">=</span>dc6015d8174f76ba8842f65df0c731dd3c802dc7ec7818e1
+<span class="o">[</span>I 05:46:27.806 NotebookApp] Use Control-C to stop this server and shut down all kernels <span class="o">(</span>twice to skip confirmation<span class="o">)</span><span class="nb">.</span>
+<span class="o">[</span>C 05:46:27.817 NotebookApp] 
+    
+    To access the notebook, open this file <span class="k">in </span>a browser:
+        file:///root/.local/share/jupyter/runtime/nbserver-1-open.html
+    Or copy and <span class="nb">paste </span>one of these URLs:
+        http://7ce58fd012c4:8888/?token<span class="o">=</span>dc6015d8174f76ba8842f65df0c731dd3c802dc7ec7818e1
+     or http://127.0.0.1:8888/?token<span class="o">=</span>dc6015d8174f76ba8842f65df0c731dd3c802dc7ec7818e1
+</code></pre></div></div>
+
+<p>在终端按住 <code class="language-plaintext highlighter-rouge">Ctrl</code> 单击最后一个链接就可以打开 Jupyter 笔记本的网站了。</p>
+
+<p>另外我们也可以让 VS Code 使用这个支持 GPU 的服务器，首先我们要在 VS Code 中新建一个 Jupyter 笔记本，然后打开，在右上角的 Jupyter Server 中选择 <code class="language-plaintext highlighter-rouge">Existing</code> 然后填入上述链接即可：</p>
+
+<p><img src="https://jaxvanyang.github.io/assets/images/vscode-jupyter.png" alt="VS Code Jupyter 笔记本"></p>
+
+<p><img src="https://jaxvanyang.github.io/assets/images/vscode-jupyter-change-server.png" alt="VS Code Jupyter 更换服务器"></p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+  <li>
+    <p><a href="https://developer.aliyun.com/article/606808">配置 Docker 镜像加速器</a></p>
+  </li>
+  <li>
+    <p><a href="https://tensorflow.google.cn/install">TensorFlow 官方安装教程</a></p>
+  </li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/2020/12/17/code-guideline-for-myself.html" title="写给自己看的编程规范">写给自己看的编程规范</a><a class="next" href="/%E9%A2%98%E8%A7%A3/2021/02/24/2021-weekly-contest-2-solution.html" title="CSUST 2021 周赛 2 题解">CSUST 2021 周赛 2 题解</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/vm/2023/03/19/create-win10-vm-with-qemu.html" title="CSUST 2021 周赛 2 题解">使用 QEMU 创建 Windows 10 虚拟机</a></li>
+<li><a class="post-link" href="/2020/12/17/code-guideline-for-myself.html" title="CSUST 2021 周赛 2 题解">写给自己看的编程规范</a></li>
+<li><a class="post-link" href="/jekyll/personalize/2021/11/23/personalize-jekyll-blog.html" title="CSUST 2021 周赛 2 题解">个性化 Jekyll 博客</a></li>
+<li><a class="post-link" href="/csapp/2022/04/22/debug-csapp-mymalloc.html" title="CSUST 2021 周赛 2 题解">CSAPP 阅读记录 | 运行时库打桩出现段错误（segmentation fault）</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<script async crossorigin="anonymous" issue-term="pathname" label="💬comment" onload="initUtterancesTheme()" repo="jaxvanyang/utteranc.blog" src="https://utteranc.es/client.js" theme="preferred-color-scheme">
+</script><script>
+  const setUtterancesTheme = (dataTheme) => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (iframe) {
+      const utterancesTheme = dataTheme === 'dark' ? 'github-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: utterancesTheme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  // init theme
+  const initUtterancesTheme = () => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (!iframe) return
+    iframe.onload = () => {
+      setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+    }
+  }
+
+  // dynamic change
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+      }
+    }
+  });
+  observer.observe(document.documentElement, {attributes: true, childList: false, subtree: false});
+</script>
+</div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyleft <span class="copyleft">©</span> 2019-2023 <a href="https://github.com/jaxvanyang">Jax Young</a>
+</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

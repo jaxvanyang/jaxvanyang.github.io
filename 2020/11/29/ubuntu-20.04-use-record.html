@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Ubuntu 20.04 使用记录 | Just Call Me Jax</title>
+<meta name="generator" content="Jekyll v4.2.2">
+<meta property="og:title" content="Ubuntu 20.04 使用记录">
+<meta name="author" content="Jax Young">
+<meta property="og:locale" content="zh_CN">
+<meta name="description" content="Ubuntu 的初体验">
+<meta property="og:description" content="Ubuntu 的初体验">
+<link rel="canonical" href="https://jaxvanyang.github.io/2020/11/29/ubuntu-20.04-use-record.html">
+<meta property="og:url" content="https://jaxvanyang.github.io/2020/11/29/ubuntu-20.04-use-record.html">
+<meta property="og:site_name" content="Just Call Me Jax">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-11-29T20:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Ubuntu 20.04 使用记录">
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Jax Young"},"description":"Ubuntu 的初体验","url":"https://jaxvanyang.github.io/2020/11/29/ubuntu-20.04-use-record.html","@type":"BlogPosting","headline":"Ubuntu 20.04 使用记录","dateModified":"2020-11-29T20:00:00+00:00","datePublished":"2020-11-29T20:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jaxvanyang.github.io/2020/11/29/ubuntu-20.04-use-record.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://jaxvanyang.github.io/feed.xml" title="Just Call Me Jax">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js" integrity="sha512-BNc7saQYlxCL10lykUYhFBcnzdKMnjx5fp5s5wPucDyZ7rKNwCoqJh1GwEAIhuePEK4WM9askJBRsu7ma0Rzvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/go.min.js" integrity="sha512-5FrrCMl+OdDp4V0/+Og+q950cGMbPLR0D9o3rE0d9e7VYfGkci4zIrwqTXQOvv5Oo4ZhMaZGwZHXH2uKxfe+iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightElement(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #bbb;
+    background-color: #454545;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: capitalize;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+  img.avatar {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    margin-right: 0.4em;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Just Call Me Jax" src="/favicon.ico" onerror="this.style.display='none'">
+  Just Call Me Jax
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/">首页</a><a class="page-link" href="/archives.html">归档</a><a class="page-link" href="/categories.html">分类</a><a class="page-link" href="/tags.html">标签</a><a class="page-link" href="/friends/">友链</a><a class="page-link" href="/readme/">README</a>
+
+
+
+
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">Ubuntu 20.04 使用记录</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2020-11-29T20:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> 2020-11-29
+    </time>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 13 mins</span>
+  </p>
+<div class="post-tags">
+<a class="post-tag" href="/tags.html#%E7%AC%94%E8%AE%B0">#笔记</a><a class="post-tag" href="/tags.html#Ubuntu">#Ubuntu</a>
+</div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <blockquote>
+  <p>Ubuntu 的初体验</p>
+</blockquote>
+
+<h2 id="目录">目录</h2>
+
+<ul>
+  <li>
+    <p><a href="#1-%E6%88%91%E7%9A%84%E9%85%8D%E7%BD%AE">1. 我的配置</a></p>
+
+    <ul>
+      <li>
+        <p><a href="#11-%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE">1.1 系统配置</a></p>
+      </li>
+      <li>
+        <p><a href="#12-%E5%AE%89%E8%A3%85%E5%B9%B6%E9%85%8D%E7%BD%AE-clash">1.2 安装并配置 <code class="language-plaintext highlighter-rouge">Clash</code></a></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><a href="#2-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">2. 常用命令</a></p>
+
+    <ul>
+      <li>
+        <p><a href="#21-%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86">2.1 软件（包）管理</a></p>
+      </li>
+      <li>
+        <p><a href="#22-%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4">2.2 系统管理命令</a></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><a href="#3-%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE">3. 常用快捷键</a></p>
+
+    <ul>
+      <li>
+        <p><a href="#31-%E7%AA%97%E5%8F%A3%E5%BF%AB%E6%8D%B7%E9%94%AE">3.1 窗口快捷键</a></p>
+      </li>
+      <li>
+        <p><a href="#32-%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%BF%AB%E6%8D%B7%E9%94%AE">3.2 工作区快捷键</a></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><a href="#4-%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98">4. 已知问题</a></p>
+  </li>
+  <li>
+    <p><a href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99">参考资料</a></p>
+  </li>
+</ul>
+
+<h2 id="1-我的配置">1. 我的配置</h2>
+<hr>
+
+<h3 id="11-系统配置">1.1 系统配置</h3>
+
+<ol>
+  <li>
+    <p>关闭 <code class="language-plaintext highlighter-rouge">sudo</code> 密码</p>
+  </li>
+  <li>
+    <p>更新系统</p>
+  </li>
+  <li>
+    <p>高分屏下 <code class="language-plaintext highlighter-rouge">UI</code> 元素过小，系统设置里默认只能开启整数倍缩放，实验性的非整数倍缩放存在 <code class="language-plaintext highlighter-rouge">BUG</code>，所以我选择用快捷键 <code class="language-plaintext highlighter-rouge">Ctrl+加号</code> 缩放文本</p>
+  </li>
+  <li>
+    <p>安装 &amp; 配置工具</p>
+
+    <blockquote>
+      <p>只列出添加的配置项</p>
+    </blockquote>
+
+    <ol>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">git</code></p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">make</code></p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">vim</code></p>
+
+        <p>终端输入 <code class="language-plaintext highlighter-rouge">sudo update-alternatives --config editor</code> 选择 <code class="language-plaintext highlighter-rouge">vim</code> 为默认编辑器</p>
+
+        <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 编辑 ～/.vimrc</span>
+<span class="s2">"去掉vi的一致性"</span>
+<span class="nb">set </span>nocompatible
+<span class="s2">"显示行号"</span>
+<span class="nb">set </span>number
+<span class="s2">" 隐藏滚动条"</span>    
+<span class="nb">set </span>guioptions-<span class="o">=</span>r 
+<span class="nb">set </span>guioptions-<span class="o">=</span>L
+<span class="nb">set </span>guioptions-<span class="o">=</span>b
+<span class="s2">"隐藏顶部标签栏"</span>
+<span class="nb">set </span><span class="nv">showtabline</span><span class="o">=</span>0
+<span class="s2">"设置字体"</span>
+<span class="nb">set </span><span class="nv">guifont</span><span class="o">=</span>Monaco:h13         
+syntax on   <span class="s2">"开启语法高亮"</span>
+<span class="nb">let </span>g:solarized_termcolors<span class="o">=</span>256  <span class="s2">"solarized主题设置在终端下的设置"</span>
+<span class="nb">set </span>nowrap  <span class="s2">"设置不折行"</span>
+<span class="nb">set </span><span class="nv">fileformat</span><span class="o">=</span>unix <span class="s2">"设置以unix的格式保存文件"</span>
+<span class="nb">set </span>cindent     <span class="s2">"设置C样式的缩进格式"</span>
+<span class="nb">set </span><span class="nv">tabstop</span><span class="o">=</span>4   <span class="s2">"设置table长度"</span>
+<span class="nb">set </span><span class="nv">shiftwidth</span><span class="o">=</span>4        <span class="s2">"同上"</span>
+<span class="nb">set </span>showmatch   <span class="s2">"显示匹配的括号"</span>
+<span class="nb">set </span><span class="nv">scrolloff</span><span class="o">=</span>5     <span class="s2">"距离顶部和底部5行"</span>
+<span class="nb">set </span><span class="nv">laststatus</span><span class="o">=</span>2    <span class="s2">"命令行为两行"</span>
+<span class="nb">set </span><span class="nv">fenc</span><span class="o">=</span>utf-8      <span class="s2">"文件编码"</span>
+<span class="nb">set </span><span class="nv">backspace</span><span class="o">=</span>2
+<span class="nb">set </span><span class="nv">mouse</span><span class="o">=</span>a     <span class="s2">"启用鼠标"</span>
+<span class="nb">set </span><span class="nv">selection</span><span class="o">=</span>exclusive
+<span class="nb">set </span><span class="nv">selectmode</span><span class="o">=</span>mouse,key
+<span class="nb">set </span><span class="nv">matchtime</span><span class="o">=</span>5
+<span class="nb">set </span>ignorecase      <span class="s2">"忽略大小写"</span>
+<span class="nb">set </span>incsearch
+<span class="nb">set </span>hlsearch        <span class="s2">"高亮搜索项"</span>
+<span class="nb">set </span>noexpandtab     <span class="s2">"不允许扩展table"</span>
+<span class="nb">set </span>whichwrap+<span class="o">=</span>&lt;,&gt;,h,l
+<span class="nb">set </span>autoread
+<span class="nb">set </span>cursorline      <span class="s2">"突出显示当前行"</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">zsh</code></p>
+
+        <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 编辑 ~/.zshrc</span>
+<span class="nb">alias </span><span class="nv">cls</span><span class="o">=</span><span class="s1">'clear'</span>
+<span class="nb">alias grep</span><span class="o">=</span><span class="s2">"grep --color=auto"</span>
+ 
+<span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">"agnoster"</span>
+ 
+<span class="nv">plugins</span><span class="o">=(</span>git zsh-autosuggestions zsh-syntax-highting<span class="o">)</span>
+</code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="12-安装并配置-clash">1.2 安装并配置 <code class="language-plaintext highlighter-rouge">Clash</code>
+</h3>
+
+<ol>
+  <li>
+    <p>到 <a href="https://github.com/Dreamacro/clash/releases">https://github.com/Dreamacro/clash/releases</a> 下载最新的 <code class="language-plaintext highlighter-rouge">Linux</code> 版 <code class="language-plaintext highlighter-rouge">Clash</code>，注意要选择名称带 <code class="language-plaintext highlighter-rouge">-linux-</code> 的，例如 <code class="language-plaintext highlighter-rouge">clash-linux-amd64-v1.3.0.gz</code></p>
+  </li>
+  <li>使用 <code class="language-plaintext highlighter-rouge">gzip</code> 命令解压下载到的 <code class="language-plaintext highlighter-rouge">.gz</code> 压缩包
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">gzip</span> ./&lt;file&gt;.gz
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>使用 <code class="language-plaintext highlighter-rouge">mv</code> 命令移动解压后获得的文件到 <code class="language-plaintext highlighter-rouge">/usr/local/bin/clash</code></p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo mv</span> &lt;file&gt; /usr/local/bin/clash
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>使用 <code class="language-plaintext highlighter-rouge">chmod</code> 命令添加执行权限</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo chmod</span> +x /usr/local/bin/clash
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>使用 <code class="language-plaintext highlighter-rouge">clash</code> 命令启动 <code class="language-plaintext highlighter-rouge">Clash</code>（可能需要重启终端）</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>clash
+</code></pre></div>    </div>
+
+    <p>此时会在 <code class="language-plaintext highlighter-rouge">/home/{用户ID}/.config/clash</code> 目录下生成两个文件：<code class="language-plaintext highlighter-rouge">config.yaml</code> 和 <code class="language-plaintext highlighter-rouge">Country.mmdb</code>。</p>
+
+    <p>编辑 <code class="language-plaintext highlighter-rouge">config.yaml</code> 文件，配置代理服务器信息和规则，部分商家会提供 yaml 文件，下载后 copy 过来即可，然后重启 <code class="language-plaintext highlighter-rouge">Clash</code> 以加载配置文件。</p>
+  </li>
+  <li>
+    <p>保持 <code class="language-plaintext highlighter-rouge">clash</code> 运行，打开浏览器访问 <a href="https://clash.razord.top">https://clash.razord.top</a> 进行策略配置、选择代理线路等等（需要根据提示输入IP、端口和口令，具体内容在 <code class="language-plaintext highlighter-rouge">config.yaml</code> 的 <code class="language-plaintext highlighter-rouge">external-controller</code> 和 <code class="language-plaintext highlighter-rouge">secret</code> 项）。</p>
+  </li>
+  <li>
+    <p>继续保持 <code class="language-plaintext highlighter-rouge">Clash</code> 运行，在系统网络设置中设置手动代理 <code class="language-plaintext highlighter-rouge">Settings&gt;Network&gt;Network Proxy&gt;Manual（设置&gt;网络&gt;代理&gt;手动）</code>，配置信息参考 <code class="language-plaintext highlighter-rouge">config.yaml</code> 或者启动 <code class="language-plaintext highlighter-rouge">Clash</code> 时终端输出的日志。此时就可以通过 <code class="language-plaintext highlighter-rouge">Clash</code> 访问网络了。（默认主机是 <code class="language-plaintext highlighter-rouge">127.0.0.1</code>）</p>
+
+    <p>如果在设置系统代理后就不能通过浏览器进入管理页面，在设置里关闭系统代理即可进入。</p>
+
+    <p>按照前面的方式配置好后，每次系统启动时都需要打开终端，执行 <code class="language-plaintext highlighter-rouge">clash</code> 命令，并且终端不可以关闭，否则整个 <code class="language-plaintext highlighter-rouge">clash</code> 进程就结束了。如果不想一直保持终端打开，可使用 <code class="language-plaintext highlighter-rouge">nohup clash</code> 命令启动后台运行。或者希望开机自启动 <code class="language-plaintext highlighter-rouge">clash</code>，可将 <code class="language-plaintext highlighter-rouge">nohup clash</code> 这段命令加入到前面提到的 <code class="language-plaintext highlighter-rouge">start-service.sh</code> 脚本的最后。</p>
+  </li>
+</ol>
+
+<p><br></p>
+
+<h2 id="2-常用命令">2. 常用命令</h2>
+
+<h3 id="21-软件包管理">2.1 软件（包）管理</h3>
+
+<ol>
+  <li>
+    <p>软件安装命令：<code class="language-plaintext highlighter-rouge">sudo apt install ./&lt;file&gt;.deb</code></p>
+  </li>
+  <li>
+    <p>软件卸载命令：  <code class="language-plaintext highlighter-rouge">apt --purge remove [软件包名]</code>（备用：<code class="language-plaintext highlighter-rouge">sudo apt-get purge</code>）</p>
+
+    <blockquote>
+      <p># 以 <code class="language-plaintext highlighter-rouge">Firefox</code> 为例</p>
+    </blockquote>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>dpkg <span class="nt">--get-selections</span> | <span class="nb">grep </span>firefox    <span class="c"># 查看已安装的火狐浏览器及其扩展，使用该命令会列出安装的包名</span>
+<span class="nb">sudo </span>apt <span class="nt">--purge</span> remove <span class="o">[</span>软件包名]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>更新本地包数据库：<code class="language-plaintext highlighter-rouge">sudo apt update</code></p>
+  </li>
+  <li>
+    <p>更新所有已安装的包：<code class="language-plaintext highlighter-rouge">sudo apt upgrade</code>（备用：<code class="language-plaintext highlighter-rouge">sudo apt-get dist-upgrade</code>）</p>
+  </li>
+  <li>
+    <p>安装 <code class="language-plaintext highlighter-rouge">.deb</code> 包：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>dpkg <span class="nt">-i</span> package.deb
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><br></p>
+
+<h3 id="22-系统管理命令">2.2 系统管理命令</h3>
+<hr>
+
+<ol>
+  <li>
+    <p>完全删除用户：<code class="language-plaintext highlighter-rouge">userdel -rf &lt;user_name&gt;</code></p>
+  </li>
+  <li>
+    <p>设置默认终端：<code class="language-plaintext highlighter-rouge">sudo update-alternatives --config x-terminal-emulator</code></p>
+  </li>
+  <li>
+    <p>查看服务运行情况：<code class="language-plaintext highlighter-rouge">sudo systemctl status &lt;service&gt;</code></p>
+  </li>
+</ol>
+
+<p><br></p>
+
+<h2 id="3-常用快捷键">3. 常用快捷键</h2>
+
+<blockquote>
+  <p>Meta 键就是 Windows 系统下的 Win 键</p>
+</blockquote>
+
+<h3 id="31-窗口快捷键">3.1 窗口快捷键</h3>
+<hr>
+
+<ol>
+  <li>
+    <p>最大化/最小化窗口：<code class="language-plaintext highlighter-rouge">Meta + 向上箭头/向下箭头</code></p>
+  </li>
+  <li>
+    <p>切换应用程序：<code class="language-plaintext highlighter-rouge">Meta + Tab</code>(可跨工作区切换)</p>
+  </li>
+  <li>
+    <p>切换窗口：<code class="language-plaintext highlighter-rouge">Alt + Tab</code>（仅当前工作区）</p>
+  </li>
+  <li>
+    <p>查看所有应用程序：<code class="language-plaintext highlighter-rouge">Meta + A</code></p>
+  </li>
+</ol>
+
+<p><br></p>
+
+<h3 id="32-工作区快捷键">3.2 工作区快捷键</h3>
+<hr>
+
+<ol>
+  <li>
+    <p>转到上一个/下一个工作区：<code class="language-plaintext highlighter-rouge">Ctrl + Alt + 向上箭头/向下箭头</code></p>
+  </li>
+  <li>
+    <p>将当前窗口移到上一个/下一个工作区：<code class="language-plaintext highlighter-rouge">Shift + Meta + PageUp/PageDown</code></p>
+
+    <p>（我的电脑不知道为什么无法使用，将 Shift 改为 Ctrl 就可以了）</p>
+  </li>
+  <li>
+    <p>切换到第一个/最后一个工作区：<code class="language-plaintext highlighter-rouge">Meta + Home/End</code></p>
+  </li>
+</ol>
+
+<p><br></p>
+
+<h2 id="4-已知问题">4. 已知问题</h2>
+<hr>
+
+<ol>
+  <li>
+    <p>无法通过 <code class="language-plaintext highlighter-rouge">GUI</code> 安装 <code class="language-plaintext highlighter-rouge">.deb</code> 包（至少 <code class="language-plaintext highlighter-rouge">VS Code</code> 和 <code class="language-plaintext highlighter-rouge">Chrome</code> 不行）</p>
+  </li>
+  <li>
+    <p>商店安装的 <code class="language-plaintext highlighter-rouge">VS Code</code> 存在 <strong>BUG</strong>，无法使用中文输入</p>
+
+    <p>解决办法：下载安装微软官网版本</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Firefox</code> 无法正常使用 <code class="language-plaintext highlighter-rouge">html</code> 播放器（<code class="language-plaintext highlighter-rouge">Chrome</code> 正常）</p>
+
+    <p>待解决</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">Ctrl+Tab</code> 无法切换应用内窗口</p>
+
+    <p>解决办法：在设置里禁用该快捷键</p>
+  </li>
+</ol>
+
+<p><br></p>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+  <li>
+    <p><a href="https://juejin.cn/post/6844904149822210056#heading-3">写给工程师的 Ubuntu 20.04 最佳配置指南</a></p>
+  </li>
+  <li>
+    <p><a href="https://blog.csdn.net/Jugger_Am/article/details/83420273">ubuntu卸载火狐浏览器（亲测有效）</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.jianshu.com/p/30530c8692a9">在Ubuntu下设置默认编辑器</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.jianshu.com/p/f0513d18742a">把vim配置成顺手的python轻量级IDE（一）</a></p>
+  </li>
+  <li>
+    <p><a href="https://cloud.tencent.com/developer/article/1626594">如何在 Ubuntu 20.04 上安装 Nginx</a></p>
+  </li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/2020/11/29/openssh-setup.html" title="配置 OpenSSH">配置 OpenSSH</a><a class="next" href="/2020/11/29/translate-ftp-setup.html" title="[译]如何在 Ubuntu 20.04 上配置 FTP 服务器">[译]如何在 Ubuntu 20.04 上配置 FTP 服务器...</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/2020/11/29/openssh-setup.html" title="[译]如何在 Ubuntu 20.04 上配置 FTP 服务器">配置 OpenSSH</a></li>
+<li><a class="post-link" href="/jekyll/2021/11/17/using-jekyll-admin.html" title="[译]如何在 Ubuntu 20.04 上配置 FTP 服务器">使用 Jekyll Admin</a></li>
+<li><a class="post-link" href="/2020/11/29/linux-common-commands.html" title="[译]如何在 Ubuntu 20.04 上配置 FTP 服务器">Linux 常用命令</a></li>
+<li><a class="post-link" href="/2021/09/20/setup-a-github-pages-blog-from-scratch.html" title="[译]如何在 Ubuntu 20.04 上配置 FTP 服务器">从 0 开始配置一个 GitHub Pages 博客</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<script async crossorigin="anonymous" issue-term="pathname" label="💬comment" onload="initUtterancesTheme()" repo="jaxvanyang/utteranc.blog" src="https://utteranc.es/client.js" theme="preferred-color-scheme">
+</script><script>
+  const setUtterancesTheme = (dataTheme) => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (iframe) {
+      const utterancesTheme = dataTheme === 'dark' ? 'github-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: utterancesTheme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  // init theme
+  const initUtterancesTheme = () => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (!iframe) return
+    iframe.onload = () => {
+      setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+    }
+  }
+
+  // dynamic change
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+      }
+    }
+  });
+  observer.observe(document.documentElement, {attributes: true, childList: false, subtree: false});
+</script>
+</div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyleft <span class="copyleft">©</span> 2019-2023 <a href="https://github.com/jaxvanyang">Jax Young</a>
+</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CSAPP 阅读记录 运行时库打桩出现段错误（segmentation fault） | Just Call Me Jax</title>
+<meta name="generator" content="Jekyll v4.2.2">
+<meta property="og:title" content="CSAPP 阅读记录 运行时库打桩出现段错误（segmentation fault）">
+<meta name="author" content="Jax Young">
+<meta property="og:locale" content="zh_CN">
+<meta name="description" content="在使用《深入理解计算机系统》上的运行时库打桩示例代码的时候，我遇到了这个错误，以下是 debug 过程以及解决方法。">
+<meta property="og:description" content="在使用《深入理解计算机系统》上的运行时库打桩示例代码的时候，我遇到了这个错误，以下是 debug 过程以及解决方法。">
+<link rel="canonical" href="https://jaxvanyang.github.io/csapp/2022/04/22/debug-csapp-mymalloc.html">
+<meta property="og:url" content="https://jaxvanyang.github.io/csapp/2022/04/22/debug-csapp-mymalloc.html">
+<meta property="og:site_name" content="Just Call Me Jax">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-04-22T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="CSAPP 阅读记录 运行时库打桩出现段错误（segmentation fault）">
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Jax Young"},"description":"在使用《深入理解计算机系统》上的运行时库打桩示例代码的时候，我遇到了这个错误，以下是 debug 过程以及解决方法。","url":"https://jaxvanyang.github.io/csapp/2022/04/22/debug-csapp-mymalloc.html","@type":"BlogPosting","headline":"CSAPP 阅读记录 运行时库打桩出现段错误（segmentation fault）","dateModified":"2022-04-22T00:00:00+00:00","datePublished":"2022-04-22T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jaxvanyang.github.io/csapp/2022/04/22/debug-csapp-mymalloc.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://jaxvanyang.github.io/feed.xml" title="Just Call Me Jax">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js" integrity="sha512-BNc7saQYlxCL10lykUYhFBcnzdKMnjx5fp5s5wPucDyZ7rKNwCoqJh1GwEAIhuePEK4WM9askJBRsu7ma0Rzvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/go.min.js" integrity="sha512-5FrrCMl+OdDp4V0/+Og+q950cGMbPLR0D9o3rE0d9e7VYfGkci4zIrwqTXQOvv5Oo4ZhMaZGwZHXH2uKxfe+iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightElement(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #bbb;
+    background-color: #454545;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: capitalize;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+  img.avatar {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    margin-right: 0.4em;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Just Call Me Jax" src="/favicon.ico" onerror="this.style.display='none'">
+  Just Call Me Jax
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/">首页</a><a class="page-link" href="/archives.html">归档</a><a class="page-link" href="/categories.html">分类</a><a class="page-link" href="/tags.html">标签</a><a class="page-link" href="/friends/">友链</a><a class="page-link" href="/readme/">README</a>
+
+
+
+
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">CSAPP 阅读记录 | 运行时库打桩出现段错误（segmentation fault）</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2022-04-22T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> 2022-04-22
+    </time>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 8 mins</span>
+  </p>
+<div class="post-tags">
+<a class="post-tag" href="/tags.html#segfault">#segfault</a><a class="post-tag" href="/tags.html#library%20interpositioning">#library interpositioning</a><a class="post-tag" href="/tags.html#daynamic%20linking">#daynamic linking</a>
+</div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <blockquote>
+  <p>在使用《深入理解计算机系统》上的运行时库打桩示例代码的时候，我遇到了这个错误，以下是 debug 过程以及解决方法。</p>
+</blockquote>
+
+<h2 id="error">Error</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc <span class="nt">-Wall</span> <span class="nt">-DRUNTIME</span> <span class="nt">-shared</span> <span class="nt">-fpic</span> <span class="nt">-o</span> mymalloc.so mymalloc.c <span class="nt">-ldl</span>
+gcc <span class="nt">-o</span> intr int.c
+<span class="nv">LD_PRELOAD</span><span class="o">=</span><span class="s2">"./mymalloc.so"</span> ./intr
+<span class="o">[</span>1]    5657 segmentation fault <span class="o">(</span>core dumped<span class="o">)</span>  <span class="nv">LD_PRELOAD</span><span class="o">=</span><span class="s2">"./mymalloc.so"</span> ./intr
+</code></pre></div></div>
+
+<h2 id="debug">Debug</h2>
+
+<p>导致出错的代码段如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* malloc wrapper function */</span>
+<span class="kt">void</span> <span class="o">*</span><span class="nf">malloc</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">void</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">mallocp</span><span class="p">)(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+
+    <span class="n">mallocp</span> <span class="o">=</span> <span class="n">dlsym</span><span class="p">(</span><span class="n">RTLD_NEXT</span><span class="p">,</span> <span class="s">"malloc"</span><span class="p">);</span> <span class="cm">/* Get address of libc malloc */</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">error</span> <span class="o">=</span> <span class="n">dlerror</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">fputs</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">stderr</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">mallocp</span><span class="p">(</span><span class="n">size</span><span class="p">);</span> <span class="cm">/* Call libc malloc */</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"malloc(%d) = %p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">size</span><span class="p">,</span> <span class="n">ptr</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ptr</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* 
+ * hello.c - Example program to demonstrate different ways to
+ *           interpose on the malloc and free functions.
+ *
+ * Note: be sure to compile unoptimized (-O0) so that gcc won't
+ * optimize away the calls to malloc and free.
+ */</span>
+<span class="cm">/* $begin interposemain */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;malloc.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">32</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> 
+<span class="p">}</span>
+<span class="cm">/* $end interposemain */</span>
+</code></pre></div></div>
+
+<p>我一开始以为错误的原因是解引用了空指针或野指针，因为原始代码中并没有进行判空处理，但仅仅是分配 32 字节的空间是不应该分配失败的，更何况代码里也没有解引用的操作。为了排除我抄错代码的原因，我甚至写了一个<a href="https://github.com/JaxVanYang/lang-study/blob/main/shell/csapp-dl.sh">脚本</a>来下载 CSAPP 的源码，但结果也是一样地报错。然后我开始尝试用 <code class="language-plaintext highlighter-rouge">GDB</code> 调试跟踪错误，但是 <code class="language-plaintext highlighter-rouge">GDB</code> 出现了无法打开共享库文件的错误：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>gdb<span class="o">)</span> <span class="nb">set </span>environment LD_PRELOAD <span class="s2">"./mymalloc.so"</span>
+<span class="o">(</span>gdb<span class="o">)</span> run
+Starting program: /home/jax/repos/lang-study/shell/intr 
+ERROR: ld.so: object <span class="s1">'"./mymalloc.so"'</span> from LD_PRELOAD cannot be preloaded <span class="o">(</span>cannot open shared object file<span class="o">)</span>: ignored.
+ERROR: ld.so: object <span class="s1">'"./mymalloc.so"'</span> from LD_PRELOAD cannot be preloaded <span class="o">(</span>cannot open shared object file<span class="o">)</span>: ignored.
+<span class="o">[</span>Thread debugging using libthread_db enabled]
+Using host libthread_db library <span class="s2">"/usr/lib/libthread_db.so.1"</span><span class="nb">.</span>
+<span class="o">[</span>Inferior 1 <span class="o">(</span>process 7498<span class="o">)</span> exited normally]
+<span class="o">(</span>gdb<span class="o">)</span>
+</code></pre></div></div>
+
+<p>一般只有在共享库文件缺失的情况下才会出现这个错误，但实际上这个文件是存在的，所以我开始了 Google，很不幸，搜到的解决办法都是针对文件缺失的情况，唯一一个可能有用的说需要使用绝对路径也是错的，在搜寻了几个小时后我才意识到找错误的方向是错误的。</p>
+
+<h2 id="解决">解决</h2>
+
+<p>前面我都是用报错信息作关键词来搜索，但既然是 CSAPP 书上出现的错误，为什么不用 CSAPP 作关键词来搜索呢？然后我很快就找到了问题原因以及解决办法：</p>
+
+<p><a href="https://blog.csdn.net/imred/article/details/77418323#commentBox">CSAPP第三版运行时打桩Segmentation fault_imred的博客-CSDN博客</a></p>
+
+<p><a href="https://stackoverflow.com/questions/65275140/library-interpositioning">Library interpositioning</a></p>
+
+<p>产生错误的根本原因是我们的 <code class="language-plaintext highlighter-rouge">malloc()</code> 实现替代了 <code class="language-plaintext highlighter-rouge">libc</code> 的实现，但我们的 <code class="language-plaintext highlighter-rouge">malloc()</code> 函数里调用了 <code class="language-plaintext highlighter-rouge">printf()</code>，而 <code class="language-plaintext highlighter-rouge">printf()</code>又调用了 <code class="language-plaintext highlighter-rouge">malloc()</code>，这就导致了间接递归调用：<code class="language-plaintext highlighter-rouge">malloc() → printf() → malloc() → ...</code>，最终无限递归导致堆栈溢出。</p>
+
+<p>由于 <code class="language-plaintext highlighter-rouge">printf()</code> 最多只可能调用 <code class="language-plaintext highlighter-rouge">malloc()</code> 一次，所以我们可以想办法在 <code class="language-plaintext highlighter-rouge">printf()</code> 调用的 <code class="language-plaintext highlighter-rouge">malloc()</code> 中取消掉 <code class="language-plaintext highlighter-rouge">printf()</code> 的调用，这可以用静态变量记录调用状态实现：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">int</span> <span class="n">is_first_malloc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">is_first_malloc</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">is_first_malloc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"malloc(%ld) = %p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">ptr</span><span class="p">);</span>
+  <span class="n">is_first_malloc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>引用前述参考资料：「实际上dlsym、dlerror和fputs这些函数也是有可能调用了malloc函数的，但是程序正确运行了，说明在这种场景下这些函数没有调用malloc函数，在其他场景下是否会调用malloc函数就不一定了。为了简单起见，没有进行更多的修改。」</p>
+
+</blockquote>
+
+<p>所以说这样解决也不是绝对安全的，要完全解决必须对标准库的实现有一定的了解，不然就只能尽量避免在包装函数中调用其他库函数，或者掌握正确的 debug 方法。</p>
+
+<h2 id="延伸阅读">延伸阅读</h2>
+
+<p><a href="https://zh.wikipedia.org/wiki/%E8%A8%98%E6%86%B6%E9%AB%94%E5%8D%80%E6%AE%B5%E9%8C%AF%E8%AA%A4">記憶體區段錯誤 - 维基百科，自由的百科全书</a></p>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/2022/04/10/solution-of-lanqiao-sheng-13.html" title="题解 | 第十三届蓝桥杯大赛软件赛省赛">题解 | 第十三届蓝桥杯大赛软件赛省赛</a><a class="next" href="/vm/2023/03/19/create-win10-vm-with-qemu.html" title="使用 QEMU 创建 Windows 10 虚拟机">使用 QEMU 创建 Windows 10 虚拟机...</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll/personalize/2021/11/23/personalize-jekyll-blog.html" title="使用 QEMU 创建 Windows 10 虚拟机">个性化 Jekyll 博客</a></li>
+<li><a class="post-link" href="/2020/11/29/nginx-basic-setup.html" title="使用 QEMU 创建 Windows 10 虚拟机">Nginx 安装及基本配置</a></li>
+<li><a class="post-link" href="/2020/11/29/translate-ftp-setup.html" title="使用 QEMU 创建 Windows 10 虚拟机">[译]如何在 Ubuntu 20.04 上配置 FTP 服务器</a></li>
+<li><a class="post-link" href="/2020/12/10/how-to-write-a-makefile.html" title="使用 QEMU 创建 Windows 10 虚拟机">手把手带你写一个简单的 Makefile</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<script async crossorigin="anonymous" issue-term="pathname" label="💬comment" onload="initUtterancesTheme()" repo="jaxvanyang/utteranc.blog" src="https://utteranc.es/client.js" theme="preferred-color-scheme">
+</script><script>
+  const setUtterancesTheme = (dataTheme) => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (iframe) {
+      const utterancesTheme = dataTheme === 'dark' ? 'github-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: utterancesTheme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  // init theme
+  const initUtterancesTheme = () => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (!iframe) return
+    iframe.onload = () => {
+      setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+    }
+  }
+
+  // dynamic change
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+      }
+    }
+  });
+  observer.observe(document.documentElement, {attributes: true, childList: false, subtree: false});
+</script>
+</div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyleft <span class="copyleft">©</span> 2019-2023 <a href="https://github.com/jaxvanyang">Jax Young</a>
+</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

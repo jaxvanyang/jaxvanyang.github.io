@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>CSUST 2021 周赛 2 题解 | Just Call Me Jax</title>
+<meta name="generator" content="Jekyll v4.2.2">
+<meta property="og:title" content="CSUST 2021 周赛 2 题解">
+<meta name="author" content="Jax Young">
+<meta property="og:locale" content="zh_CN">
+<meta name="description" content="周赛补题链接：http://acm.csust.edu.cn/contest/129/problems">
+<meta property="og:description" content="周赛补题链接：http://acm.csust.edu.cn/contest/129/problems">
+<link rel="canonical" href="https://jaxvanyang.github.io/%E9%A2%98%E8%A7%A3/2021/02/24/2021-weekly-contest-2-solution.html">
+<meta property="og:url" content="https://jaxvanyang.github.io/%E9%A2%98%E8%A7%A3/2021/02/24/2021-weekly-contest-2-solution.html">
+<meta property="og:site_name" content="Just Call Me Jax">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-02-24T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="CSUST 2021 周赛 2 题解">
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Jax Young"},"description":"周赛补题链接：http://acm.csust.edu.cn/contest/129/problems","url":"https://jaxvanyang.github.io/%E9%A2%98%E8%A7%A3/2021/02/24/2021-weekly-contest-2-solution.html","@type":"BlogPosting","headline":"CSUST 2021 周赛 2 题解","dateModified":"2021-02-24T00:00:00+00:00","datePublished":"2021-02-24T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jaxvanyang.github.io/%E9%A2%98%E8%A7%A3/2021/02/24/2021-weekly-contest-2-solution.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://jaxvanyang.github.io/feed.xml" title="Just Call Me Jax">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js" integrity="sha512-BNc7saQYlxCL10lykUYhFBcnzdKMnjx5fp5s5wPucDyZ7rKNwCoqJh1GwEAIhuePEK4WM9askJBRsu7ma0Rzvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/go.min.js" integrity="sha512-5FrrCMl+OdDp4V0/+Og+q950cGMbPLR0D9o3rE0d9e7VYfGkci4zIrwqTXQOvv5Oo4ZhMaZGwZHXH2uKxfe+iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightElement(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #bbb;
+    background-color: #454545;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: capitalize;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+  img.avatar {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    margin-right: 0.4em;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Just Call Me Jax" src="/favicon.ico" onerror="this.style.display='none'">
+  Just Call Me Jax
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/">首页</a><a class="page-link" href="/archives.html">归档</a><a class="page-link" href="/categories.html">分类</a><a class="page-link" href="/tags.html">标签</a><a class="page-link" href="/friends/">友链</a><a class="page-link" href="/readme/">README</a>
+
+
+
+
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">CSUST 2021 周赛 2 题解</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2021-02-24T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> 2021-02-24
+    </time>~<time class="dt-modified" datetime="2022-04-05T00:00:00+00:00" itemprop="dateModified">
+      <i class="fa fa-calendar"></i> 2022-04-05
+      </time>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 33 mins</span>
+  </p></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <blockquote>
+  <p>周赛补题链接：<a href="http://acm.csust.edu.cn/contest/129/problems">http://acm.csust.edu.cn/contest/129/problems</a></p>
+</blockquote>
+
+<p>本文可以用 GitHub 登录评论，如果有写得不好的地方欢迎提出建议，也欢迎讨论。</p>
+
+<p>本文所列 5 份代码皆通过测试，请不要复制提交测试。</p>
+
+<p>文末有少量参考链接，可以学习一下：）</p>
+
+<p>也可以到 <a href="https://blog.csdn.net/Jax_Yang/article/details/114021999">CSDN</a> 阅读</p>
+
+<h2 id="目录">目录</h2>
+
+<ul>
+  <li>
+    <p><a href="#a-%E7%9D%BF%E6%99%BA%E5%B0%8F%E6%98%8E%E4%B9%B0%E9%9E%AD%E7%82%AE">A. 睿智小明买鞭炮</a></p>
+  </li>
+  <li>
+    <p><a href="#b-%E9%BE%99%E5%8D%B7%E9%A3%8E%E6%91%A7%E6%AF%81%E5%81%9C%E8%BD%A6%E5%9C%BA">B. 龙卷风摧毁停车场</a></p>
+  </li>
+  <li>
+    <p><a href="#c-5g-%E4%BC%A0%E8%BE%93">C. 5G 传输</a></p>
+  </li>
+  <li>
+    <p><a href="#d-%E7%A5%9E%E5%A5%87%E7%9A%84%E6%95%B0%E5%AD%97%E4%B8%B2">D. 神奇的数字串</a></p>
+  </li>
+  <li>
+    <p><a href="#e-%E7%9F%A9%E9%98%B5">E. 矩阵</a></p>
+  </li>
+  <li>
+    <p><a href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5">参考链接</a></p>
+  </li>
+</ul>
+
+<h2 id="a-睿智小明买鞭炮"><a href="http://acm.csust.edu.cn/contest/129/problem/A">A. 睿智小明买鞭炮</a></h2>
+
+<h3 id="涉及的知识">涉及的知识</h3>
+
+<ol>
+  <li>
+    <p>二分查找</p>
+  </li>
+  <li>
+    <p>动态规划</p>
+  </li>
+  <li>
+    <p>勉强可以算作贪心</p>
+  </li>
+</ol>
+
+<h3 id="思路">思路</h3>
+<p>为了方便叙述，我们先约定：一共有 <code class="language-plaintext highlighter-rouge">n</code> 个规则，对于第 <code class="language-plaintext highlighter-rouge">i</code> 个规则 <code class="language-plaintext highlighter-rouge">rules[i]</code>，<code class="language-plaintext highlighter-rouge">rules[i][0]</code> 表示该规则最少购买的鞭炮数，<code class="language-plaintext highlighter-rouge">rules[i][1]</code> 表示该规则每盒鞭炮的价格。</p>
+
+<p>假设查询的鞭炮数是 <code class="language-plaintext highlighter-rouge">num</code>，满足最少花费所购买的鞭炮数不一定就是 <code class="language-plaintext highlighter-rouge">num</code>，因为可能买得越多老板打折越狠，所以就得分情况讨论。</p>
+
+<p>我们先找到可以满足购买数最少的 <code class="language-plaintext highlighter-rouge">rules[i]</code>， 因为数组有序，所以可以用二分查找，用 <code class="language-plaintext highlighter-rouge">ans</code> 记录下 <code class="language-plaintext highlighter-rouge">num * rules[i][1]</code>；打折更狠的规则只可能在 <code class="language-plaintext highlighter-rouge">i</code> 之后，所以我们只要找到 <code class="language-plaintext highlighter-rouge">i</code> 后面的最小规则花费，这一步查询可以用 <code class="language-plaintext highlighter-rouge">dp[i]</code> 记录区间 <code class="language-plaintext highlighter-rouge">[i, n]</code> 的规则花费最小值，数组 <code class="language-plaintext highlighter-rouge">dp</code> 可以很容易地用递推式 <code class="language-plaintext highlighter-rouge">dp[i] = min(dp[i + 1], rules[i][0] * rules[i][1])</code> 得到。最后的答案就是 <code class="language-plaintext highlighter-rouge">min(ans, dp[i + 1])</code>。</p>
+
+<details><summary>代码</summary>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="n">ll</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">find</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">rules</span><span class="p">,</span> <span class="n">ll</span> <span class="n">num</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">rules</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">l</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rules</span><span class="p">[</span><span class="n">mid</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">num</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">r</span> <span class="o">=</span> <span class="n">mid</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">l</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">ll</span> <span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">;</span>
+  <span class="n">scanf</span><span class="p">(</span><span class="s">"%lld%lld"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+
+  <span class="c1">// 使用一个二维数组记录规则，因为题目给出的规则已经有序，所以不需要排序</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;&gt;</span> <span class="n">rules</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">ll</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ll</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%lld%lld"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">);</span>
+    <span class="n">rules</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">});</span>
+  <span class="p">}</span>
+
+  <span class="c1">// dp[i] 表示 rules[i] 到 rules[n] 中最小的规则花费</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="n">dp</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">INT64_MAX</span><span class="p">;</span>  <span class="c1">// 将边界值设置为 long long 的最大值，可以减少边界判断</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">rules</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">rules</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]);</span>  <span class="c1">// 因为最小值具有传递性，所以可以用动态规划来做</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 处理每次查询</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">q</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ll</span> <span class="n">num</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%lld"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">rules</span><span class="p">,</span> <span class="n">num</span><span class="p">);</span>  <span class="c1">// 二分查找到不少于鞭炮数量 num 的规则的下标 id，查找函数定义在 main 函数上面</span>
+    <span class="n">ll</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">rules</span><span class="p">[</span><span class="n">id</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">num</span><span class="p">;</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">dp</span><span class="p">[</span><span class="n">id</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%lld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ans</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</details>
+
+<h2 id="b-龙卷风摧毁停车场"><a href="http://acm.csust.edu.cn/contest/129/problem/B">B. 龙卷风摧毁停车场</a></h2>
+
+<h3 id="涉及的知识-1">涉及的知识</h3>
+
+<ol>
+  <li>
+    <p>模拟</p>
+  </li>
+  <li>
+    <p>感觉懂一点算法分析可以少走很多弯路</p>
+  </li>
+</ol>
+
+<h3 id="思路-1">思路</h3>
+<p>约定：出发城市为 <code class="language-plaintext highlighter-rouge">s</code>，目标城市是 <code class="language-plaintext highlighter-rouge">t</code>。</p>
+
+<p>这道题其实只要模拟就行，先模拟直达得到一个答案，再模拟换乘得到第二个答案，再输出较小的那个，唯一需要注意的地方就是可能会有无法到达的情况。</p>
+
+<p>我的做法是先定义一个类 <code class="language-plaintext highlighter-rouge">Air</code> 表示航线，记录下沿途的城市 <code class="language-plaintext highlighter-rouge">cities</code> 和费用 <code class="language-plaintext highlighter-rouge">fee</code>，以及其中 <code class="language-plaintext highlighter-rouge">s</code> 和 <code class="language-plaintext highlighter-rouge">t</code> 的下标 <code class="language-plaintext highlighter-rouge">sId</code> 和 <code class="language-plaintext highlighter-rouge">tId</code>，记录下标可以简化后面的操作，不用每次都去遍历查询。第一种直达的情况再记录航线的时候就可以得到答案，只要 <code class="language-plaintext highlighter-rouge">sId ！= -1 &amp;&amp; tId ！= -1 &amp;&amp; sId &lt; tId</code> 就说明可以直达；第二种情况就需要遍历所有的航线，选出其中的两条，再判断是否可以从 <code class="language-plaintext highlighter-rouge">s</code> 登上航线 <code class="language-plaintext highlighter-rouge">air1</code>，再换乘 <code class="language-plaintext highlighter-rouge">air2</code> 到达 <code class="language-plaintext highlighter-rouge">t</code>，可以转化为判断 <code class="language-plaintext highlighter-rouge">air1.cities[sId + 1, ...] 和 air2.cities[..., tId - 1]</code> 中是否有相同的城市，判断是否有重复元素可以用 <code class="language-plaintext highlighter-rouge">set</code> 实现。</p>
+
+<p>为什么说懂一点算法分析可以少走弯路呢？因为我一开始想用图算法来写，但不是 <code class="language-plaintext highlighter-rouge">TLE</code> 就是 <code class="language-plaintext highlighter-rouge">MLE</code>，还写出了 <code class="language-plaintext highlighter-rouge">TLE</code> 加上 <code class="language-plaintext highlighter-rouge">MLE</code> 的代码，感兴趣的可以到我的 <a href="https://gitee.com/Jaxvanyang/lang-study/commit/f0c6b04cf2af5375238f183327f7e49080d9341e">gitee 仓库</a> 看看错误代码。直到后来我注意到城市和航线数量不多于 500 的条件，我才意识到这么小的数据量就算模拟写出三层循环都不会超时，而图算法动不动就是指数级别的复杂度，所以还是老老实实模拟吧。</p>
+
+<details><summary>代码</summary>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;set&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="n">INT32_MAX</span><span class="p">;</span>  <span class="c1">// 偷懒用 int 最大值表示到达不了的情况，幸好没有花费到达最大值的测试数据</span>
+
+<span class="k">class</span> <span class="nc">Air</span> <span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">cities</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">sId</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tId</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// 用于记录经过城市中目标城市的下标</span>
+  <span class="kt">int</span> <span class="n">fee</span><span class="p">;</span>
+  <span class="n">Air</span><span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">,</span> <span class="kt">int</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 通过输入初始化航线</span>
+    <span class="kt">int</span> <span class="n">cityCnt</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fee</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cityCnt</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">city</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">cityCnt</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">city</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">city</span> <span class="o">==</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">sId</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">city</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">tId</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">cities</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">city</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 如果该航线会从 s 到 t 就更新 ans</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sId</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">tId</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">sId</span> <span class="o">&lt;</span> <span class="n">tId</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">ans</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">fee</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">;</span>
+  <span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">t</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">Air</span><span class="o">&gt;</span> <span class="n">airs</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">airs</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Air</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">t</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">continue</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">airs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">sId</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">||</span> <span class="n">airs</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">tId</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">continue</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">set</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">st</span><span class="p">;</span>  <span class="c1">// 用于记录第一条航线的沿途城市</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">airs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">sId</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">airs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">cities</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">st</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">airs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">cities</span><span class="p">[</span><span class="n">k</span><span class="p">]);</span>
+      <span class="p">}</span>
+
+      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">airs</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">tId</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">st</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">airs</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">cities</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span> <span class="p">{</span>  <span class="c1">// 如果第二条航线的沿途城市和第一条有重合那么就可以换乘</span>
+          <span class="n">ans</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">airs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fee</span> <span class="o">+</span> <span class="n">airs</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">fee</span><span class="p">);</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">ans</span> <span class="o">!=</span> <span class="n">INT32_MAX</span><span class="p">)</span> <span class="c1">// 偷懒成功</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ans</span><span class="p">);</span>
+  <span class="k">else</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"-1</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</details>
+
+<h2 id="c-5g-传输"><a href="http://acm.csust.edu.cn/contest/129/problem/C">C. 5G 传输</a></h2>
+
+<h3 id="涉及的知识-2">涉及的知识</h3>
+
+<ol>
+  <li>
+    <p>最小生成树（Prim 算法或 Kruskal 算法）</p>
+  </li>
+  <li>
+    <p>并查集</p>
+  </li>
+  <li>
+    <p>超级源点</p>
+  </li>
+</ol>
+
+<h3 id="思路-2">思路</h3>
+
+<p>因为最小生成树是很经典的算法，所以我就不多介绍了。这道题主要的难点就在于不仅要考虑边权（连接两个城市的花费），还要考虑点权（也就是建 5G 信号塔的花费），但只要想到加入超级源点就可以转化成简单的求最小生成树了，具体见代码。</p>
+
+<p>我用的是 Kruskal 算法，因为不会 Prim 算法……</p>
+
+<details><summary>代码</summary>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">UnionFind</span> <span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="kt">int</span> <span class="n">cnt</span><span class="p">;</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ids</span><span class="p">;</span>
+  <span class="n">UnionFind</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cnt</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">ids</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">void</span> <span class="n">un</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">q</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">pId</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">qId</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">pId</span> <span class="o">!=</span> <span class="n">qId</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">ids</span><span class="p">[</span><span class="n">pId</span><span class="p">]</span> <span class="o">=</span> <span class="n">qId</span><span class="p">;</span>
+      <span class="o">--</span><span class="n">cnt</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="kt">int</span> <span class="n">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="n">ids</span><span class="p">[</span><span class="n">p</span><span class="p">])</span> <span class="p">{</span>
+      <span class="n">ids</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">ids</span><span class="p">[</span><span class="n">p</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ids</span><span class="p">[</span><span class="n">p</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="kt">bool</span> <span class="n">isConnected</span><span class="p">(</span><span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="kt">int</span> <span class="n">q</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">find</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="n">find</span><span class="p">(</span><span class="n">q</span><span class="p">);</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+  <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">edges</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">cost</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cost</span><span class="p">);</span>
+    <span class="n">edges</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">cost</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">});</span>  <span class="c1">// 将建信号塔的花费转化成各点到虚拟出来的超级源点的连接花费</span>
+  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">cost</span><span class="p">;</span>
+      <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cost</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">)</span> <span class="n">edges</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">cost</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">sort</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">edges</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+  <span class="c1">// 不能使用集合维护边，因为 Kruskal 算法是针对森林设计的</span>
+  <span class="c1">// 已经加入的点并不一定会彼此连通，它们可能处于不同的树中</span>
+  <span class="n">UnionFind</span> <span class="n">uf</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">//所以要用并查集</span>
+  <span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">uf</span><span class="p">.</span><span class="n">cnt</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">uf</span><span class="p">.</span><span class="n">isConnected</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]))</span> <span class="p">{</span>
+      <span class="n">ans</span> <span class="o">+=</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+      <span class="n">uf</span><span class="p">.</span><span class="n">un</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">edges</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="o">++</span><span class="n">i</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ans</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</details>
+
+<h2 id="d-神奇的数字串"><a href="http://acm.csust.edu.cn/contest/129/problem/D">D. 神奇的数字串</a></h2>
+
+<h3 id="涉及的知识-3">涉及的知识</h3>
+
+<ol>
+  <li>
+    <p>前缀和</p>
+  </li>
+  <li>
+    <p>单调队列</p>
+  </li>
+</ol>
+
+<h3 id="思路-3">思路</h3>
+
+<p>约定：<code class="language-plaintext highlighter-rouge">nums[i]</code> 表示第 <code class="language-plaintext highlighter-rouge">i</code> 个数字，<code class="language-plaintext highlighter-rouge">nums</code> 初始大小为 <code class="language-plaintext highlighter-rouge">n</code>。</p>
+
+<p>对于 <code class="language-plaintext highlighter-rouge">nums[i]</code> 移位 <code class="language-plaintext highlighter-rouge">k</code> 次后就位于 <code class="language-plaintext highlighter-rouge">[(i + k) % n]</code>，为了简化移位操作可以将数组复制一份添加到原数组后面，这样 <code class="language-plaintext highlighter-rouge">[k, ..., k + n - 1]</code> 就是移位 <code class="language-plaintext highlighter-rouge">k</code> 次后得到的数字串了。</p>
+
+<p>如果直接暴力枚举，复杂度为 <code class="language-plaintext highlighter-rouge">O(n^2)</code>，注意到 <code class="language-plaintext highlighter-rouge">1 &lt;= n &lt;= 1e6</code>，很可能会超时，所以需要优化。</p>
+
+<p>优化的方式是采用单调队列和前缀和，使用 <code class="language-plaintext highlighter-rouge">index[i]</code> 记录前 <code class="language-plaintext highlighter-rouge">i</code> 个元素的前缀和，对于区间 <code class="language-plaintext highlighter-rouge">[l, r]</code>，用 <code class="language-plaintext highlighter-rouge">queMin.front()</code> 记录 <code class="language-plaintext highlighter-rouge">index[l, r]</code> 中的最小值，具体实现请参考代码，这样时间复杂度就降到了 <code class="language-plaintext highlighter-rouge">O(n)</code>。</p>
+
+<details><summary>代码</summary>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;deque&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+  <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">nums</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">num</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num</span><span class="p">);</span>
+    <span class="n">nums</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">nums</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="p">}</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">index</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">index</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">index</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 存放 [l, r] 中对最小值有贡献的元素</span>
+  <span class="c1">// queMin.front 始终是 [l, r] 中的最小值，在每次移动时维护这个性质即可</span>
+  <span class="n">deque</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">queMin</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 单调队列需要和队尾比较，因为可能出现新元素不小于队首但小于队尾的情况，这时依然需要更新队列</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">queMin</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">queMin</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="n">queMin</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+    <span class="n">queMin</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// 注意单调队列中存放的是整个扩展数组的前缀和</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">queMin</span><span class="p">.</span><span class="n">front</span><span class="p">()</span> <span class="o">-</span> <span class="n">index</span><span class="p">[</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">++</span><span class="n">ans</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="n">queMin</span><span class="p">.</span><span class="n">front</span><span class="p">())</span> <span class="n">queMin</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
+    <span class="o">++</span><span class="n">l</span><span class="p">;</span>
+    <span class="o">++</span><span class="n">r</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">queMin</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">index</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">queMin</span><span class="p">.</span><span class="n">back</span><span class="p">())</span> <span class="n">queMin</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+    <span class="n">queMin</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="n">r</span><span class="p">]);</span>
+  <span class="p">}</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ans</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</details>
+
+<h2 id="e-矩阵"><a href="http://acm.csust.edu.cn/contest/129/problem/E">E. 矩阵</a></h2>
+
+<h3 id="涉及的知识-4">涉及的知识</h3>
+
+<ol>
+  <li>
+    <p>简单的数学推导</p>
+  </li>
+  <li>
+    <p>前缀和</p>
+  </li>
+  <li>
+    <p>线段树</p>
+  </li>
+</ol>
+
+<h3 id="思路-4">思路</h3>
+
+<p>线段树学得不好，谁能帮我写一下……</p>
+
+<details><summary>代码</summary>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">ll</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">;</span>
+
+<span class="n">ll</span> <span class="nf">gcd</span><span class="p">(</span><span class="n">ll</span> <span class="n">a</span><span class="p">,</span> <span class="n">ll</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="n">as</span><span class="p">,</span> <span class="n">bs</span><span class="p">;</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="n">idx</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span> <span class="n">tree</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">build</span><span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">tree</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">bs</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="n">build</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="n">build</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">tree</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">p</span> <span class="o">*</span> <span class="mi">2</span><span class="p">],</span> <span class="n">tree</span><span class="p">[</span><span class="n">p</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="n">ll</span> <span class="n">getGcd</span><span class="p">(</span><span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">,</span> <span class="kt">int</span> <span class="n">begin</span><span class="p">,</span> <span class="kt">int</span> <span class="n">end</span><span class="p">,</span> <span class="kt">int</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;=</span> <span class="n">begin</span> <span class="o">&amp;&amp;</span> <span class="n">end</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">tree</span><span class="p">[</span><span class="n">p</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">begin</span> <span class="o">+</span> <span class="n">end</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="o">&amp;&amp;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">gcd</span><span class="p">(</span><span class="n">getGcd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+               <span class="n">getGcd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&gt;</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">getGcd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">getGcd</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">begin</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">p</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+  <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ll</span> <span class="n">num</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%lld"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num</span><span class="p">);</span>
+    <span class="n">as</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+    <span class="n">idx</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">idx</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">+</span> <span class="n">num</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ll</span> <span class="n">num</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%lld"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num</span><span class="p">);</span>
+    <span class="n">bs</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">tree</span> <span class="o">=</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">n</span><span class="p">);</span>
+  <span class="n">build</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+  <span class="kt">int</span> <span class="n">q</span><span class="p">;</span>
+  <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">q</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">;</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%d%d%d%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x2</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y2</span><span class="p">);</span>
+    <span class="n">ll</span> <span class="n">a</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">x2</span><span class="p">]</span> <span class="o">-</span> <span class="n">idx</span><span class="p">[</span><span class="n">x1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="n">ll</span> <span class="n">b</span> <span class="o">=</span> <span class="n">getGcd</span><span class="p">(</span><span class="n">y1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%lld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</details>
+
+<h2 id="参考链接">参考链接</h2>
+
+<ul>
+  <li>
+    <p><a href="https://oi-wiki.org/ds/seg/">线段树</a></p>
+  </li>
+  <li>
+    <p><a href="https://weread.qq.com/web/reader/7cc32910718ff66b7cc8d9dk341323f021e34173cb3824c">最小生成树</a></p>
+  </li>
+  <li>
+    <p><a href="https://leetcode-cn.com/problems/longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit/">单调队列的练习题</a></p>
+  </li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/2021/01/11/how-to-setup-tensorflow-env.html" title="开源教程 | 快速配置 TensorFlow 本地开发环境（Docker + Jupyter + VS Code）">开源教程 | 快速配置 TensorFlow 本地开发环境（Docker +...</a><a class="next" href="/2021/09/20/setup-a-github-pages-blog-from-scratch.html" title="从 0 开始配置一个 GitHub Pages 博客">从 0 开始配置一个 GitHub Pages 博客...</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/vm/2023/03/19/create-win10-vm-with-qemu.html" title="从 0 开始配置一个 GitHub Pages 博客">使用 QEMU 创建 Windows 10 虚拟机</a></li>
+<li><a class="post-link" href="/2020/12/10/how-to-write-a-makefile.html" title="从 0 开始配置一个 GitHub Pages 博客">手把手带你写一个简单的 Makefile</a></li>
+<li><a class="post-link" href="/2020/11/29/translate-ftp-setup.html" title="从 0 开始配置一个 GitHub Pages 博客">[译]如何在 Ubuntu 20.04 上配置 FTP 服务器</a></li>
+<li><a class="post-link" href="/2022/04/10/solution-of-lanqiao-sheng-13.html" title="从 0 开始配置一个 GitHub Pages 博客">题解 | 第十三届蓝桥杯大赛软件赛省赛</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<script async crossorigin="anonymous" issue-term="pathname" label="💬comment" onload="initUtterancesTheme()" repo="jaxvanyang/utteranc.blog" src="https://utteranc.es/client.js" theme="preferred-color-scheme">
+</script><script>
+  const setUtterancesTheme = (dataTheme) => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (iframe) {
+      const utterancesTheme = dataTheme === 'dark' ? 'github-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: utterancesTheme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  // init theme
+  const initUtterancesTheme = () => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (!iframe) return
+    iframe.onload = () => {
+      setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+    }
+  }
+
+  // dynamic change
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+      }
+    }
+  });
+  observer.observe(document.documentElement, {attributes: true, childList: false, subtree: false});
+</script>
+</div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyleft <span class="copyleft">©</span> 2019-2023 <a href="https://github.com/jaxvanyang">Jax Young</a>
+</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

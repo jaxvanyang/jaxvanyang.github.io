@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Linux 常用命令 | Just Call Me Jax</title>
+<meta name="generator" content="Jekyll v4.2.2">
+<meta property="og:title" content="Linux 常用命令">
+<meta name="author" content="Jax Young">
+<meta property="og:locale" content="zh_CN">
+<meta name="description" content='在所有给出的命令格式中，"[]"表示可选项，"&lt;&gt;"表示必填项 如有疏漏，欢迎指出 :)'>
+<meta property="og:description" content='在所有给出的命令格式中，"[]"表示可选项，"&lt;&gt;"表示必填项 如有疏漏，欢迎指出 :)'>
+<link rel="canonical" href="https://jaxvanyang.github.io/2020/11/29/linux-common-commands.html">
+<meta property="og:url" content="https://jaxvanyang.github.io/2020/11/29/linux-common-commands.html">
+<meta property="og:site_name" content="Just Call Me Jax">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-11-29T17:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Linux 常用命令">
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Jax Young"},"description":"在所有给出的命令格式中，&quot;[]&quot;表示可选项，&quot;&lt;&gt;&quot;表示必填项 如有疏漏，欢迎指出 :)","url":"https://jaxvanyang.github.io/2020/11/29/linux-common-commands.html","@type":"BlogPosting","headline":"Linux 常用命令","dateModified":"2020-11-29T17:00:00+00:00","datePublished":"2020-11-29T17:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jaxvanyang.github.io/2020/11/29/linux-common-commands.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://jaxvanyang.github.io/feed.xml" title="Just Call Me Jax">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js" integrity="sha512-BNc7saQYlxCL10lykUYhFBcnzdKMnjx5fp5s5wPucDyZ7rKNwCoqJh1GwEAIhuePEK4WM9askJBRsu7ma0Rzvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/go.min.js" integrity="sha512-5FrrCMl+OdDp4V0/+Og+q950cGMbPLR0D9o3rE0d9e7VYfGkci4zIrwqTXQOvv5Oo4ZhMaZGwZHXH2uKxfe+iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightElement(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #bbb;
+    background-color: #454545;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: capitalize;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+  img.avatar {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    margin-right: 0.4em;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Just Call Me Jax" src="/favicon.ico" onerror="this.style.display='none'">
+  Just Call Me Jax
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/">首页</a><a class="page-link" href="/archives.html">归档</a><a class="page-link" href="/categories.html">分类</a><a class="page-link" href="/tags.html">标签</a><a class="page-link" href="/friends/">友链</a><a class="page-link" href="/readme/">README</a>
+
+
+
+
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">Linux 常用命令</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2020-11-29T17:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> 2020-11-29
+    </time>~<time class="dt-modified" datetime="2022-04-03T00:00:00+00:00" itemprop="dateModified">
+      <i class="fa fa-calendar"></i> 2022-04-03
+      </time>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 10 mins</span>
+  </p>
+<div class="post-tags">
+<a class="post-tag" href="/tags.html#%E7%AC%94%E8%AE%B0">#笔记</a><a class="post-tag" href="/tags.html#Linux">#Linux</a>
+</div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <blockquote>
+  <p>在所有给出的命令格式中，<code class="language-plaintext highlighter-rouge">"[]"</code>表示可选项，<code class="language-plaintext highlighter-rouge">"&lt;&gt;"</code>表示必填项<br>
+如有疏漏，欢迎指出 :)</p>
+</blockquote>
+
+<p><br></p>
+
+<h2 id="文件用户管理命令">文件、用户管理命令</h2>
+<hr>
+
+<ol>
+  <li>
+    <p>切换目录</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 例如：cd /home，绝对路径需要在前面加“/”</span>
+<span class="nb">cd</span> &lt;/绝对路径&gt;
+   
+<span class="c"># 例如：cd my_dir</span>
+<span class="nb">cd</span> &lt;相对路径&gt;
+ 
+<span class="c"># 返回上一次所处的目录</span>
+<span class="nb">cd</span> -
+ 
+<span class="c"># 切换到上层目录</span>
+<span class="nb">cd</span> ..
+ 
+<span class="c"># 切换到家目录</span>
+<span class="nb">cd</span> ~
+ 
+<span class="c"># 切换到其他用户的家目录</span>
+<span class="nb">cd</span> ~&lt;用户名&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>文件创建、删除以及创建文件链接</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 创建空文件，如果文件已存在，就只会更新原文件的时间</span>
+<span class="nb">touch</span> &lt;文件名&gt;
+ 
+<span class="c"># 删除文件，加“-f”表示不询问</span>
+<span class="nb">rm</span> <span class="o">[</span><span class="nt">-f</span><span class="o">]</span> &lt;文件名&gt;
+ 
+<span class="c"># 创建文件链接</span>
+<span class="nb">ln</span> <span class="o">[</span>选项] &lt;源文件&gt; <span class="o">[</span>目标文件
+ 
+<span class="c"># 创建软链接</span>
+<span class="nb">ln</span> <span class="nt">-s</span> &lt;源文件&gt; <span class="o">[</span>目标文件]
+ 
+<span class="c"># 创建硬链接，硬链接不能指向目录，也不能跨设备</span>
+<span class="nb">ln</span> &lt;源文件&gt; <span class="o">[</span>目标文件]
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>创建目录、复制目录、删除目录</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 创建目录</span>
+<span class="nb">mkdir</span> <span class="o">[</span>选项] &lt;目录名&gt;
+ 
+<span class="c"># 创建多级目录</span>
+<span class="nb">mkdir</span> <span class="nt">-p</span> &lt;目录名&gt;
+ 
+<span class="c"># 复制目录必须加“-r”递归复制</span>
+<span class="nb">cp</span> <span class="o">[</span><span class="nt">-pdria</span><span class="o">]</span> &lt;源目录&gt; &lt;目标目录&gt;
+ 
+<span class="c"># 删除目录，“r”表示递归删除</span>
+<span class="nb">rm</span> <span class="nt">-r</span> &lt;目录名
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>将匹配的文件复制到指定目录</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> <span class="o">[</span><span class="nt">-pdia</span><span class="o">]</span> &lt;源文件&gt; &lt;目标目录&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>获取管理员权限</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 切换到 root 用户</span>
+su
+ 
+<span class="c"># （推荐）直接以管理员权限执行命令</span>
+<span class="nb">sudo</span> &lt;命令&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>创建新用户</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 添加用户</span>
+useradd <span class="o">[</span>选项] &lt;用户名&gt;
+<span class="c"># 设置密码</span>
+passwd &lt;用户名&gt;
+ 
+<span class="c"># 使用这条命令可以交互式地创建用户并设置</span>
+adduser &lt;用户名&gt;
+ 
+<span class="c"># 删除用户，"f"表示强制删除，“r”表示同时删除用户和家目录</span>
+userdel <span class="o">[</span><span class="nt">-fr</span><span class="o">]</span> &lt;用户名
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>切换用户</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># root 用户使用不需要验证密码</span>
+su &lt;用户名&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>改变目录及文件权限</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># "-R"表示递归更改目录下所有文件</span>
+<span class="nb">chmod</span> <span class="o">[</span><span class="nt">-R</span><span class="o">]</span> <span class="o">[</span>xyz] &lt;目录/文件&gt;
+</code></pre></div>    </div>
+
+    <p>还可以通过符号设定权限：</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>命令</th>
+          <th>身份</th>
+          <th>选项</th>
+          <th>权限</th>
+          <th>文件或目录</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>chmod</td>
+          <td>u（用户）</td>
+          <td>+（增加）</td>
+          <td>r（读）</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td> </td>
+          <td>g（组）</td>
+          <td>-（除去）</td>
+          <td>w（写）</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td> </td>
+          <td>o（其他用户）</td>
+          <td>=（设定）</td>
+          <td>x（执行）</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td> </td>
+          <td>a（所有身份）</td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>例如：</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 拥有着增加读权限，组成员除去写权限，设定其他用户只有执行权限</span>
+<span class="nb">chmod </span>u+r g-w <span class="nv">o</span><span class="o">=</span>x <span class="nb">test</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>改变或增加用户组</p>
+
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c"># 创建用户组</span>
+groupadd <span class="o">[</span>选项] &lt;群组名&gt;
+ 
+<span class="c"># 修改用户的属性</span>
+usermod <span class="o">[</span>选项] &lt;用户名&gt;
+ 
+<span class="c"># 变更所属组</span>
+usermod <span class="nt">-g</span> &lt;用户名&gt;
+ 
+<span class="c"># 变更扩展用户组，例如：usermod -G root，更改扩展用户组为 root</span>
+usermod <span class="nt">-G</span> &lt;用户名&gt;
+ 
+<span class="nb">chown</span> <span class="o">[</span>选项] <span class="o">[</span>所有者][:[组]] &lt;文件&gt; <span class="c"># 更改文件所有者和所属组</span>
+ 
+<span class="c"># 例如：将 /u 及其子目录下所有文件的属主更改为"root"，属组更改为“test”</span>
+<span class="c"># -h 等效于 --no-dereference，表示只影响软链接而不改变它们指向的文件的属主和属组</span>
+<span class="nb">chown</span> <span class="nt">-hR</span> root:test /u
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><br></p>
+
+<h2 id="其他常用命令">其他常用命令</h2>
+<hr>
+
+<h3 id="常用系统工作命令">常用系统工作命令</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看命令手册</span>
+man &lt;命令名称&gt;
+
+<span class="c"># 在终端输出字符串或变量的值</span>
+<span class="nb">echo</span> <span class="o">[</span>字符串|<span class="nv">$变</span>量]
+
+<span class="c"># 显示及设置系统时间</span>
+<span class="nb">date</span> <span class="o">[</span>选项][+指定的格式]
+
+<span class="c"># 重启</span>
+reboot
+
+<span class="c"># 关机</span>
+poweroff
+
+<span class="c"># 用于在终端中下载网络文件</span>
+wget <span class="o">[</span>参数] &lt;下载地址&gt;
+
+<span class="c"># 查看系统中的进程状态，“-”可省略</span>
+ps <span class="o">[</span><span class="nt">-aux</span><span class="o">]</span>
+
+<span class="c"># 实时监视进程活动与系统负载，类似任务管理器</span>
+top
+
+<span class="c"># 查询某个指定服务进程的 PID 值</span>
+pidof <span class="o">[</span>参数] &lt;进程 PID&gt;
+
+<span class="c"># 终止某个进程，慎用，可能导致服务异常退出</span>
+<span class="nb">kill</span> <span class="o">[</span>参数] &lt;进程 PID&gt;
+
+<span class="c"># 终止某个指定名称服务的全部进程</span>
+killall <span class="o">[</span>参数] &lt;进程名称&gt;
+</code></pre></div></div>
+
+<h3 id="系统状态检测命令">系统状态检测命令</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># （过时）获取网卡配置与网络状态</span>
+ifconfig <span class="o">[</span>网络设备] <span class="o">[</span>参数]
+<span class="c"># 现在常用的方式</span>
+ip a
+
+<span class="c"># 查看系统内核与系统版本等信息</span>
+<span class="nb">uname</span> <span class="o">[</span><span class="nt">-a</span><span class="o">]</span>
+
+<span class="c"># 查看当前系统的运行时长和负载信息</span>
+<span class="nb">uptime</span>
+
+<span class="c"># 显示当前系统内存的使用量信息，-h 意为 hunam friendly</span>
+free <span class="o">[</span><span class="nt">-h</span><span class="o">]</span>
+
+<span class="c"># 查看当前登入主机的用户终端信息</span>
+<span class="nb">who</span> <span class="o">[</span>参数]
+
+<span class="c"># 查看所有的登录记录</span>
+last <span class="o">[</span>参数]
+
+<span class="c"># 显示执行过的命令，加“-c”清空历史</span>
+<span class="nb">history</span> <span class="o">[</span><span class="nt">-c</span><span class="o">]</span>
+</code></pre></div></div>
+
+<h3 id="工作目录切换命令">工作目录切换命令</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 打印当前所处目录</span>
+<span class="nb">pwd</span>
+
+<span class="c"># 显示目录中的文件信息</span>
+<span class="nb">ls</span> <span class="o">[</span>选项] <span class="o">[</span>文件]
+</code></pre></div></div>
+
+<h3 id="文本文件编辑命令">文本文件编辑命令</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看纯文本内容（内容较少的）</span>
+<span class="nb">cat</span> <span class="o">[</span>选项] &lt;文件&gt;
+
+<span class="c"># 查看纯文本内容（内容较多的）</span>
+more <span class="o">[</span>选项] &lt;文件&gt;
+
+<span class="c"># （推荐）more 的替代命令</span>
+less &lt;文件&gt;
+
+<span class="c"># 查看纯文本内容的前 N 行</span>
+<span class="nb">head</span> <span class="nt">-n</span> &lt;N&gt; &lt;文件&gt;
+
+<span class="c"># 查看纯文本内容的后 N 行，也可以用于实时查看文件新增内容</span>
+<span class="c"># -n 和 head 一样是设置查看行数，-f 则是设置实时查看</span>
+<span class="nb">tail</span> <span class="o">[</span>选项] &lt;文件&gt;
+
+<span class="c"># 从标准输入读取字符串，并将字符集 1 中的字符按照顺序替换为字符集 2 中的字符</span>
+<span class="nb">tr</span> &lt;字符集 1&gt; &lt;字符集 2&gt;
+
+<span class="c"># 统计指定文本的行数、字数、字节数</span>
+<span class="nb">wc</span> <span class="o">[</span><span class="nt">-lwc</span><span class="o">]</span> &lt;文本文件&gt;
+
+<span class="c"># 查看文件的具体存储信息和时间等信息</span>
+<span class="nb">stat</span> &lt;文件&gt;
+
+<span class="c"># 提取文件中指定列的元素</span>
+<span class="nb">cut</span> <span class="o">[</span>参数] &lt;文件&gt;
+<span class="c"># 例如：提取文件中第 1、3、5 列的元素（以 TAB 分隔）</span>
+<span class="nb">cut</span> <span class="nt">-f</span> 1,3,5 &lt;文件&gt;
+
+<span class="c"># 比较文本文件之间的差异</span>
+diff <span class="o">[</span>参数] &lt;文件&gt; &lt;文件&gt;
+</code></pre></div></div>
+
+<p><br></p>
+
+<h2 id="参考">参考</h2>
+<hr>
+
+<ul>
+  <li>
+    <p><a href="https://www.linuxprobe.com/">Linux 就该这么学</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.runoob.com/linux/linux-file-attr-permission.html">菜鸟教程</a></p>
+  </li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<span></span><a class="next" href="/2020/11/29/nginx-basic-setup.html" title="Nginx 安装及基本配置">Nginx 安装及基本配置</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll/personalize/2021/11/23/personalize-jekyll-blog.html" title="Nginx 安装及基本配置">个性化 Jekyll 博客</a></li>
+<li><a class="post-link" href="/2021/01/11/how-to-setup-tensorflow-env.html" title="Nginx 安装及基本配置">开源教程 | 快速配置 TensorFlow 本地开发环境（Docker + Jupyter + VS Code）</a></li>
+<li><a class="post-link" href="/2020/11/29/nginx-basic-setup.html" title="Nginx 安装及基本配置">Nginx 安装及基本配置</a></li>
+<li><a class="post-link" href="/2020/11/29/linux-common-commands.html" title="Nginx 安装及基本配置">Linux 常用命令</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<script async crossorigin="anonymous" issue-term="pathname" label="💬comment" onload="initUtterancesTheme()" repo="jaxvanyang/utteranc.blog" src="https://utteranc.es/client.js" theme="preferred-color-scheme">
+</script><script>
+  const setUtterancesTheme = (dataTheme) => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (iframe) {
+      const utterancesTheme = dataTheme === 'dark' ? 'github-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: utterancesTheme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  // init theme
+  const initUtterancesTheme = () => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (!iframe) return
+    iframe.onload = () => {
+      setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+    }
+  }
+
+  // dynamic change
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+      }
+    }
+  });
+  observer.observe(document.documentElement, {attributes: true, childList: false, subtree: false});
+</script>
+</div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyleft <span class="copyleft">©</span> 2019-2023 <a href="https://github.com/jaxvanyang">Jax Young</a>
+</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

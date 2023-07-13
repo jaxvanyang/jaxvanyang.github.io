@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>使用 QEMU 创建 Windows 10 虚拟机 | Just Call Me Jax</title>
+<meta name="generator" content="Jekyll v4.2.2">
+<meta property="og:title" content="使用 QEMU 创建 Windows 10 虚拟机">
+<meta name="author" content="Jax Young">
+<meta property="og:locale" content="zh_CN">
+<meta name="description" content="注意：本文仅作经验分享，使用命令前请确保你知晓它的作用，如需深入了解请查看文末参考链接。">
+<meta property="og:description" content="注意：本文仅作经验分享，使用命令前请确保你知晓它的作用，如需深入了解请查看文末参考链接。">
+<link rel="canonical" href="https://jaxvanyang.github.io/vm/2023/03/19/create-win10-vm-with-qemu.html">
+<meta property="og:url" content="https://jaxvanyang.github.io/vm/2023/03/19/create-win10-vm-with-qemu.html">
+<meta property="og:site_name" content="Just Call Me Jax">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-03-19T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="使用 QEMU 创建 Windows 10 虚拟机">
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Jax Young"},"description":"注意：本文仅作经验分享，使用命令前请确保你知晓它的作用，如需深入了解请查看文末参考链接。","url":"https://jaxvanyang.github.io/vm/2023/03/19/create-win10-vm-with-qemu.html","@type":"BlogPosting","headline":"使用 QEMU 创建 Windows 10 虚拟机","dateModified":"2023-03-19T00:00:00+00:00","datePublished":"2023-03-19T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jaxvanyang.github.io/vm/2023/03/19/create-win10-vm-with-qemu.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://jaxvanyang.github.io/feed.xml" title="Just Call Me Jax">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark.min.css" integrity="sha512-rO+olRTkcf304DQBxSWxln8JXCzTHlKnIdnMUwYvQa9/Jd4cQaNkItIUj6Z4nvW1dqK0SKXLbn9h4KwZTNtAyw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js" integrity="sha512-BNc7saQYlxCL10lykUYhFBcnzdKMnjx5fp5s5wPucDyZ7rKNwCoqJh1GwEAIhuePEK4WM9askJBRsu7ma0Rzvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/go.min.js" integrity="sha512-5FrrCMl+OdDp4V0/+Og+q950cGMbPLR0D9o3rE0d9e7VYfGkci4zIrwqTXQOvv5Oo4ZhMaZGwZHXH2uKxfe+iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightElement(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #bbb;
+    background-color: #454545;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: capitalize;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+  img.avatar {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    margin-right: 0.4em;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Just Call Me Jax" src="/favicon.ico" onerror="this.style.display='none'">
+  Just Call Me Jax
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/">首页</a><a class="page-link" href="/archives.html">归档</a><a class="page-link" href="/categories.html">分类</a><a class="page-link" href="/tags.html">标签</a><a class="page-link" href="/friends/">友链</a><a class="page-link" href="/readme/">README</a>
+
+
+
+
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('manual' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">使用 QEMU 创建 Windows 10 虚拟机</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2023-03-19T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> 2023-03-19
+    </time>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 9 mins</span>
+  </p>
+<div class="post-tags">
+<a class="post-tag" href="/tags.html#QEMU">#QEMU</a><a class="post-tag" href="/tags.html#Windows">#Windows</a>
+</div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <blockquote>
+  <p>注意：本文仅作经验分享，使用命令前请确保你知晓它的作用，如需深入了解请查看文末参考链接。</p>
+</blockquote>
+
+<p>以前如果有虚拟机的需求我只会想到 VMware 和 VirtualBox，VMware 听说很好用但需要付费；VirtualBox 是开源的但性能不佳，之前使用的时候还碰到过奇怪的 BUG。最近因为工作的原因接触到了 QEMU，它是一款通用的开源计算机模拟器和虚拟机，据其<a href="https://wiki.qemu.org/Main_Page">主页</a>所说，「通过使用动态翻译，它实现了很不错的性能」。QEMU 的缺点是只有命令行界面而且选项多而复杂（虽然可以使用第三方 GUI 工具），但我使用 QEMU CLI 的感觉反而比 VirtualBox GUI 更舒服，可能是因为 VirutalBox 的设置也需要学习。</p>
+
+<p>本着学习 QEMU 的想法，我最后选择使用 QEMU 创建 Windows 10 虚拟机，实际使用下来体验也很不错，用作个人使用完全可以替代 VMware 或 VirtualBox，只是需要研究一下它的命令行选项。不过 QEMU 貌似不支持保存虚拟机状态，也即 VirtualBox 中的「休眠」功能，每次都需要重启虚拟机。
+顺带一提，QEMU 不仅能创建 x86 的虚拟机，也能创建其他架构的虚拟机，还能通过动态翻译直接执行其他架构的二进制程序，它的作者 <a href="https://zh.wikipedia.org/zh-cn/%E6%B3%95%E5%B8%83%E9%87%8C%E6%96%AF%C2%B7%E8%B4%9D%E6%8B%89">Fabrice Bellard</a> 同时也是另一个知名开源软件 FFmpeg 的作者。总之 QEMU 是一款很值得学习的虚拟化工具。</p>
+
+<h2 id="1-准备">1. 准备</h2>
+
+<h3 id="11-安装-qemu">1.1 安装 QEMU</h3>
+
+<p>Arch Linux：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>pacman <span class="nt">-S</span> qemu-full
+</code></pre></div></div>
+
+<h3 id="12-下载-windows-10-镜像">1.2 下载 Windows 10 镜像</h3>
+
+<p>可以到<a href="https://www.microsoft.com/zh-cn/software-download/">微软官网</a>下载，但下载速度比较慢，推荐使用 <a href="https://msdn.itellyou.cn/">MSDN</a>。理论上各个版本都能使用，我选择的是 LTSC 64 位版，相对于家庭版/专业版会更加简洁，不会预装 Office 全家桶。</p>
+
+<h2 id="2-安装">2. 安装</h2>
+
+<h3 id="21-制作硬盘镜像">2.1 制作硬盘镜像</h3>
+
+<p>微软官方提供的系统基本要求是：32 位版本至少需要 16 GB 硬盘空间，64 位版本至少需要 32 GB 硬盘空间。但我测试下来 16 GB 根本不够用，即使是没有安装任何其他软件的 32 位版本都使用了近 14 GB 的空间。
+使用 qcow2 格式只会给镜像文件分配虚拟机使用的空间，可以大大节省空间。另外因为 Windows 的磁盘管理太垃圾（会自动创建恢复分区，阻止了扩展 C 盘），所以最好一开始就确定镜像的大小。
+因为我只打算用 Windows 看看企业微信、下下野狐围棋（这两个软件都没有 Linux 版本，而且使用 Wine 运行有点问题），所以就直接用了官方给出的最低要求——32 GB，装了上述软件后只剩下大概 10 GB 的空间。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-img create <span class="nt">-f</span> qcow2 win10.cow 32G
+</code></pre></div></div>
+
+<p>查看镜像文件信息：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-img info win10.cow
+</code></pre></div></div>
+
+<h3 id="22-安装-windows-10">2.2 安装 Windows 10</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-system-x86_64 <span class="nt">-m</span> 4G <span class="nt">-accel</span> kvm <span class="nt">-cpu</span> host <span class="nt">-cdrom</span> SW_DVD9_WIN_ENT_LTSC_2021_64BIT_ChnSimp_MLF_X22-84402.ISO <span class="nt">-boot</span> <span class="nv">menu</span><span class="o">=</span>on <span class="nt">-drive</span> <span class="nv">file</span><span class="o">=</span>win10-ltsc.cow,format<span class="o">=</span>qcow2
+</code></pre></div></div>
+
+<p>顺利的话就可以开始无脑下一步了。</p>
+
+<h3 id="23-启动-windows-10">2.3 启动 Windows 10</h3>
+
+<p>安装完成后我们就不需要 ISO 文件了，启动虚拟机的命令行选项和安装几乎一致，只是不需要 <code class="language-plaintext highlighter-rouge">-cdrom</code> 选项。我在第一次启动的时候碰到了黑屏的问题，但关闭后重新启动就成功了，不确定是不是第一次启动都会这样。</p>
+
+<p>下面的命令还加上了一些提升性能和设备相关的选项，具体可查看文末参考链接。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qemu-system-x86_64 <span class="nt">-m</span> 4G <span class="nt">-accel</span> kvm <span class="se">\</span>
+  <span class="nt">-cpu</span> host,hv_relaxed,hv_spinlocks<span class="o">=</span>0x1fff,hv_vapic,hv_time <span class="se">\</span>
+  <span class="nt">-smp</span> 4 <span class="nt">-drive</span> <span class="nv">file</span><span class="o">=</span>win10.cow,format<span class="o">=</span>qcow2 <span class="se">\</span>
+  <span class="nt">-usb</span> <span class="nt">-device</span> usb-tablet <span class="se">\</span>
+  <span class="nt">-audiodev</span> pa,id<span class="o">=</span>snd0 <span class="nt">-device</span> ich9-intel-hda <span class="nt">-device</span> hda-output,audiodev<span class="o">=</span>snd0
+</code></pre></div></div>
+
+<h3 id="24-配置-windows-10">2.4 配置 Windows 10</h3>
+
+<p>关闭自动更新可以参考 <a href="https://www.cleverfiles.com/howto/disable-update-windows-10.html">3 Best Ways to Disable Automatic Update on Windows 10</a>。</p>
+
+<h2 id="3-管理">3. 管理</h2>
+
+<h3 id="31-使用-make-启动">3.1 使用 make 启动</h3>
+
+<div class="language-makefile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">run</span>
+
+<span class="nl">run</span><span class="o">:</span>
+	qemu-system-x86_64 <span class="nt">-m</span> 4G <span class="nt">-accel</span> kvm <span class="se">\</span>
+		<span class="nt">-cpu</span> host,hv_relaxed,hv_spinlocks<span class="o">=</span>0x1fff,hv_vapic,hv_time <span class="se">\</span>
+		<span class="nt">-smp</span> 4 <span class="nt">-drive</span> <span class="nv">file</span><span class="o">=</span>win10.cow,format<span class="o">=</span>qcow2 <span class="se">\</span>
+		<span class="nt">-usb</span> <span class="nt">-device</span> usb-tablet <span class="se">\</span>
+		<span class="nt">-audiodev</span> pa,id<span class="o">=</span>snd0 <span class="nt">-device</span> ich9-intel-hda <span class="nt">-device</span> hda-output,audiodev<span class="o">=</span>snd0
+</code></pre></div></div>
+
+<h3 id="32-添加桌面启动项">3.2 添加桌面启动项</h3>
+
+<p>使用命令行启动的话总是得先打开终端，有点不太方便，幸好我们也可以添加桌面启动项，这样就可以在应用菜单里直接启动虚拟机了。</p>
+
+<p>存放路径：<code class="language-plaintext highlighter-rouge">$HOME/.local/share/applications/win10.desktop</code>。</p>
+
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[<span class="n">Desktop</span> <span class="n">Entry</span>]
+
+<span class="c"># The type as listed above
+</span><span class="n">Type</span>=<span class="n">Application</span>
+
+<span class="c"># The version of the desktop entry specification to which this file complies
+</span><span class="n">Version</span>=<span class="m">1</span>.<span class="m">0</span>
+
+<span class="c"># The name of the application
+</span><span class="n">Name</span>=<span class="n">Windows</span> <span class="m">10</span>
+
+<span class="c"># A comment which can/will be used as a tooltip
+</span><span class="n">Comment</span>=<span class="n">Windows</span> <span class="m">10</span> <span class="n">virtual</span> <span class="n">machine</span> <span class="n">by</span> <span class="n">QEMU</span>
+
+<span class="c"># The path to the folder in which the executable is run
+</span><span class="n">Path</span>=/<span class="n">path</span>/<span class="n">to</span>/<span class="n">Makefile</span>
+
+<span class="c"># The executable of the application, possibly with arguments.
+</span><span class="n">Exec</span>=<span class="n">make</span>
+
+<span class="c"># The name of the icon that will be used to display this entry
+</span><span class="n">Icon</span>=<span class="n">win10</span>
+
+<span class="c"># Describes whether this application needs to be run in a terminal or not
+</span><span class="n">Terminal</span>=<span class="n">false</span>
+
+<span class="c"># Describes the categories in which this entry should be shown
+</span><span class="n">Categories</span>=<span class="n">System</span>;<span class="n">Utility</span>;
+</code></pre></div></div>
+
+<h2 id="参考链接">参考链接</h2>
+
+<ul>
+  <li><a href="https://wiki.archlinux.org/title/QEMU">QEMU - ArchWiki</a></li>
+  <li><a href="https://wiki.archlinux.org/title/Desktop_entries">Desktop entries - ArchWiki</a></li>
+</ul>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/csapp/2022/04/22/debug-csapp-mymalloc.html" title="CSAPP 阅读记录 | 运行时库打桩出现段错误（segmentation fault）">CSAPP 阅读记录 | 运行时库打桩出现段错误（segmentation fault）</a><span></span>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/2020/11/29/linux-common-commands.html" title="">Linux 常用命令</a></li>
+<li><a class="post-link" href="/2022/04/10/solution-of-lanqiao-sheng-13.html" title="">题解 | 第十三届蓝桥杯大赛软件赛省赛</a></li>
+<li><a class="post-link" href="/2021/01/11/how-to-setup-tensorflow-env.html" title="">开源教程 | 快速配置 TensorFlow 本地开发环境（Docker + Jupyter + VS Code）</a></li>
+<li><a class="post-link" href="/2020/11/29/ubuntu-20.04-use-record.html" title="">Ubuntu 20.04 使用记录</a></li>
+</ul>
+    </div>
+<div class="post-comments">
+<script async crossorigin="anonymous" issue-term="pathname" label="💬comment" onload="initUtterancesTheme()" repo="jaxvanyang/utteranc.blog" src="https://utteranc.es/client.js" theme="preferred-color-scheme">
+</script><script>
+  const setUtterancesTheme = (dataTheme) => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (iframe) {
+      const utterancesTheme = dataTheme === 'dark' ? 'github-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: utterancesTheme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  // init theme
+  const initUtterancesTheme = () => {
+    const iframe = document.querySelector('.utterances-frame');
+    if (!iframe) return
+    iframe.onload = () => {
+      setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+    }
+  }
+
+  // dynamic change
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+        setUtterancesTheme(document.documentElement.getAttribute('data-theme'))
+      }
+    }
+  });
+  observer.observe(document.documentElement, {attributes: true, childList: false, subtree: false});
+</script>
+</div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Copyleft <span class="copyleft">©</span> 2019-2023 <a href="https://github.com/jaxvanyang">Jax Young</a>
+</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
