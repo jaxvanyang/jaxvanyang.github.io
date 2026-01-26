@@ -1,0 +1,28 @@
+title: Jax Young's Blog
+author:
+  name: Jax Young
+  email: jaxvanyang@gmail.com
+description: >-
+  分享技术和生活。
+baseurl: ""
+url: "https://jaxvanyang.github.io"
+lang: zh-Hans
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+sass:
+  quiet_deps: true
+  silence_deprecations: [import]
+
+# Minima settings
+minima:
+  skin: auto
+  show_excerpts: true
+  date_format: "%Y-%m-%d"
+  social_links:
+    - title: Jax Young at GitHub
+      icon: github
+      url: "https://github.com/jaxvanyang"
