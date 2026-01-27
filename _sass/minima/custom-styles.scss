@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+// Adjust Typst formulae color
+@if $color-scheme-auto {
+	@media (prefers-color-scheme:dark) {
+		svg.typst-frame use {
+			stroke: #{$text-color};
+			stroke-width: 0.5px;
+			fill: #{$text-color} !important;
+		}
+		path.typst-shape {
+			stroke: #{$text-color} !important;
+			fill: #{$text-color} !important;
+		}
+	}
+} @else if $color-scheme-dark {
+	svg.typst-frame use {
+		stroke: #{$text-color};
+		stroke-width: 0.5px;
+		fill: #{$text-color} !important;
+	}
+	path.typst-shape {
+		stroke: #{$text-color} !important;
+	}
+}

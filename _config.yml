@@ -20,7 +20,7 @@ sass:
 # Minima settings
 minima:
   skin: auto
-  show_excerpts: true
+  # show_excerpts: true
   date_format: "%Y-%m-%d"
   social_links:
     - title: Jax Young at GitHub
