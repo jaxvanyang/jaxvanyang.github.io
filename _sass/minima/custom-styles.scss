@@ -1,6 +1,6 @@
-@charset "utf-8";
+@charset "UTF-8";
 
-// Adjust Typst formulae color
+// adjust Typst formulae color
 @if $color-scheme-auto {
 	@media (prefers-color-scheme:dark) {
 		svg.typst-frame use {
@@ -22,4 +22,18 @@
 	path.typst-shape {
 		stroke: #{$text-color} !important;
 	}
+}
+
+.site-header {
+	border-top: 0;
+}
+
+// icon color
+.grey {
+	color: $tn-white-bright;
+}
+
+// TODO: use Tokyo Night code highlight
+.highlight {
+	.hll { background-color: $tn-black-bright } // Marked-lines
 }

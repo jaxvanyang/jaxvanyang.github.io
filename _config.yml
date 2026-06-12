@@ -19,7 +19,7 @@ sass:
 
 # Minima settings
 minima:
-  skin: auto
+  skin: tokyo-night
   # show_excerpts: true
   date_format: "%Y-%m-%d"
   social_links:

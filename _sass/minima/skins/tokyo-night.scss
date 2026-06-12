@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+// Tokyo Night colors
+$tn-background: #1a1b26;
+$tn-foreground: #c0caf5;
+// normal colors
+$tn-black: #15161e;
+$tn-red: #f7768e;
+$tn-green: #9ece6a;
+$tn-yellow: #e0af68;
+$tn-blue: #7aa2f7;
+$tn-magenta: #bb9af7;
+$tn-cyan: #7dcfff;
+$tn-white: #a9b1d6;
+// bright colors
+$tn-black-bright: #414868;
+$tn-red-bright: #ff899d;
+$tn-green-bright: #9fe044;
+$tn-yellow-bright: #faba4a;
+$tn-blue-bright: #8db0ff;
+$tn-magenta-bright: #c7a9ff;
+$tn-cyan-bright: #a4daff;
+$tn-white-bright: #c0caf5;
+
+// modify minima theme
+$color-scheme-auto: false;
+$color-scheme-dark: true;
+$dm-brand-color: $tn-foreground;
+$dm-site-title-color: $tn-blue;
+$dm-heading-color: $tn-blue;
+$dm-text-color: $tn-white;
+$dm-background-color: $tn-background;
+$dm-code-background-color: $tn-black;
+$dm-link-base-color: $tn-blue-bright;
+$dm-link-visited-color: $tn-blue-bright;
+$dm-border-color-01: $tn-black-bright;
+@import "minima/skins/auto";
