@@ -8,14 +8,17 @@ baseurl: ""
 url: "https://jaxvanyang.github.io"
 lang: zh-Hans
 
-# Build settings
-theme: minima
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-sass:
-  quiet_deps: true
-  silence_deprecations: [import]
+defaults:
+  - scope:
+      path: "_posts"
+    values:
+      layout: "post"
+      author: "Jax Young"
+  - scope:
+      path: "_drafts"
+    values:
+      layout: "post"
+      author: "Jax Young"
 
 # Minima settings
 minima:
@@ -26,3 +29,13 @@ minima:
     - title: Jax Young at GitHub
       icon: github
       url: "https://github.com/jaxvanyang"
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+sass:
+  quiet_deps: true
+  silence_deprecations: [import]
+
